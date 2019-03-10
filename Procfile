@@ -1,1 +1,1 @@
-web: node pureokrs/server.js
+web: node server.js
