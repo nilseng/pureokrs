@@ -23,6 +23,7 @@
     "@angular/router": "~7.0.0",
     "cookie-parser": "^1.4.4",
     "core-js": "^2.5.4",
+    "express": "^4.16.4",
     "express-jwt": "^5.3.1",
     "jsonwebtoken": "^8.5.0",
     "module": "^1.2.5",
