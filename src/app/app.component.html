@@ -1,8 +1,21 @@
 <div class="bg-white">
   <nav class="navbar navbar-dark bg-primary border-bottom border-danger">
       <a class="navbar-brand" href="/">
-          The Simple OKR Tool
+          Pure Objectives and Key Results
       </a>
+      <div class="navbar-collapse">
+        <ul class="navbar-nav">
+          <li *ngIf="!auth.isLoggedIn()" class="nav-item">
+            <a routerLink="/login" class="nav-link">Log In</a>
+          </li>
+          <li *ngIf="auth.isLoggedIn()" class="nav-item">
+            <a routerLink="/company" class="nav-link">{{auth.getUserDetails()?.name}}</a>
+          </li>
+          <li *ngIf="auth.isLoggedIn()" class="nav-item">
+            <a (click)="auth.logout()" class="nav-link">Logout</a>
+          </li>
+        </ul>
+      </div>
   </nav>
   <main class="bd-masthead" role="main">
     <div class="container-fluid mt-3">

@@ -1,11 +1,12 @@
-<form (submit)="login()">
+<form (submit)="login()" style="width: 18rem;">
   <div class="form-group">
-    <label for="email">Email address</label>
+    <label for="email">Email</label>
     <input type="email" class="form-control" name="email" placeholder="Enter email" [(ngModel)]="credentials.email">
   </div>
   <div class="form-group">
     <label for="password">Password</label>
     <input type="password" class="form-control" name="password" placeholder="Password" [(ngModel)]="credentials.password">
   </div>
-  <button type="submit" class="btn btn-default">Sign in!</button>
+  <button type="submit" class="btn btn-primary m-2">Log in</button>
+  <button type="button" routerLink="/register" class="btn btn-success m-2">Register</button>
 </form>

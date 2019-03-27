@@ -8,7 +8,9 @@ passport.use(new LocalStrategy({
     },
     (username, password, done) => {
         User.findOne({email: username}, (err, user) => {
-            if(err){return done(err);}
+            console.log(username, 'trying to log in');
+            if(err){
+                return done(err);}
             //Return if user not found in database
             if(!user){
                 return done(null, false, {
@@ -16,11 +18,11 @@ passport.use(new LocalStrategy({
                 });
             }
             //Return if password is wrong
-            if(!user.validPassword(password)){
-                return done(null, false, {
-                    message: 'Password is wrong'
+            user.validPassword(password, user, () => {
+                    return done(null, false, {
+                        message: 'Password is wrong'
+                    });
                 });
-            }
             //If credentials are correct, return the user object
             return done(null, user);
         });
