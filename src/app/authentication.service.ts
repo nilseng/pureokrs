@@ -17,6 +17,7 @@ interface TokenResponse {
 }
 
 export interface TokenPayload {
+  company: string;
   email: string;
   password: string;
   name?: string;

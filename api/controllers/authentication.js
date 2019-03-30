@@ -10,6 +10,7 @@ module.exports.register = (req, res) => {
     }
 
     var user = new User();
+    user.company = req.body.company;
     user.name = req.body.name;
     user.email = req.body.email;
     user.password = req.body.password;

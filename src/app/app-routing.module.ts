@@ -6,7 +6,7 @@ import {CompanyComponent} from './company/company.component';
 import { AuthGuardService } from './auth-guard.service';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/login', pathMatch: 'full'},
+  {path: '', redirectTo: '/company', pathMatch: 'full'},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'company', component: CompanyComponent, canActivate: [AuthGuardService]}

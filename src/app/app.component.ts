@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import {AuthenticationService} from './authentication.service';
+import {Title} from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -7,7 +8,8 @@ import {AuthenticationService} from './authentication.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  constructor(public auth: AuthenticationService){
-
+  constructor(private titleService: Title, public auth: AuthenticationService){
+    
   }
+  title = "PureOKRs";
 }
