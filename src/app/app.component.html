@@ -13,7 +13,7 @@
         <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
-            Logged in as {{auth.getUserDetails()?.name}}
+            Logged in as {{auth.getUserDetails()?.name}} - {{auth.getUserDetails()?.company}}
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
             <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>

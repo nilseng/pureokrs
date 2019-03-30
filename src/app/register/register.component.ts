@@ -18,7 +18,7 @@ export class RegisterComponent {
 
   register() {
     this.auth.register(this.credentials).subscribe(()=>{
-      this.router.navigateByUrl('/company');
+      this.router.navigateByUrl(`/company`);
     }, (err) => {
       console.error(err);
     });
