@@ -9,9 +9,15 @@ var auth = jwt({
 
 var ctrlCompany = require('../controllers/company');
 var ctrlAuth = require('../controllers/authentication');
+var ctrlOkr = require('../controllers/okr');
 
 //Company
 router.get('/company', auth, ctrlCompany.companyRead);
+
+//OKRs
+router.post('/okr', auth, ctrlOkr.create);
+router.get('/okr/company/:company', auth, ctrlOkr.getCompanyOkrs);
+router.get('/okr/keyresults/:okrid', auth, ctrlOkr.getKeyResults);
 
 //Authentication
 router.post('/register', ctrlAuth.register);

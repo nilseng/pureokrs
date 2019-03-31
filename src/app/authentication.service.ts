@@ -6,6 +6,7 @@ import {Router} from '@angular/router';
 
 export interface UserDetails{
   _id: string;
+  company: string;
   email: string;
   name: string;
   exp: number;
@@ -36,7 +37,7 @@ export class AuthenticationService {
     this.token = token;
   }
 
-  private getToken(): string {
+  public getToken(): string {
     if(!this.token){
       this.token = localStorage.getItem('mean-token');
     }

@@ -38,3 +38,4 @@ process.on('SIGTERM', () => {
 
 //Register schemas and models
 require('./users');
+require('./okr');

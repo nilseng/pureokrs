@@ -1,0 +1,24 @@
+<div class="row pb-1 m-1">
+  <div class="col-xs rounded bg-light">
+    <div class="form-group mb-1">
+      <ul class="list-group">
+        <li class="list-group-item text-light bg-dark p-1">
+            <input class="form-control p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
+        </li>
+        <li class="list-group-item bg-light border-0 p-1" *ngFor="let kr of okr.keyResults;index as i">
+          <div class="form-inline align-middle">
+            <input class="form-control p-1 mr-1" [(ngModel)]="kr.keyResult" placeholder="Key result" />
+            <button class="btn btn-dark py-1" title="Delete Key Result" (click)="removeKeyResult()">x</button>
+          </div>
+        </li>
+        <li class="list-group-item border-0 bg-light p-1">
+          <button class="btn btn-dark float-right py-1" (click)="addKeyResult()">+</button>
+        </li>
+      </ul>
+      <div class="form-inline">
+        <button class="btn btn-success p-1 my-1 mx-1" (click)="save()">Save</button>
+        <button class="btn btn-danger p-1 my-1" (click)="hideNew()">Discard</button>
+      </div>
+    </div>
+  </div>
+</div>

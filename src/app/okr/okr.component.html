@@ -1,0 +1,10 @@
+<div class="row rounded bg-light m-1">
+  <div class="col-s">
+    {{okr.objective}}
+    <ul *ngIf="keyResults">
+      <li *ngFor="let kr of keyResults">
+        {{kr.keyResult}}
+      </li>
+    </ul>
+  </div>
+</div>
