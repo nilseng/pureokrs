@@ -1,7 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 
 import {OkrService} from '../okr.service';
-import {AuthenticationService} from '../authentication.service';
+import {AuthenticationService, UserDetails} from '../authentication.service';
+import {UserService} from '../user.service';
 import {Okr, KeyResult} from '../okr/okr';
 
 @Component({
@@ -15,14 +16,17 @@ export class OkrComponent implements OnInit {
   @Input() okr: Okr;
 
   keyResults: {};
+  owner: UserDetails;
 
   constructor(
     private okrService: OkrService,
-    private auth: AuthenticationService
+    private auth: AuthenticationService,
+    private userService: UserService
     ) { }
 
   ngOnInit() {
     this.getKeyResults();
+    this.getOwner();
   }
 
   getKeyResults(): void{
@@ -31,6 +35,17 @@ export class OkrComponent implements OnInit {
       this.okrService.getKeyResults(this.okr._id)
       .subscribe(krs => {
         this.keyResults = krs;
+      });
+    }
+  }
+
+  getOwner(): void{
+    console.log('Getting OKR owner')
+    let user = this.auth.getUserDetails();
+    if(user.company==this.okr.company){
+      this.userService.getUser(this.okr.userId)
+      .subscribe(owner => {
+        this.owner = owner;
       });
     }
   }

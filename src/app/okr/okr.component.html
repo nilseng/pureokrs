@@ -1,4 +1,4 @@
-<div class="row rounded bg-light m-1">
+<div class="row rounded bg-light p-1 m-1">
   <div class="col-s">
     {{okr.objective}}
     <ul *ngIf="keyResults">
@@ -6,5 +6,6 @@
         {{kr.keyResult}}
       </li>
     </ul>
+    <div *ngIf="owner">Assigned to <span class="badge badge-secondary">{{owner.name}}</span></div>
   </div>
 </div>

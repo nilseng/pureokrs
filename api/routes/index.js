@@ -10,6 +10,7 @@ var auth = jwt({
 var ctrlCompany = require('../controllers/company');
 var ctrlAuth = require('../controllers/authentication');
 var ctrlOkr = require('../controllers/okr');
+var ctrlUser = require('../controllers/user');
 
 //Company
 router.get('/company', auth, ctrlCompany.companyRead);
@@ -18,6 +19,10 @@ router.get('/company', auth, ctrlCompany.companyRead);
 router.post('/okr', auth, ctrlOkr.create);
 router.get('/okr/company/:company', auth, ctrlOkr.getCompanyOkrs);
 router.get('/okr/keyresults/:okrid', auth, ctrlOkr.getKeyResults);
+
+//Users
+router.get('/user/:id', auth, ctrlUser.getUser);
+router.get('/user/search/:name', auth, ctrlUser.getUsers);
 
 //Authentication
 router.post('/register', ctrlAuth.register);
