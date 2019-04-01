@@ -77,11 +77,17 @@ export class NewOkrComponent implements OnInit {
       return;
     } else {
       if (this.okr.parent) {
+        console.log('OKR has parent');
         //TODO: Add OKR to parent by id
         //this.okr.parent.children.push(this.okr._id);
       }
       this.okrService.createOkr(this.okr)
         .subscribe(() => this.hideNew());
     }
+  }
+
+  assign(ownerId: string): void{
+    this.okr.userId = ownerId;
+    console.log(`Assigning owner w id=${ownerId}`);
   }
 }

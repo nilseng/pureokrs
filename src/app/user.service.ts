@@ -34,8 +34,8 @@ export class UserService {
   searchUsers(term: string): Observable<{}> {
     console.log('User service searching for', term);
     if (!term.trim()) {
-      //if not search term, return empty hero array
-      return of({});
+      //if not search term, return empty user array
+      return of([]);
     }
     return this.http.get<{}>(`${this.userUrl}/search/${term}`,
       {

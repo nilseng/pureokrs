@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {Observable, of} from 'rxjs';
-import {catchError, map, tap} from 'rxjs/operators';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError, map, tap } from 'rxjs/operators';
 
-import {AuthenticationService} from './authentication.service';
-import {Okr, KeyResult} from './okr/okr';
+import { AuthenticationService } from './authentication.service';
+import { Okr, KeyResult } from './okr/okr';
 
 const httpOptions = {
-  headers: new HttpHeaders({'Content-Type': 'application/json'})
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' })
 };
 
 @Injectable({
@@ -21,40 +21,44 @@ export class OkrService {
     private http: HttpClient,
     private auth: AuthenticationService
   ) { }
-  
+
   /**GET OKRs from the server */
-  getOkrs(): Observable<Okr[]>{
+  getOkrs(): Observable<Okr[]> {
     return this.http.get<Okr[]>(`${this.okrsUrl}/all`)
       .pipe(
-        tap(_=> console.log('fetched okrs')),
+        tap(_ => console.log('fetched okrs')),
         catchError(this.handleError('getOkrs', []))
       );
   }
 
   /**GET Key Results for a given OKR */
-  getKeyResults(okrId: string): Observable<{KeyResult}>{
-    return this.http.get<{KeyResult}>(`${this.okrsUrl}/keyresults/${okrId}`,
-      {headers: {
-        Authorization:`Bearer ${this.auth.getToken()}`
-      }}).pipe(
-      tap((krs: {KeyResult}) => console.log(`retrieved key results for OKR with id=${okrId}`)),
-      catchError(this.handleError<{KeyResult}>('getCompanyOKRs'))
-    );
+  getKeyResults(okrId: string): Observable<{ KeyResult }> {
+    return this.http.get<{ KeyResult }>(`${this.okrsUrl}/keyresults/${okrId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }).pipe(
+        tap((krs: { KeyResult }) => console.log(`retrieved key results for OKR with id=${okrId}`)),
+        catchError(this.handleError<{ KeyResult }>('getCompanyOKRs'))
+      );
   }
 
   /**GET all OKRs for a given company name */
-  getCompanyOkrs(company: string): Observable<{Okr}>{
-    return this.http.get<{Okr}>(`${this.okrsUrl}/company/${company}`, 
-      {headers: {
-        Authorization:`Bearer ${this.auth.getToken()}`
-      }}).pipe(
-      tap((okrs: {Okr}) => console.log(`retrieved all OKRs for ${company}`)),
-      catchError(this.handleError<{Okr}>('getCompanyOKRs'))
-    );
-  } 
+  getCompanyOkrs(company: string): Observable<{ Okr }> {
+    return this.http.get<{ Okr }>(`${this.okrsUrl}/company/${company}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }).pipe(
+        tap((okrs: { Okr }) => console.log(`retrieved all OKRs for ${company}`)),
+        catchError(this.handleError<{ Okr }>('getCompanyOKRs'))
+      );
+  }
 
   /**GET OKR by id. Return undefined when id not found */
-  getOkrNo404<Data>(id: string): Observable<Okr>{
+  getOkrNo404<Data>(id: string): Observable<Okr> {
     const url = `${this.okrsUrl}/?id=${id}`;
     return this.http.get<Okr[]>(url)
       .pipe(
@@ -68,7 +72,7 @@ export class OkrService {
   }
 
   /**GET Okr by id. Will return 404 when not found */
-  getOkr(id: string): Observable<Okr>{
+  getOkr(id: string): Observable<Okr> {
     const url = `${this.okrsUrl}/${id}`;
     return this.http.get<Okr>(url).pipe(
       tap(_ => console.log(`fetched Okr w id=${id}`)),
@@ -77,8 +81,8 @@ export class OkrService {
   }
 
   /**GET okrs whose objective contains search term */
-  searchOkrs(term: string): Observable<Okr[]>{
-    if(!term.trim()){
+  searchOkrs(term: string): Observable<Okr[]> {
+    if (!term.trim()) {
       //if not search term, return empty hero array
       return of([]);
     }
@@ -89,20 +93,22 @@ export class OkrService {
   }
 
   /**POST: add a new OKR to the server */
-  createOkr(okr: Okr): Observable<Okr>{
-    return this.http.post<Okr>(this.okrsUrl, okr, 
-      {headers: {
-        Authorization:`Bearer ${this.auth.getToken()}`,
-        'Content-Type': 'application/json'
-      }}).pipe(
-      tap((okr: Okr) => console.log(`added OKR with id=${okr._id}`)),
-      catchError(this.handleError<Okr>('addOkr'))
-    );
+  createOkr(okr: Okr): Observable<Okr> {
+    return this.http.post<Okr>(this.okrsUrl, okr,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      }).pipe(
+        tap((okr: Okr) => console.log(`added OKR with id=${okr._id}`)),
+        catchError(this.handleError<Okr>('createOkr'))
+      );
   }
 
   /**DELETE: delete the OKR from the server */
-  deleteOkr(okr: Okr | string): Observable<Okr>{
-    const id = typeof okr === 'string' ? okr: okr._id;
+  deleteOkr(okr: Okr | string): Observable<Okr> {
+    const id = typeof okr === 'string' ? okr : okr._id;
     const url = `${this.okrsUrl}/${id}`;
 
     return this.http.delete<Okr>(url, httpOptions).pipe(
@@ -112,8 +118,8 @@ export class OkrService {
   }
 
   /**PUT: update the OKR on the server */
-  updateOkr(okr: Okr): Observable<any>{
-    const id = typeof okr === 'string' ? okr: okr._id;
+  updateOkr(okr: Okr): Observable<any> {
+    const id = typeof okr === 'string' ? okr : okr._id;
 
     return this.http.put(this.okrsUrl, okr, httpOptions).pipe(
       tap(_ => console.log(`updated OKR w/ id=${okr._id}`)),
@@ -127,9 +133,9 @@ export class OkrService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T){
+  private handleError<T>(operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-      
+
       //TODO: Send the error to remote logging infrastructure
       console.error(error);
 

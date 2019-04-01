@@ -15,11 +15,10 @@
           <button class="btn btn-dark float-right py-1" (click)="addKeyResult()">+</button>
         </li>
         <li class="list-group-item bg-light border-0 p-1">
-          <input class="form-control p-1" #searchBox (keyup)="search(searchBox.value)" [(ngModel)]="okr.parent"
-            placeholder="Assign to user" />
+          <input class="form-control p-1" #searchBox (keyup)="search(searchBox.value)" placeholder="Assign to user" />
           <ul *ngIf="users$">
             <li *ngFor="let user of users$ | async">
-              <a>
+              <a class="btn" (click)="assign(user._id)">
                 {{user.name}}
               </a>
             </li>
