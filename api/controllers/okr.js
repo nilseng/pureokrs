@@ -53,6 +53,28 @@ module.exports.create = (req, res) => {
     }
 }
 
+module.exports.getById = (req, res) => {
+    if (!req.params.id) console.log('No OKR id sent to api');
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.findOne({_id: req.params.id}, (err, okrs) => {
+                        if (err) {
+                            res.status(400).json('Could not get okrs');
+                        } else {
+                            res.status(200).json(okrs);
+                        }
+                    });
+                }
+            });
+    }
+}
+
 module.exports.getCompanyOkrs = (req, res) => {
     if (!req.params.company) console.log('No company sent to api');
     if (!req.payload._id) {
@@ -64,6 +86,31 @@ module.exports.getCompanyOkrs = (req, res) => {
                     res.status(401).json('User not found');
                 } else {
                     Okr.find({ company: req.params.company }, (err, okrs) => {
+                        if (err) {
+                            res.status(400).json('Could not get okrs');
+                        } else {
+                            res.status(200).json(okrs);
+                        }
+                    });
+                }
+            });
+    }
+}
+
+module.exports.getOkrsByObjective = (req, res) => {
+    if (!req.params.term) console.log('No search term sent to api');
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.find({
+                        objective: { "$regex": req.params.term, "$options": "i" },
+                        company: req.payload.company
+                    }, (err, okrs) => {
                         if (err) {
                             res.status(400).json('Could not get okrs');
                         } else {

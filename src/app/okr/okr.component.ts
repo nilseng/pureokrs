@@ -1,9 +1,9 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import {OkrService} from '../okr.service';
-import {AuthenticationService, UserDetails} from '../authentication.service';
-import {UserService} from '../user.service';
-import {Okr, KeyResult} from '../okr/okr';
+import { OkrService } from '../okr.service';
+import { AuthenticationService, UserDetails } from '../authentication.service';
+import { UserService } from '../user.service';
+import { Okr, KeyResult } from '../okr/okr';
 
 @Component({
   selector: 'app-okr',
@@ -17,36 +17,43 @@ export class OkrComponent implements OnInit {
 
   keyResults: {};
   owner: UserDetails;
+  parent: Okr;
 
   constructor(
     private okrService: OkrService,
     private auth: AuthenticationService,
     private userService: UserService
-    ) { }
+  ) { }
 
   ngOnInit() {
     this.getKeyResults();
     this.getOwner();
+    this.getParent();
   }
 
-  getKeyResults(): void{
+  getKeyResults(): void {
     let user = this.auth.getUserDetails();
-    if(user.company==this.okr.company){
+    if (user.company == this.okr.company) {
       this.okrService.getKeyResults(this.okr._id)
-      .subscribe(krs => {
-        this.keyResults = krs;
-      });
+        .subscribe(krs => {
+          this.keyResults = krs;
+        });
     }
   }
 
-  getOwner(): void{
-    console.log('Getting OKR owner')
-    let user = this.auth.getUserDetails();
-    if(user.company==this.okr.company){
+  getOwner(): void {
+    if (this.okr.userId) {
       this.userService.getUser(this.okr.userId)
-      .subscribe(owner => {
-        this.owner = owner;
-      });
+        .subscribe(owner => {
+          this.owner = owner;
+        });
+    }
+  }
+
+  getParent(): void {
+    if (this.okr.parent) {
+      this.okrService.getOkr(this.okr.parent)
+        .subscribe(parent => this.parent = parent);
     }
   }
 

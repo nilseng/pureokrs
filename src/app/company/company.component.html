@@ -1,6 +1,10 @@
 <p>
   {{auth.getUserDetails()?.company}}'s objectives and key results.
 </p>
-<button *ngIf="!newOKR" class="btn btn-success my-2" (click)="setNewOKR()">New OKR</button>
+<button *ngIf="!newOKR" class="btn btn-primary" (click)="setNewOKR()">New OKR</button>
 <app-new-okr *ngIf="newOKR" (hide)="hideNewOkr($event)"></app-new-okr>
-<app-okr *ngFor="let okr of okrs" [okr]="okr"></app-okr>
+<div class="row">
+  <div class="col-m mx-2">
+    <app-okr *ngFor="let okr of okrs" class="m-1" [okr]="okr"></app-okr>
+  </div>
+</div>

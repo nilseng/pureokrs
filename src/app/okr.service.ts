@@ -74,21 +74,33 @@ export class OkrService {
   /**GET Okr by id. Will return 404 when not found */
   getOkr(id: string): Observable<Okr> {
     const url = `${this.okrsUrl}/${id}`;
-    return this.http.get<Okr>(url).pipe(
+    return this.http.get<Okr>(url,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }
+    ).pipe(
       tap(_ => console.log(`fetched Okr w id=${id}`)),
       catchError(this.handleError<Okr>(`getOkr id=${id}`))
     );
   }
 
   /**GET okrs whose objective contains search term */
-  searchOkrs(term: string): Observable<Okr[]> {
+  searchOkrs(term: string): Observable<{}> {
     if (!term.trim()) {
-      //if not search term, return empty hero array
+      //if not search term, return empty OKR array
       return of([]);
     }
-    return this.http.get<Okr[]>(`${this.okrsUrl}/objective/${term}`).pipe(
+    return this.http.get<{}>(`${this.okrsUrl}/objective/${term}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }
+    ).pipe(
       tap(_ => console.log(`found OKRs matching "${term}"`)),
-      catchError(this.handleError<Okr[]>('searchOkrs', []))
+      catchError(this.handleError<{}>('searchOkrs', []))
     );
   }
 

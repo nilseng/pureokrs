@@ -1,34 +1,53 @@
+<p *ngIf="noObjective" class="text-warning mx-1 my-0">An objective is required to save an OKR</p>
 <div class="row pb-1 m-1">
-  <div class="col-xs rounded bg-light">
-    <div class="form-group mb-1">
+  <div class="col-m rounded bg-light">
+    <div class="form-group my-1">
       <ul class="list-group">
-        <li class="list-group-item bg-light border-0 p-1">
+        <li class="list-group-item bg-light border-bottom-0 p-1">
           <input class="form-control p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
         </li>
-        <li class="list-group-item bg-light border-0 p-1" *ngFor="let kr of okr.keyResults;index as i">
-          <div class="form-inline align-middle">
-            <input class="form-control p-1 mr-1" [(ngModel)]="kr.keyResult" placeholder="Key result" />
-            <button class="btn btn-dark py-1" title="Delete Key Result" (click)="removeKeyResult()">x</button>
+        <li class="list-group-item bg-light border-top-0 border-bottom-0 p-1"
+          *ngFor="let kr of okr.keyResults;index as i">
+          <div class="form-inline p-0 m-0">
+            <button class="btn btn-dark float-right py-1 mr-1" style="width: 2rem;" title="Delete Key Result"
+              (click)="removeKeyResult()">x</button>
+            <input class="form-control p-1" [(ngModel)]="kr.keyResult" placeholder="Key result" />
           </div>
         </li>
-        <li class="list-group-item border-0 bg-light p-1">
-          <button class="btn btn-dark float-right py-1" (click)="addKeyResult()">+</button>
+        <li class="list-group-item border-top-0 bg-light p-0">
+          <button class="btn btn-dark py-1 mb-1  mx-1" style="width: 2rem;" (click)="addKeyResult()">+</button>
         </li>
-        <li class="list-group-item bg-light border-0 p-1">
-          <input class="form-control p-1" #searchBox (keyup)="search(searchBox.value)" placeholder="Assign to user" />
-          <ul *ngIf="users$">
-            <li *ngFor="let user of users$ | async">
-              <a class="btn" (click)="assign(user._id)">
+        <li class="list-group-item bg-light p-1">
+          <label for="ownerSearchBox">Assigned to <span class="badge badge-secondary">{{owner.name}}</span></label>
+          <input class="form-control p-1" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
+            placeholder="Assign to user" />
+          <ul *ngIf="users$" class="list-group px-1 py-0">
+            <li *ngFor="let user of users$ | async" class="list-group-item py-0 my-0">
+              <a class="btn" [ngClass]="{'bg-light text-primary': user._id==okr.userId}" (click)="assign(user)">
                 {{user.name}}
               </a>
             </li>
           </ul>
         </li>
+        <li class="list-group-item bg-light p-1">
+          <label for="parentSearchBox">Linked to <span class="badge badge-secondary">{{parent.objective}}</span></label>
+          <input class="form-control p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
+            placeholder="Link to parent objective" />
+          <ul *ngIf="users$" class="list-group px-1 py-0">
+            <li *ngFor="let parent of parents$ | async" class="list-group-item py-0 my-0">
+              <a class="btn" [ngClass]="{'bg-light text-primary': parent._id==okr.parent}" (click)="link(parent)">
+                {{parent.objective}}
+              </a>
+            </li>
+          </ul>
+        </li>
+        <li class="list-group-item bg-light p-1">
+          <div class="form-inline">
+            <button class="btn btn-success mr-1" (click)="save()">Save</button>
+            <button class="btn btn-danger" (click)="hideNew()">Discard</button>
+          </div>
+        </li>
       </ul>
-      <div class="form-inline">
-        <button class="btn btn-success p-1 my-1 mx-1" (click)="save()">Save</button>
-        <button class="btn btn-danger p-1 my-1" (click)="hideNew()">Discard</button>
-      </div>
     </div>
   </div>
 </div>
