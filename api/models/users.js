@@ -40,9 +40,15 @@ userSchema.methods.setPassword = (user, cb) => {
 userSchema.methods.validPassword = (password, user, cb) => {
     console.log('Validating password');
     console.log('User salt:', user.salt);
-    crypto.pbkdf2(password, user.salt, 1000, 64, 'sha512', (err, hash) => {
-        if(!user.hash === hash.toString('hex')) cb();
-    });
+    if(user.salt){
+        crypto.pbkdf2(password, user.salt, 1000, 64, 'sha512', (err, hash) => {
+            if(err){
+                console.log('Could not generate hash for', user.name);
+                return;
+            }
+            if(!user.hash === hash.toString('hex')) cb();
+        });
+    }
 };
 
 userSchema.methods.generateJwt = (user) => {

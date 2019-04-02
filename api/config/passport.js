@@ -20,7 +20,7 @@ passport.use(new LocalStrategy({
             //Return if password is wrong
             user.validPassword(password, user, () => {
                     return done(null, false, {
-                        message: 'Password is wrong'
+                        message: 'Password validation failed'
                     });
                 });
             //If credentials are correct, return the user object
