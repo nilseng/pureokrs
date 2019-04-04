@@ -4,7 +4,7 @@
 <button *ngIf="!newOKR" class="btn btn-primary mb-1" (click)="setNewOKR()">New OKR</button>
 <app-new-okr *ngIf="newOKR" (hide)="hideNewOkr($event)"></app-new-okr>
 <div class="row">
-  <div class="col-m mx-2">
+  <div *ngIf="okrs" class="col-m mx-2">
     <app-okr *ngFor="let okr of okrs" class="m-1" [okr]="okr"></app-okr>
   </div>
 </div>
