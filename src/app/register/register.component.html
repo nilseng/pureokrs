@@ -1,5 +1,5 @@
 <div class="row">
-  <div class="col">
+  <div class="col-sm rounded bg-light m-2">
     <form (submit)="register()" style="width: 18rem;">
       <div class="form-group">
         <label for="company">Company</label>
@@ -12,18 +12,59 @@
           [(ngModel)]="credentials.name">
       </div>
       <div class="form-group">
-        <label for="email">Email address</label>
-        <input type="email" class="form-control" name="email" placeholder="Enter email" [(ngModel)]="credentials.email">
-      </div>
-      <div class="form-group">
-        <label for="password">Password</label>
-        <input type="password" class="form-control" name="password" placeholder="Password"
-          [(ngModel)]="credentials.password">
-      </div>
+          <label for="email">Email</label>
+          <input id="email" name="email" type="email" class="form-control" required placeholder="Enter email"
+            [(ngModel)]="credentials.email" #email="ngModel">
+          <div *ngIf="email.invalid && (email.dirty || email.touched)" class=" alert alert-warning mx-1 my-0">
+            <div *ngIf="email.errors.required">
+              Email is missing or invalid
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input id="password" type="password" class="form-control" name="password" placeholder="Password"
+            [(ngModel)]="credentials.password" required #password="ngModel">
+          <div *ngIf="password.invalid && (password.dirty || password.touched)" class=" alert alert-warning mx-1 my-0">
+            <div *ngIf="password.errors.required">
+              Password is missing or invalid
+            </div>
+          </div>
+        </div>
       <button type="submit" class="btn btn-success m-2">Register</button>
     </form>
   </div>
-  <div class="col m-2">
-    <p>This site is still under development. Feel free to register and stay tuned for more nice functionality.</p>
+  <div class="col-sm rounded bg-light m-2 p-4">
+    <h5>Why Objectives and Key Results?</h5>
+    <ul>
+      <li>
+        Improve collaboration
+      </li>
+      <li>
+        Align your organization
+      </li>
+      <li>
+        Focus on what matters
+      </li>
+    </ul>
+    <h5>PureOKRs Features</h5>
+    <ul>
+      <li>
+        Easy to use
+      </li>
+      <li>
+        Fully cloud based
+      </li>
+      <li>
+        Mobile First
+      </li>
+    </ul>
+    <h5>What are Objectives and Key Results?</h5>
+    <p>An Objective is what you would like to achieve, while Key Results are what you
+      need to measure to reach the objective. Combine these and you have an OKR. PureOKRs aligns all
+      OKRs in your organization, assigns them to employees and let's you measure your progress.
+      By using Objectives and Key Results you will be able to make your organization work focused towards
+      the same goals.
+    </p>
   </div>
 </div>

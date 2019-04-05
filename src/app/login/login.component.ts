@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication.service';
 import { Router } from '@angular/router';
 
@@ -8,19 +8,30 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
-  credentials: TokenPayload = {
-    company: '',
-    email: '',
-    password: ''
-  };
+  loginMessage: string;
+
+  credentials: TokenPayload;
 
   constructor(private auth: AuthenticationService, private router: Router) { }
 
+  ngOnInit() {
+    this.loginMessage = '';
+    this.credentials = {
+      company: '',
+      email: '',
+      password: ''
+    }
+  }
+
   login() {
-    this.auth.login(this.credentials).subscribe(() => {
-      this.router.navigateByUrl(`/company`);
-    }, (err) => {
-      console.error(err);
-    });
+    if (!this.credentials.email || !this.credentials.password) {
+      this.loginMessage = 'Email and password is required to log in'
+    } else {
+      this.auth.login(this.credentials).subscribe(() => {
+        this.router.navigateByUrl(`/company`);
+      }, (err) => {
+        this.loginMessage = 'Wrong username or password'
+      });
+    }
   }
 }
