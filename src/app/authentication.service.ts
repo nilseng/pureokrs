@@ -56,7 +56,11 @@ export class AuthenticationService {
     if (token) {
       payload = token.split('.')[1];
       payload = window.atob(payload);
-      return JSON.parse(payload);
+      payload = JSON.parse(payload);
+      payload.name = decodeURIComponent(payload.name);
+      payload.email = decodeURIComponent(payload.email);
+      payload.company = decodeURIComponent(payload.company);
+      return payload;
     } else {
       return null;
     }

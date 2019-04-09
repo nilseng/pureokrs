@@ -44,7 +44,7 @@ export class UserService {
         }
       }
     ).pipe(
-      tap(_ => console.log(`found users matching "${term}"`)),
+      tap(_ => console.log(`Search complete for term "${term}"`)),
       catchError(this.handleError<{}>('searchUsers', {}))
     );
   }

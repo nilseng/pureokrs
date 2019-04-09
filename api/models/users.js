@@ -57,9 +57,9 @@ userSchema.methods.generateJwt = (user) => {
 
     return jwt.sign({
         _id: user._id,
-        company: user.company,
-        email: user.email,
-        name: user.name,
+        company: encodeURIComponent(user.company),
+        email: encodeURIComponent(user.email),
+        name: encodeURIComponent(user.name),
         exp: parseInt(expiry.getTime()/1000),
     }, process.env.SECRET_KEY);
 };

@@ -3,8 +3,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var crypto = require('crypto');
 
-module.exports.register = (req, res) => {
-
+module.exports.register = (req, res) => {  
     if (!req.body.name || !req.body.email || !req.body.password) {
         res.status(400).json({ "message": "all fields required" });
     } else {
