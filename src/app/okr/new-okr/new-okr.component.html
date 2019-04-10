@@ -2,19 +2,24 @@
   <div class="form-group">
     <h5 class="card-title"><input class="form-control p-1" [(ngModel)]="okr.objective" placeholder="Objective" /></h5>
     <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
-    <ul class="list-group">
-      <li class="list-group-item p-1" *ngFor="let kr of okr.keyResults;index as i">
-        <div class="form-inline p-0 m-0">
-          <button class="btn btn-dark float-right py-1 mr-1" style="width: 2rem;" title="Delete Key Result"
+    <div class="row p-1" *ngFor="let kr of okr.keyResults;index as i">
+      <div class="form-inline p-0 m-0">
+        <div class="col-sm-1">
+          <button class="btn btn-dark py-1 mr-1" style="width: 2rem;" title="Delete Key Result"
             (click)="removeKeyResult()">x</button>
+        </div>
+        <div class="col">
           <input class="form-control p-1" [(ngModel)]="kr.keyResult" placeholder="Key result" />
         </div>
-      </li>
-      <li class="list-group-item p-0">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-sm-1">
         <button class="btn btn-dark py-1 m-1" style="width: 2rem;" (click)="addKeyResult()">+</button>
-      </li>
-    </ul>
-    <label class="mt-1" for="ownerSearchBox">Assigned to <span class="badge badge-secondary">{{owner.name}}</span></label>
+      </div>
+    </div>
+    <label class="mt-1" for="ownerSearchBox">Assigned to <span
+        class="badge badge-secondary">{{owner.name}}</span></label>
     <input class="form-control p-1" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
       placeholder="Assign to user" />
     <ul *ngIf="users$" class="list-group px-1 py-0">
@@ -24,7 +29,8 @@
         </a>
       </li>
     </ul>
-    <label class="mt-1" for="parentSearchBox">Linked to <span class="badge badge-primary">{{parent.objective}}</span></label>
+    <label class="mt-1" for="parentSearchBox">Linked to <span
+        class="badge badge-primary">{{parent.objective}}</span></label>
     <input class="form-control p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
       placeholder="Link to parent objective" />
     <ul *ngIf="users$" class="list-group px-1 py-0">
