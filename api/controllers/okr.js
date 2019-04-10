@@ -53,6 +53,32 @@ module.exports.create = (req, res) => {
     }
 }
 
+module.exports.addChild = (req, res) => {
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.findByIdAndUpdate(
+                        mongoose.Types.ObjectId(req.body.parentId),
+                        { $push: {children: mongoose.Types.ObjectId(req.body.childId)}}, 
+                        {new: true}, 
+                        (err, okr) => {
+                            if(err){
+                                console.log(err);
+                                res.status(400).json(err);
+                            }else{
+                                res.status(200).json('Added child to parent');
+                            }
+                    });
+                }
+        });
+    }
+}
+
 module.exports.getById = (req, res) => {
     if (!req.params.id) console.log('No OKR id sent to api');
     if (!req.payload._id) {
@@ -85,7 +111,10 @@ module.exports.getCompanyOkrs = (req, res) => {
                 if (err) {
                     res.status(401).json('User not found');
                 } else {
-                    Okr.find({ company: req.params.company }, (err, okrs) => {
+                    Okr.find({
+                        company: req.params.company,
+                        parent: null
+                    }, (err, okrs) => {
                         if (err) {
                             res.status(400).json('Could not get okrs');
                         } else {
@@ -109,7 +138,7 @@ module.exports.getOkrsByObjective = (req, res) => {
                 } else {
                     Okr.find({
                         objective: { "$regex": req.params.term, "$options": "i" },
-                        company: req.payload.company
+                        company: decodeURIComponent(req.payload.company)
                     }, (err, okrs) => {
                         if (err) {
                             res.status(400).json('Could not get okrs');
@@ -137,6 +166,32 @@ module.exports.getKeyResults = (req, res) => {
                             res.status(400).json('Could not get key results');
                         }else{
                             res.status(200).json(krs);
+                        }
+                    });
+                }
+            });
+    }
+}
+
+module.exports.getChildren = (req, res) => {
+    if (!req.params.id) console.log('No parent id sent to api');
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.find({
+                        company: user.company,
+                        parent: req.params.id
+                    }, (err, okrs) => {
+                        if (err) {
+                            res.status(400).json(err);
+                        } else {
+                            console.log('Children found:', okrs.length)
+                            res.status(200).json(okrs);
                         }
                     });
                 }

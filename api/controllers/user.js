@@ -34,12 +34,12 @@ module.exports.getUsers = (req, res) => {
                 res.status(401).json('User not found');
             }else{
                 User.find({
-                    name: { "$regex": req.params.name, "$options": "i" },
-                    company: req.payload.company
+                    name: { "$regex": decodeURIComponent(req.params.name), "$options": "i" },
+                    company: decodeURIComponent(req.payload.company)
                 })
                 .exec((err, users)=>{
                     if(err){
-                        console.log('Could not find user with name', req.params.name);
+                        console.log('Could not find user with name', decodeURIComponent(req.params.name));
                     } else{
                         console.log('Found', users.length, 'users');
                         res.status(200).json(users);

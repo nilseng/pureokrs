@@ -104,6 +104,20 @@ export class OkrService {
     );
   }
 
+  /**GET the child OKRs of parent OKR */
+  getChildren(id: string): Observable<{}> {
+    return this.http.get<{}>(`${this.okrsUrl}/children/${id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }
+    ).pipe(
+      tap(_ => console.log(`found children for OKR w id=${id}`)),
+      catchError(this.handleError<{}>('getChildren', {}))
+    );
+  }
+
   /**POST: add a new OKR to the server */
   createOkr(okr: Okr): Observable<Okr> {
     return this.http.post<Okr>(this.okrsUrl, okr,
@@ -137,6 +151,21 @@ export class OkrService {
       tap(_ => console.log(`updated OKR w/ id=${okr._id}`)),
       catchError(this.handleError<any>('updateOkr'))
     );
+  }
+
+  /**PUT: Add child OKR to parent OKR */
+  addChild(parentId: string, childId: string): Observable<any> {
+    return this.http.put(`${this.okrsUrl}/child`,
+      { 'parentId': parentId, 'childId': childId },
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      }).pipe(
+        tap(() => console.log(`added child with id=${childId} to parent with id=${parentId}`)),
+        catchError(this.handleError('addChild'))
+      );
   }
 
   /**

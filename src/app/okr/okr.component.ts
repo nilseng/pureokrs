@@ -18,6 +18,8 @@ export class OkrComponent implements OnInit {
   keyResults: {};
   owner: UserDetails;
   parent: Okr;
+  children: {};
+  showChildren: boolean;
 
   constructor(
     private okrService: OkrService,
@@ -29,6 +31,16 @@ export class OkrComponent implements OnInit {
     this.getKeyResults();
     this.getOwner();
     this.getParent();
+    this.children = [];
+    this.showChildren = false;
+  }
+
+  getChildren(): void{
+    this.okrService.getChildren(this.okr._id)
+      .subscribe(children => {
+        this.children = children;
+        this.showChildren = true;
+      });
   }
 
   getKeyResults(): void {

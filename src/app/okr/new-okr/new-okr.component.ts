@@ -108,14 +108,24 @@ export class NewOkrComponent implements OnInit {
       this.noObjective = true;
       return;
     } else {
-      if (this.okr.parent) {
-        console.log('OKR has parent');
-        //TODO: Add OKR to parent by id
-        //this.okr.parent.children.push(this.okr._id);
-      }
       this.okrService.createOkr(this.okr)
-        .subscribe(() => this.hideNew());
+        .subscribe((okr: Okr) => {
+          if(okr.parent){
+            this.addToParent(okr.parent, okr._id);
+            console.log(`adding child with id ${okr._id} to parent w id ${this.okr.parent}`);
+          }else{
+            this.hideNew();
+          }
+        });
     }
+  }
+
+  addToParent(parentId: string, childId: string): void{
+    this.okrService.addChild(parentId, childId)
+      .subscribe(()=>{
+        console.log('Added child to parent');
+        this.hideNew();
+      });
   }
 
   assign(owner: UserDetails): void{
