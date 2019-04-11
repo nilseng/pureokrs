@@ -43,6 +43,11 @@ export class OkrComponent implements OnInit {
       });
   }
 
+  hideChildren(): void{
+    this.children = {};
+    this.showChildren = false;
+  }
+
   getKeyResults(): void {
     let user = this.auth.getUserDetails();
     if (user.company == this.okr.company) {

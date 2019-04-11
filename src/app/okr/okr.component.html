@@ -1,5 +1,9 @@
 <div class="card bg-light border border-primary p-2 m-1 w-75">
-  <h5 class="card-title">{{okr.objective}}</h5>
+  <h5 class="card-title">
+    <span>{{okr.objective}}</span>
+    <button class="btn btn-danger btn-sm float-right">Delete</button>
+    <button class="btn btn-dark btn-sm float-right mr-1">Edit</button>
+  </h5>
   <div class="card-body m-0">
     <ul *ngIf="keyResults" class="list-group">
       <li *ngFor="let kr of keyResults" class="list-group-item py-1">
@@ -8,8 +12,11 @@
     </ul>
     <div *ngIf="owner" class="mt-2">Assigned to <span class="badge badge-primary">{{owner.name}}</span></div>
     <div *ngIf="parent">Parent: <span class="badge badge-secondary">{{parent.objective}}</span></div>
-    <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-4" (click)="getChildren()">
+    <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
       Child Objectives ({{okr.children.length}})
+    </div>
+    <div *ngIf="showChildren" class="btn btn-link p-0 mt-2" (click)="hideChildren()">
+      Hide Child Objectives
     </div>
   </div>
 </div>
