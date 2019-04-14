@@ -1,33 +1,31 @@
-<div class="bg-white">
-  <nav class="navbar navbar-expand-lg navbar-dark bg-primary border-bottom border-danger">
-    <a class="navbar-brand" href="/">Pure Objectives and Key Results</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li *ngIf="!auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/login" class="nav-link">Log In</a>
-        </li>
-        <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            Logged in as {{auth.getUserDetails()?.name}} - {{auth.getUserDetails()?.company}}
-          </a>
-          <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
-  <main class="bd-masthead" role="main">
-    <div class="container-fluid mt-3">
-      <router-outlet></router-outlet>
-    </div>
-  </main>
-</div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+  <a class="navbar-brand" href="/">Pure Objectives and Key Results</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li *ngIf="!auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/login" class="nav-link">Log In</a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          Logged in as {{auth.getUserDetails()?.name}} - {{auth.getUserDetails()?.company}}
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+<main class="bd-masthead bg-dark" role="main">
+  <div class="container-fluid pt-4" style="min-height: 60vh;">
+    <router-outlet></router-outlet>
+  </div>
+</main>
 <!--Footer-->
 <footer class="page-footer font-small bg-primary text-white pt-4">
   <div class="container-fluid text-center text-md-left">

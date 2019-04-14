@@ -1,7 +1,7 @@
-<p>
+<h2 class="text-light m-1">
   {{auth.getUserDetails()?.company}}'s objectives and key results.
-</p>
-<button *ngIf="!newOKR" class="btn btn-primary mb-1" (click)="setNewOKR()">New OKR</button>
+</h2>
+<button *ngIf="!newOKR" class="btn btn-primary m-1" (click)="setNewOKR()">New OKR</button>
 <app-new-okr *ngIf="newOKR" (hide)="hideNewOkr($event)"></app-new-okr>
 <div *ngIf="okrs">
   <app-okr *ngFor="let okr of okrs" class="m-1" [okr]="okr"></app-okr>
