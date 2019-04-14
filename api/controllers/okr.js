@@ -31,13 +31,13 @@ module.exports.create = (req, res) => {
                             okr.keyResults.push(KR);
                         }
                     }
-                    if (req.body.parent){
+                    if (req.body.parent) {
                         okr.parent = req.body.parent;
                         console.log('assigning parent', req.body.parent);
                     }
                     if (req.body.children) okr.children = req.body.children;
                     if (req.body.evaluation) okr.evaluation = req.body.evaluation;
-                    if (req.body.userId){
+                    if (req.body.userId) {
                         okr.userId = mongoose.Types.ObjectId(req.body.userId);
                     }
                     okr.company = user.company;
@@ -65,18 +65,18 @@ module.exports.addChild = (req, res) => {
                 } else {
                     Okr.findByIdAndUpdate(
                         mongoose.Types.ObjectId(req.body.parentId),
-                        { $push: {children: mongoose.Types.ObjectId(req.body.childId)}}, 
-                        {new: true}, 
+                        { $push: { children: mongoose.Types.ObjectId(req.body.childId) } },
+                        { new: true },
                         (err, okr) => {
-                            if(err){
+                            if (err) {
                                 console.log(err);
                                 res.status(400).json(err);
-                            }else{
+                            } else {
                                 res.status(200).json('Added child to parent');
                             }
-                    });
+                        });
                 }
-        });
+            });
     }
 }
 
@@ -90,7 +90,7 @@ module.exports.getById = (req, res) => {
                 if (err) {
                     res.status(401).json('User not found');
                 } else {
-                    Okr.findOne({_id: req.params.id}, (err, okrs) => {
+                    Okr.findOne({ _id: req.params.id }, (err, okrs) => {
                         if (err) {
                             res.status(400).json('Could not get okrs');
                         } else {
@@ -162,10 +162,10 @@ module.exports.getKeyResults = (req, res) => {
                 if (err) {
                     res.status(401).json('User not found');
                 } else {
-                    KeyResult.find({okrId: req.params.okrid}, (err, krs) => {
-                        if(err){
+                    KeyResult.find({ okrId: req.params.okrid }, (err, krs) => {
+                        if (err) {
                             res.status(400).json('Could not get key results');
-                        }else{
+                        } else {
                             res.status(200).json(krs);
                         }
                     });
@@ -175,9 +175,9 @@ module.exports.getKeyResults = (req, res) => {
 }
 
 module.exports.getChildren = (req, res) => {
-    if (!req.params.id){
+    if (!req.params.id) {
         res.status(400).json({ 'message': 'InputError: No OKR id received by the api.' })
-    }else if (!req.payload._id) {
+    } else if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
         User.findById(req.payload._id)
@@ -202,30 +202,39 @@ module.exports.getChildren = (req, res) => {
 }
 
 module.exports.deleteOkr = (req, res) => {
-    if (!req.params.id){
-        res.status(400).json({'message': 'No OKR id received by api'});
-    }else if(!req.payload._id){
-        res.status(401).json({'message': 'UnauthorizedError: User does not seem to be logged in.'})
-    }else{
+    if (!req.params.id) {
+        res.status(400).json({ 'message': 'No OKR id received by api' });
+    } else if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
+    } else {
         Okr.findByIdAndRemove(req.params.id, (err, doc) => {
-            if(err){
+            if (err) {
                 res.status(400).json('Could not delete OKR w id', req.params.id);
-            }else{
-                KeyResult.deleteMany({okrId: req.params.id}, (err, doc2) => {
-                    if(err){
-                        res.status(400).json({'message':'Could not delete key results'});
-                    }else{
+            } else {
+                KeyResult.deleteMany({ okrId: req.params.id }, (err, doc2) => {
+                    if (err) {
+                        res.status(400).json({ 'message': 'Could not delete key results' });
+                    } else {
                         Okr.updateMany(
-                            {parent: req.params.id},
-                            {$set: {'parent' : undefined}}, (err, doc3) => {
-                                if(err){
-                                    res.status(400).json({'message':'Could not delete children references'})
-                                }else{
-                                    console.log('Deleted OKR and all references.');
-                                    res.status(200).json(doc3);
+                            { parent: req.params.id },
+                            { $set: { 'parent': undefined } }, (err, doc3) => {
+                                if (err) {
+                                    res.status(400).json({ 'message': 'Could not delete children references' })
+                                } else {
+                                    Okr.update(
+                                        {children: req.params.id},
+                                        { $pull: { children: req.params.id } }, (err, doc4) => {
+                                            if (err) {
+                                                res.status.json('Could not delete the reference of parent');
+                                            } else {
+                                                console.log('Deleted OKR and all references.');
+                                                res.status(200).json(doc4);
+                                            }
+                                        }
+                                    )
                                 }
                             }
-                            )
+                        )
                     }
                 })
             }

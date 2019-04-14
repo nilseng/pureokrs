@@ -30,7 +30,7 @@
     </ul>
   </div>
     <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
-      Child Objectives ({{okr.children.length}})
+      Child Objectives ({{childrenCount}})
     </div>
     <div *ngIf="showChildren" class="btn btn-link p-0 mt-2" (click)="hideChildren()">
       Hide Child Objectives
@@ -38,5 +38,5 @@
   </div>
 </div>
 <div *ngIf="showChildren" class="ml-4 mt-2">
-  <app-okr *ngFor="let child of children" [okr]="child">child</app-okr>
+  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event)>child</app-okr>
 </div>

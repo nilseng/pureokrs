@@ -22,6 +22,7 @@ export class OkrComponent implements OnInit {
   parent: Okr;
   children: {};
   showChildren: boolean;
+  childrenCount: number;
 
   constructor(
     private okrService: OkrService,
@@ -36,6 +37,7 @@ export class OkrComponent implements OnInit {
     this.getParent();
     this.children = [];
     this.showChildren = false;
+    this.childrenCount = this.okr.children.length;
   }
 
   getChildren(): void {
@@ -80,5 +82,10 @@ export class OkrComponent implements OnInit {
   deleteOKR(): void {
     this.okrService.deleteOkr(this.okr)
       .subscribe(() => this.hideOkrId.emit(this.okr._id));
+  }
+
+  hideChild(okrId: string){
+    this.getChildren();
+    this.childrenCount = this.childrenCount - 1;
   }
 }
