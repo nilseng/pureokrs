@@ -17,14 +17,18 @@
       </div>
     </span>
   </h5>
+  <h6 *ngIf="owner" class="card-subtitle">
+    <span class="badge badge-primary float-right ml-4 mr-0 my-1">{{owner.name}}</span>
+  </h6>
   <div class="card-body pt-0 pr-0 m-0">
-    <div class="badge badge-primary float-right ml-4 mr-0 my-1">{{owner.name}}</div>
+    <div class="row">
     <ul *ngIf="keyResults" class="list-group">
       <li *ngFor="let kr of keyResults"
-        class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1">
+        class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
         {{kr.keyResult}}
       </li>
     </ul>
+  </div>
     <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
       Child Objectives ({{okr.children.length}})
     </div>
