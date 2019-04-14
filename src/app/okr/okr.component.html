@@ -19,12 +19,12 @@
   </h5>
   <div class="card-body m-0">
     <ul *ngIf="keyResults" class="list-group">
-      <li *ngFor="let kr of keyResults" class="list-group-item py-1">
+      <li *ngFor="let kr of keyResults" class="list-group-item border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1">
         {{kr.keyResult}}
       </li>
     </ul>
-    <div *ngIf="owner" class="mt-2">Assigned to <span class="badge badge-primary">{{owner.name}}</span></div>
-    <div *ngIf="parent">Parent: <span class="badge badge-secondary">{{parent.objective}}</span></div>
+    <div *ngIf="owner" class="my-1">Assigned to <span class="font-weight-bold text-white bg-primary rounded p-1 mb-1">{{owner.name}}</span></div>
+    <div *ngIf="parent">Parent: <span class="font-weight-bold text-white bg-secondary rounded p-1">{{parent.objective}}</span></div>
     <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
       Child Objectives ({{okr.children.length}})
     </div>
@@ -33,6 +33,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="showChildren" class="ml-4">
+<div *ngIf="showChildren" class="ml-4 mt-2">
   <app-okr *ngFor="let child of children" [okr]="child">child</app-okr>
 </div>

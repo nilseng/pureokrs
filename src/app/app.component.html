@@ -14,7 +14,7 @@
           aria-haspopup="true" aria-expanded="false">
           Logged in as {{auth.getUserDetails()?.name}} - {{auth.getUserDetails()?.company}}
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
         </div>
       </li>
@@ -23,7 +23,12 @@
 </nav>
 <main class="bd-masthead bg-dark" role="main">
   <div class="container-fluid pt-4" style="min-height: 60vh;">
-    <router-outlet></router-outlet>
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col">
+        <router-outlet></router-outlet>
+      </div>
+    </div>
   </div>
 </main>
 <!--Footer-->
