@@ -4,6 +4,7 @@ var Okr = mongoose.model('Okr');
 var KeyResult = mongoose.model('KeyResult');
 
 module.exports.create = (req, res) => {
+    //TODO: Make Async
     //If no user ID exists in the JWT, return a 401
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
@@ -174,8 +175,9 @@ module.exports.getKeyResults = (req, res) => {
 }
 
 module.exports.getChildren = (req, res) => {
-    if (!req.params.id) console.log('No parent id sent to api');
-    if (!req.payload._id) {
+    if (!req.params.id){
+        res.status(400).json({ 'message': 'InputError: No OKR id received by the api.' })
+    }else if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
         User.findById(req.payload._id)
@@ -196,5 +198,37 @@ module.exports.getChildren = (req, res) => {
                     });
                 }
             });
+    }
+}
+
+module.exports.deleteOkr = (req, res) => {
+    if (!req.params.id){
+        res.status(400).json({'message': 'No OKR id received by api'});
+    }else if(!req.payload._id){
+        res.status(401).json({'message': 'UnauthorizedError: User does not seem to be logged in.'})
+    }else{
+        Okr.findByIdAndRemove(req.params.id, (err, doc) => {
+            if(err){
+                res.status(400).json('Could not delete OKR w id', req.params.id);
+            }else{
+                KeyResult.deleteMany({okrId: req.params.id}, (err, doc2) => {
+                    if(err){
+                        res.status(400).json({'message':'Could not delete key results'});
+                    }else{
+                        Okr.updateMany(
+                            {parent: req.params.id},
+                            {$set: {'parent' : undefined}}, (err, doc3) => {
+                                if(err){
+                                    res.status(400).json({'message':'Could not delete children references'})
+                                }else{
+                                    console.log('Deleted OKR and all references.');
+                                    res.status(200).json(doc3);
+                                }
+                            }
+                            )
+                    }
+                })
+            }
+        })
     }
 }

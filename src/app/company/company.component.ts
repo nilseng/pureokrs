@@ -30,7 +30,11 @@ export class CompanyComponent implements OnInit {
   }
 
   hideNewOkr(hide: boolean){
-    this.newOKR = !hide;
+    this.newOKR = false;
+    this.getCompanyOkrs();
+  }
+
+  hideOkr(OkrId: string){
     this.getCompanyOkrs();
   }
 

@@ -1,4 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Router } from '@angular/router';
 
 import { OkrService } from '../okr.service';
 import { AuthenticationService, UserDetails } from '../authentication.service';
@@ -14,6 +15,7 @@ import { Okr, KeyResult } from '../okr/okr';
 export class OkrComponent implements OnInit {
 
   @Input() okr: Okr;
+  @Output() hideOkrId = new EventEmitter<string>();
 
   keyResults: {};
   owner: UserDetails;
@@ -24,7 +26,8 @@ export class OkrComponent implements OnInit {
   constructor(
     private okrService: OkrService,
     private auth: AuthenticationService,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -35,7 +38,7 @@ export class OkrComponent implements OnInit {
     this.showChildren = false;
   }
 
-  getChildren(): void{
+  getChildren(): void {
     this.okrService.getChildren(this.okr._id)
       .subscribe(children => {
         this.children = children;
@@ -43,7 +46,7 @@ export class OkrComponent implements OnInit {
       });
   }
 
-  hideChildren(): void{
+  hideChildren(): void {
     this.children = {};
     this.showChildren = false;
   }
@@ -74,4 +77,8 @@ export class OkrComponent implements OnInit {
     }
   }
 
+  deleteOKR(): void {
+    this.okrService.deleteOkr(this.okr)
+      .subscribe(() => this.hideOkrId.emit(this.okr._id));
+  }
 }

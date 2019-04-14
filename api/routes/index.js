@@ -23,6 +23,7 @@ router.get('/okr/keyresults/:okrid', auth, ctrlOkr.getKeyResults);
 router.get('/okr/children/:id', auth, ctrlOkr.getChildren);
 router.get('/okr/objective/:term', auth, ctrlOkr.getOkrsByObjective);
 router.put('/okr/child', auth, ctrlOkr.addChild);
+router.delete('/okr/:id', auth, ctrlOkr.deleteOkr);
 
 //Users
 router.get('/user/:id', auth, ctrlUser.getUser);

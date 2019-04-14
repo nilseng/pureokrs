@@ -133,14 +133,20 @@ export class OkrService {
   }
 
   /**DELETE: delete the OKR from the server */
-  deleteOkr(okr: Okr | string): Observable<Okr> {
+  deleteOkr(okr: Okr | string): Observable<{}> {
     const id = typeof okr === 'string' ? okr : okr._id;
     const url = `${this.okrsUrl}/${id}`;
 
-    return this.http.delete<Okr>(url, httpOptions).pipe(
-      tap(_ => console.log(`deleted OKR w/ id=${id}`)),
-      catchError(this.handleError<Okr>('deleteOkr'))
-    );
+    return this.http.delete<{}>(url,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      }).pipe(
+        tap((doc) => console.log(`deleted OKR w/ id=${id}`)),
+        catchError(this.handleError<{}>('deleteOkr'))
+      );
   }
 
   /**PUT: update the OKR on the server */
