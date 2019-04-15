@@ -10,7 +10,7 @@
           <circle cx="22" cy="2" r="2" fill="black" />
         </svg>
       </button>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" href="#">Add Child Objective</a>
         <a class="dropdown-item" href="#">Edit</a>
         <a class="dropdown-item" href="#" (click)="deleteOKR()">Delete</a>
@@ -25,7 +25,9 @@
     <ul *ngIf="keyResults" class="list-group">
       <li *ngFor="let kr of keyResults"
         class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
-        {{kr.keyResult}}
+        {{kr.keyResult}} 
+        <span *ngIf="!kr.progress" class="badge badge-secondary">0%</span>
+        <span *ngIf="kr.progress<0.5" class="badge badge-secondary">{{kr.progress}}%</span>
       </li>
     </ul>
   </div>
