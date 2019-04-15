@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Location} from '@angular/common';
 
-import {AuthenticationService} from '../authentication.service';
+import {AuthenticationService, UserDetails} from '../authentication.service';
 import {OkrService} from '../okr.service';
 import {Okr, KeyResult} from '../okr/okr';
 
@@ -14,6 +14,7 @@ export class CompanyComponent implements OnInit {
   
   okrs: {Okr};
   newOKR: boolean;
+  user: UserDetails;
 
   constructor(
     private auth: AuthenticationService, 
@@ -23,6 +24,11 @@ export class CompanyComponent implements OnInit {
   ngOnInit() {
     this.getCompanyOkrs();
     this.newOKR = false;
+    this.getUserDetails();
+  }
+
+  getUserDetails(): void{
+    this.user = this.auth.getUserDetails();
   }
 
   setNewOKR(){
