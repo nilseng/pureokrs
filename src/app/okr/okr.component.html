@@ -29,10 +29,10 @@
       </li>
     </ul>
   </div>
-    <div *ngIf="!showChildren && (okr.children.length > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
+    <div *ngIf="!showChildren && (childrenCount > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
       Child Objectives ({{childrenCount}})
     </div>
-    <div *ngIf="showChildren" class="btn btn-link p-0 mt-2" (click)="hideChildren()">
+    <div *ngIf="showChildren && (childrenCount > 0)" class="btn btn-link p-0 mt-2" (click)="hideChildren()">
       Hide Child Objectives
     </div>
   </div>
