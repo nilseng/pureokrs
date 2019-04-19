@@ -8,20 +8,35 @@ import { Router } from '@angular/router';
   styleUrls: ['./register.component.css']
 })
 export class RegisterComponent {
-  credentials: TokenPayload = {
-    company: '',
-    email: '',
-    name: '',
-    password: ''
-  };
+  
+  message: string;
+  credentials: TokenPayload;
+
+  ngOnInit(){
+    this.credentials = {
+      company: '',
+      email: '',
+      name: '',
+      password: ''
+    };
+    this.message = '';
+  }
+
+  
+
   constructor(private auth: AuthenticationService, private router: Router) { }
 
   register() {
-    console.log(this.credentials.email);
-    this.auth.register(this.credentials).subscribe(()=>{
-      this.router.navigateByUrl(`/company`);
-    }, (err) => {
-      console.error(err);
-    });
+    if(!this.credentials.email || !this.credentials.name || !this.credentials.password){
+      this.message = 'Complete all fields to register.';
+    }else if(this.credentials.password.length < 6){
+      this.message = 'The password must contain at least 6 characters';
+    }else{
+      this.auth.register(this.credentials).subscribe(()=>{
+        this.router.navigateByUrl(`/company`);
+      }, (err) => {
+        this.message = "Could not register. Log in instead if you're already registered.";
+      });
+    }
   }
 }

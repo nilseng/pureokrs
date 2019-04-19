@@ -12,25 +12,26 @@
           [(ngModel)]="credentials.name">
       </div>
       <div class="form-group">
-          <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="form-control" required placeholder="Enter email"
-            [(ngModel)]="credentials.email" #email="ngModel">
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="email.errors.required">
-              Email is missing or invalid
-            </div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" class="form-control" required placeholder="Enter email"
+          [(ngModel)]="credentials.email" #email="ngModel">
+        <div *ngIf="email.invalid && (email.dirty || email.touched)" class=" alert alert-warning mx-1 my-0">
+          <div *ngIf="email.errors.required">
+            Email is missing or invalid
           </div>
         </div>
-        <div class="form-group">
-          <label for="password">Password</label>
-          <input id="password" type="password" class="form-control" name="password" placeholder="Password"
-            [(ngModel)]="credentials.password" required #password="ngModel">
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="password.errors.required">
-              Password is missing or invalid
-            </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input id="password" type="password" class="form-control" name="password" placeholder="Password"
+          [(ngModel)]="credentials.password" required #password="ngModel">
+        <div *ngIf="password.invalid && (password.dirty || password.touched)" class=" alert alert-warning mx-1 my-0">
+          <div *ngIf="password.errors.required">
+            Password is missing or invalid
           </div>
         </div>
+      </div>
+      <div *ngIf="message" class=" alert alert-warning mx-1 my-0">{{message}}</div>
       <button type="submit" class="btn btn-success m-2">Register</button>
     </form>
   </div>
@@ -61,7 +62,7 @@
     </ul>
     <h5>What are Objectives and Key Results?</h5>
     <p>By using Objectives and Key Results you will be able to make your organization work focused towards
-        common goals. An Objective is what you would like to achieve, while Key Results are what you
+      common goals. An Objective is what you would like to achieve, while Key Results are what you
       need to measure to reach the objective. Combine these and you have an OKR. PureOKRs aligns all
       OKRs in your organization, assigns them to employees and let's you measure your progress.
     </p>

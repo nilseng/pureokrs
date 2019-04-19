@@ -2,6 +2,7 @@ var passport = require('passport');
 var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var crypto = require('crypto');
+var email = require('./email.js');
 
 module.exports.register = (req, res) => {  
     if (!req.body.name || !req.body.email || !req.body.password) {
@@ -17,6 +18,10 @@ module.exports.register = (req, res) => {
             if (err) {
                 res.status(400).json(err);
             } else {
+                //Send email to new user
+                email.sendEmail(user.email, user.company);
+
+                //Generate and return token
                 var token;
                 token = user.generateJwt(user);
                 res.status(200).json({ 'token': token });
