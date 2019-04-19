@@ -16,7 +16,11 @@ module.exports.create = (req, res) => {
                     res.status(401).json('User not found');
                 } else {
                     var okr = new Okr();
-                    okr.objective = req.body.objective;
+                    if (req.body.objective) {
+                        okr.objective = req.body.objective;
+                    } else {
+                        return res.status(400).json('OKR did not have an objective and could not be saved');
+                    }
                     okr.keyResults = [];
                     for (i = 0; i < req.body.keyResults.length; i++) {
                         console.log('kr:', req.body.keyResults[i]);
@@ -54,6 +58,66 @@ module.exports.create = (req, res) => {
     }
 }
 
+module.exports.updateOkr = (req, res) => {
+    //TODO: Update key results, okr fields and save
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.findById(req.body._id, (err, okr) => {
+                        if (err) {
+                            res.status(400).json('Could not find OKR');
+                        } else {
+                            if (req.body.objective) {
+                                okr.objective = req.body.objective;
+                            } else {
+                                return res.status(400).json('OKR did not have an objective and could not be saved');
+                            }
+                            okr.keyResults = [];
+                            KeyResult.deleteMany({ okrId: okr._id }, (err, result) =>{
+                                for (i = 0; i < req.body.keyResults.length; i++) {
+                                    console.log('kr:', req.body.keyResults[i]);
+                                    if (!req.body.keyResults[i]) {
+                                        console.log('empty KR');
+                                    } else {
+                                        var KR = new KeyResult({ okrId: okr._id, keyResult: req.body.keyResults[i].keyResult });
+                                        KR.save((err) => {
+                                            if (err) console.log('could not save Key Result');
+                                            else console.log('Key Result saved');
+                                        });
+                                        okr.keyResults.push(KR);
+                                    }
+                                }
+                            });
+                            if (req.body.parent) {
+                                okr.parent = req.body.parent;
+                                console.log('assigning parent', req.body.parent);
+                            }
+                            if (req.body.children) okr.children = req.body.children;
+                            if (req.body.evaluation) okr.evaluation = req.body.evaluation;
+                            if (req.body.userId) {
+                                okr.userId = mongoose.Types.ObjectId(req.body.userId);
+                            }
+                            okr.company = user.company;
+
+                            okr.save((err) => {
+                                if (err) {
+                                    res.status(400).json(err);
+                                } else {
+                                    res.status(200).json(okr);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+    }
+}
+
 module.exports.addChild = (req, res) => {
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
@@ -65,7 +129,7 @@ module.exports.addChild = (req, res) => {
                 } else {
                     Okr.findByIdAndUpdate(
                         mongoose.Types.ObjectId(req.body.parentId),
-                        { $push: { children: mongoose.Types.ObjectId(req.body.childId) } },
+                        { $addToSet: { children: mongoose.Types.ObjectId(req.body.childId) } },
                         { new: true },
                         (err, okr) => {
                             if (err) {
@@ -221,8 +285,8 @@ module.exports.deleteOkr = (req, res) => {
                                 if (err) {
                                     res.status(400).json({ 'message': 'Could not delete children references' })
                                 } else {
-                                    Okr.update(
-                                        {children: req.params.id},
+                                    Okr.updateOne(
+                                        { children: req.params.id },
                                         { $pull: { children: req.params.id } }, (err, doc4) => {
                                             if (err) {
                                                 res.status.json('Could not delete the reference of parent');

@@ -40,8 +40,8 @@ export class CompanyComponent implements OnInit {
     this.getCompanyOkrs();
   }
 
-  hideOkr(OkrId: string){
-    this.getCompanyOkrs();
+  hideOkr(okrId: string){
+    console.log(`OKR with id=${okrId} deleted`);
   }
 
   getCompanyOkrs(): void{

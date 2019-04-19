@@ -153,7 +153,12 @@ export class OkrService {
   updateOkr(okr: Okr): Observable<any> {
     const id = typeof okr === 'string' ? okr : okr._id;
 
-    return this.http.put(this.okrsUrl, okr, httpOptions).pipe(
+    return this.http.put(this.okrsUrl, okr, {
+      headers: {
+        Authorization: `Bearer ${this.auth.getToken()}`,
+        'Content-Type': 'application/json'
+      }
+    }).pipe(
       tap(_ => console.log(`updated OKR w/ id=${okr._id}`)),
       catchError(this.handleError<any>('updateOkr'))
     );

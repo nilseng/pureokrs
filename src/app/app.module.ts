@@ -12,6 +12,7 @@ import { AuthenticationService } from './authentication.service';
 import { AuthGuardService } from './auth-guard.service';
 import { OkrComponent } from './okr/okr.component';
 import { NewOkrComponent } from './okr/new-okr/new-okr.component';
+import { EditOkrComponent } from './okr/edit-okr/edit-okr.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { NewOkrComponent } from './okr/new-okr/new-okr.component';
     LoginComponent,
     CompanyComponent,
     OkrComponent,
-    NewOkrComponent
+    NewOkrComponent,
+    EditOkrComponent
   ],
   imports: [
     BrowserModule,
