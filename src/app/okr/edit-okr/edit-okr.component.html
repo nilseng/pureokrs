@@ -1,12 +1,12 @@
 <div *ngIf="okr" class="okr form bg-white border-0 rounded p-2 m-1">
   <input class="form-control p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
   <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
-  <div class="input-group mt-1" *ngFor="let kr of keyResults;index as i">
-    <span *ngIf="kr" class="input-group-btn">
+  <div class="input-group my-0" *ngFor="let kr of keyResults;index as i">
+    <span *ngIf="kr" class="input-group-btn mt-1">
       <button class="btn btn-dark" style="width: 2rem;" title="Delete Key Result"
         (click)="removeKeyResult(kr._id, i)">x</button>
     </span>
-    <input *ngIf="kr" class="form-control" [(ngModel)]="kr.keyResult" placeholder="Key result" />
+    <input *ngIf="kr" class="form-control mt-1" [(ngModel)]="kr.keyResult" placeholder="Key result" />
   </div>
   <button class="btn btn-dark mt-1" style="width: 2rem;" (click)="addKeyResult()">+</button>
   <div class="form-group">
