@@ -68,17 +68,18 @@ module.exports.updateOkr = (req, res) => {
                 if (err) {
                     res.status(401).json('User not found');
                 } else {
-                    Okr.findById(req.body._id, (err, okr) => {
+                    Okr.findById(req.body.okr._id, (err, okr) => {
                         if (err) {
                             res.status(400).json('Could not find OKR');
                         } else {
-                            if (req.body.objective) {
-                                okr.objective = req.body.objective;
+                            if (req.body.okr.objective) {
+                                okr.objective = req.body.okr.objective;
                             } else {
                                 return res.status(400).json('OKR did not have an objective and could not be saved');
                             }
                             okr.keyResults = [];
-                            KeyResult.deleteMany({ okrId: okr._id }, (err, result) =>{
+                            KeyResult.deleteMany({ okrId: okr._id }, (err, result) => {
+                                if (err) console.log('Coud not delete old key results');
                                 for (i = 0; i < req.body.keyResults.length; i++) {
                                     console.log('kr:', req.body.keyResults[i]);
                                     if (!req.body.keyResults[i]) {
@@ -89,27 +90,26 @@ module.exports.updateOkr = (req, res) => {
                                             if (err) console.log('could not save Key Result');
                                             else console.log('Key Result saved');
                                         });
-                                        okr.keyResults.push(KR);
+                                        okr.keyResults.push(KR._id);
                                     }
                                 }
-                            });
-                            if (req.body.parent) {
-                                okr.parent = req.body.parent;
-                                console.log('assigning parent', req.body.parent);
-                            }
-                            if (req.body.children) okr.children = req.body.children;
-                            if (req.body.evaluation) okr.evaluation = req.body.evaluation;
-                            if (req.body.userId) {
-                                okr.userId = mongoose.Types.ObjectId(req.body.userId);
-                            }
-                            okr.company = user.company;
-
-                            okr.save((err) => {
-                                if (err) {
-                                    res.status(400).json(err);
-                                } else {
-                                    res.status(200).json(okr);
+                                if (req.body.okr.parent) {
+                                    okr.parent = req.body.okr.parent;
                                 }
+                                if (req.body.okr.children) okr.children = req.body.okr.children;
+                                if (req.body.evaluation) okr.evaluation = req.body.okr.evaluation;
+                                if (req.body.userId) {
+                                    okr.userId = mongoose.Types.ObjectId(req.body.okr.userId);
+                                }
+                                okr.company = user.company;
+
+                                okr.save((err) => {
+                                    if (err) {
+                                        res.status(400).json(err);
+                                    } else {
+                                        res.status(200).json(okr);
+                                    }
+                                });
                             });
                         }
                     });

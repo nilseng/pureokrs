@@ -32,6 +32,7 @@ export class EditOkrComponent implements OnInit {
   okr: Okr;
   objective: string;
   keyResults: {KeyResult};
+  krCount: number;
 
   noObjective: boolean;
 
@@ -90,19 +91,22 @@ export class EditOkrComponent implements OnInit {
       .subscribe(okr => {
         this.okr = okr;
         this.okrService.getKeyResults(okr._id)
-          .subscribe(krs => this.keyResults = krs);
+          .subscribe(krs => {
+            this.keyResults = krs;
+            this.krCount = this.okr.keyResults.length;
+          });
       });
   }
 
   addKeyResult(): void {
     let kr = new KeyResult('');
-    this.keyResults[this.okr.keyResults.length+1] = kr;
-    this.okr.keyResults.push(kr);
+    this.keyResults[this.krCount] = kr;
+    this.krCount++;
   }
 
   removeKeyResult(id: string, index: number): void {
     delete this.keyResults[index];
-    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== e._id);
+    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
   }
 
   save(): void {
@@ -110,7 +114,7 @@ export class EditOkrComponent implements OnInit {
       this.noObjective = true;
       return;
     } else {
-      this.okrService.updateOkr(this.okr)
+      this.okrService.updateOkr(this.okr, this.keyResults)
         .subscribe((okr: Okr) => {
           if(okr.parent){
             this.addToParent(okr.parent, okr._id);

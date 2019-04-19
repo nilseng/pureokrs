@@ -150,10 +150,10 @@ export class OkrService {
   }
 
   /**PUT: update the OKR on the server */
-  updateOkr(okr: Okr): Observable<any> {
+  updateOkr(okr: Okr, keyResults: {}): Observable<any> {
     const id = typeof okr === 'string' ? okr : okr._id;
 
-    return this.http.put(this.okrsUrl, okr, {
+    return this.http.put(this.okrsUrl, {okr, keyResults}, {
       headers: {
         Authorization: `Bearer ${this.auth.getToken()}`,
         'Content-Type': 'application/json'
