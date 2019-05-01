@@ -41,7 +41,6 @@ module.exports.getUsers = (req, res) => {
                     if(err){
                         console.log('Could not find user with name', decodeURIComponent(req.params.name));
                     } else{
-                        console.log('Found', users.length, 'users');
                         res.status(200).json(users);
                     }
                 })

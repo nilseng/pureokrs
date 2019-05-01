@@ -66,7 +66,6 @@ userSchema.methods.generateJwt = (user) => {
 
 userSchema.pre('save', function(next){
     this.setPassword(this, () => {
-        console.log('password', this.password, 'hash', this.hash);
         next();
     });
 });
