@@ -26,10 +26,10 @@
       <li *ngFor="let kr of keyResults"
         class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
         {{kr.keyResult}} 
-        <span *ngIf="!kr.progress" class="badge badge-secondary">0%</span>
-        <span *ngIf="kr.progress<0.3" class="badge badge-secondary">{{kr.progress}}%</span>
-        <span *ngIf="kr.progress>=0.3 && kr.progress<0.7" class="badge badge-primary">{{kr.progress}}%</span>
-        <span *ngIf="kr.progress>=0.7" class="badge badge-success">{{kr.progress}}%</span>
+        <span *ngIf="!kr.progress && kr.progress!=0" class="badge badge-secondary">0%</span>
+        <span *ngIf="kr.progress<30" class="badge badge-secondary">{{kr.progress}}%</span>
+        <span *ngIf="kr.progress>=30 && kr.progress<70" class="badge badge-primary">{{kr.progress}}%</span>
+        <span *ngIf="kr.progress>=70" class="badge badge-success">{{kr.progress}}%</span>
       </li>
     </ul>
   </div>

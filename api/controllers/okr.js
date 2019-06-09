@@ -79,13 +79,17 @@ module.exports.updateOkr = (req, res) => {
                             }
                             okr.keyResults = [];
                             KeyResult.deleteMany({ okrId: okr._id }, (err, result) => {
-                                if (err) console.log('Coud not delete old key results');
+                                if (err) console.log('Coud not delete key results before update');
                                 for (i = 0; i < req.body.keyResults.length; i++) {
                                     console.log('kr:', req.body.keyResults[i]);
                                     if (!req.body.keyResults[i]) {
                                         console.log('empty KR');
                                     } else {
-                                        var KR = new KeyResult({ okrId: okr._id, keyResult: req.body.keyResults[i].keyResult });
+                                        var KR = new KeyResult({ 
+                                            okrId: okr._id, 
+                                            keyResult: req.body.keyResults[i].keyResult,
+                                            progress: req.body.keyResults[i].progress
+                                        });
                                         KR.save((err) => {
                                             if (err) console.log('could not save Key Result');
                                             else console.log('Key Result saved');
