@@ -1,22 +1,23 @@
 <div *ngIf="okr" class="okr form bg-white border-0 rounded p-2 m-1">
   <input class="form-control input-lg p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
   <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
-  <div class="form-group row p-0 m-0" *ngFor="let kr of keyResults;index as i">
-    <div class="col-sm-8 pl-0 pr-1">
-      <input *ngIf="kr" class="form-control input-sm mb-0 mt-1" [(ngModel)]="kr.keyResult" placeholder="Key Result" />
+  <div class="form-row bg-light rounded p-0 mx-0 my-1" *ngFor="let kr of keyResults;index as i">
+    <div *ngIf="kr" class="form-group col-md-7 p-0 m-0">
+      <label class="badge m-0" for="keyResult">Key Result</label>
+      <input class="form-control input-sm p-1" [(ngModel)]="kr.keyResult" placeholder="Key Result" id="keyResult" />
     </div>
-    <div class="col-xs-2 px-0">
-      <input *ngIf="kr" type="number" min=0 max=100 class="form-control input-sm mb-0 mt-1 pr-0 pl-1" [(ngModel)]="kr.progress" placeholder="0" />
+    <div *ngIf="kr" class="form-group col-auto p-0 m-0">
+      <label class="badge m-0" for="progress">Progress [%]</label>
+      <input type="number" class="form-control input-sm p-1 mx-1" [(ngModel)]="kr.progress"
+        placeholder="0" min=0 max=100 id="progress" />
     </div>
-    <div class="col-xs-1 pl-0 pr-1">
-      <p class="mt-2 mb-0">%</p>
-    </div>
-    <div *ngIf="kr" class="col-sm-1 pl-0 pr-1">
-      <button class="btn btn-dark mt-1 mb-0" title="Delete Key Result" (click)="removeKeyResult(kr._id, i)">x</button>
+    <div *ngIf="kr" class="form-group col-auto p-0 pt-4 m-0 ml-2">
+      <label class="sr-only" for="remove">Remove</label>
+      <button class="btn btn-sm btn-danger p-1" title="Delete Key Result" (click)="removeKeyResult(kr._id, i)" id="remove">Remove</button>
     </div>
   </div>
-  <button class="btn btn-dark mt-1" style="width: 2rem;" (click)="addKeyResult()">+</button>
-  <div class="form-group">
+  <button class="btn btn-sm btn-success mt-1" (click)="addKeyResult()">New Key Result</button>
+  <div class="form-group mt-2">
     <label class="mt-1" for="ownerSearchBox">Assigned to <span class="badge badge-primary">{{owner.name}}</span></label>
     <input class="form-control input-sm p-1" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
       placeholder="Assign to user" />
