@@ -23,12 +23,12 @@ export class OkrComponent implements OnInit {
   children: {};
   showChildren: boolean;
   childrenCount: number;
+  averageProgress: number;
 
   constructor(
     private okrService: OkrService,
     private auth: AuthenticationService,
-    private userService: UserService,
-    private router: Router
+    private userService: UserService
   ) { }
 
   ngOnInit() {
@@ -69,6 +69,15 @@ export class OkrComponent implements OnInit {
       this.okrService.getKeyResults(this.okr._id)
         .subscribe(krs => {
           this.keyResults = krs;
+          if (krs) {
+            let sum = 0;
+            let count = 0;
+            for(let i in krs){
+              sum += krs[i].progress;
+              count += 1;
+            }
+            this.averageProgress = Math.round(sum/count);
+          }
         });
     }
   }

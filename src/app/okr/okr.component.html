@@ -1,6 +1,7 @@
 <div class="okr card bg-light border-0 p-2 m-1">
-  <h5 class="card-title">
-    <span>{{okr.objective}}</span>
+  <h6 *ngIf="averageProgress" class="card-subtitle mt-1 mb-2">
+    <span *ngIf="averageProgress==100" class="badge badge-success">{{averageProgress}}%</span>
+    <span *ngIf="averageProgress<100" class="badge badge-primary">{{averageProgress}}%</span>
     <span class="dropdown float-right">
       <button class="btn bg-light p-0 m-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
@@ -16,23 +17,26 @@
         <a class="dropdown-item" href="#" (click)="deleteOKR()">Delete</a>
       </div>
     </span>
+  </h6>
+  <h5 class="card-title">
+    <span>{{okr.objective}}</span>
   </h5>
   <h6 *ngIf="owner" class="card-subtitle">
     <span class="badge badge-primary float-right ml-4 mr-0 my-1">{{owner.name}}</span>
   </h6>
   <div class="card-body pt-0 pr-0 m-0">
     <div class="row">
-    <ul *ngIf="keyResults" class="list-group">
-      <li *ngFor="let kr of keyResults"
-        class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
-        {{kr.keyResult}} 
-        <span *ngIf="!kr.progress && kr.progress!=0" class="badge badge-secondary">0%</span>
-        <span *ngIf="kr.progress<30" class="badge badge-secondary">{{kr.progress}}%</span>
-        <span *ngIf="kr.progress>=30 && kr.progress<70" class="badge badge-primary">{{kr.progress}}%</span>
-        <span *ngIf="kr.progress>=70" class="badge badge-success">{{kr.progress}}%</span>
-      </li>
-    </ul>
-  </div>
+      <ul *ngIf="keyResults" class="list-group">
+        <li *ngFor="let kr of keyResults"
+          class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
+          {{kr.keyResult}}
+          <span *ngIf="!kr.progress && kr.progress!=0" class="badge badge-secondary">0%</span>
+          <span *ngIf="kr.progress<30" class="badge badge-secondary">{{kr.progress}}%</span>
+          <span *ngIf="kr.progress>=30 && kr.progress<70" class="badge badge-primary">{{kr.progress}}%</span>
+          <span *ngIf="kr.progress>=70" class="badge badge-success">{{kr.progress}}%</span>
+        </li>
+      </ul>
+    </div>
     <div *ngIf="!showChildren && (childrenCount > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
       Child OKRs ({{childrenCount}})
     </div>
