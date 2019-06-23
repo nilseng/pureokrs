@@ -1,5 +1,10 @@
-<div class="row">
-  <div class="col-sm rounded bg-light p-4 ml-4 mb-4 mr-4">
+<h2 class="text-light m-1">
+  {{user.company}}'s users.
+</h2>
+<button *ngIf="!userForm" class="btn btn-primary my-4 mx-1" (click)="showUserForm()">Add User</button>
+<app-new-user *ngIf="userForm"></app-new-user>
+<div class="row mb-4 mx-1">
+  <div class="col-sm rounded bg-light">
     <ul class="list-group">
       <li *ngFor="let user of users" class="list-group-item">
         {{user.name}}

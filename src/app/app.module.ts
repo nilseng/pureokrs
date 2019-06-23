@@ -14,6 +14,7 @@ import { OkrComponent } from './okr/okr.component';
 import { NewOkrComponent } from './okr/new-okr/new-okr.component';
 import { EditOkrComponent } from './okr/edit-okr/edit-okr.component';
 import { UsersComponent } from './users/users.component';
+import { NewUserComponent } from './users/new-user/new-user.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { UsersComponent } from './users/users.component';
     OkrComponent,
     NewOkrComponent,
     EditOkrComponent,
-    UsersComponent
+    UsersComponent,
+    NewUserComponent
   ],
   imports: [
     BrowserModule,

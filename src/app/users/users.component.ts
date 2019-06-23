@@ -11,12 +11,16 @@ import {UserService} from '../user.service';
 export class UsersComponent implements OnInit {
 
   users: {User};
+  user: UserDetails;
+  userForm: boolean;
 
   constructor(private auth: AuthenticationService,
     private userService: UserService) { }
 
   ngOnInit() {
-    this.getUsers()
+    this.getUsers();
+    this.getUserDetails();
+    this.userForm = false;
   }
 
   getUsers(): void{
@@ -27,4 +31,11 @@ export class UsersComponent implements OnInit {
     }
   }
 
+  getUserDetails(): void{
+    this.user = this.auth.getUserDetails();
+  }
+
+  showUserForm(): void{
+    this.userForm = true;
+  }
 }
