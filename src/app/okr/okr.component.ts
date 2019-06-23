@@ -73,7 +73,9 @@ export class OkrComponent implements OnInit {
             let sum = 0;
             let count = 0;
             for(let i in krs){
-              sum += krs[i].progress;
+              if (krs[i].progress){
+                sum += krs[i].progress;
+              }
               count += 1;
             }
             this.averageProgress = Math.round(sum/count);
