@@ -133,7 +133,7 @@ export class EditOkrComponent implements OnInit {
     this.okrService.addChild(parentId, childId)
       .subscribe(()=>{
         console.log('Added child to parent');
-        this.router.navigateByUrl('/company');
+        this.router.navigateByUrl('/company/okrs');
       });
   }
 
