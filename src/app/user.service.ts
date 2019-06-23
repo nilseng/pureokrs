@@ -27,7 +27,21 @@ export class UserService {
         }
       }).pipe(
         tap(_ => console.log(`fetched User w id=${id}`)),
-        catchError(this.handleError<UserDetails>(`getOkr id=${id}`))
+        catchError(this.handleError<UserDetails>(`getUser id=${id}`))
+      );
+  }
+
+  /**GET users by company. Will return 404 when not found */
+  getUsers(company: string): Observable<{User}> {
+    const url = `${this.userUrl}/company/users`;
+    return this.http.get<{User}>(url,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }).pipe(
+        tap((users: {User}) => console.log(`fetched users for company ${company}`)),
+        catchError(this.handleError<{User}>(`getUsers company=${company}`))
       );
   }
 

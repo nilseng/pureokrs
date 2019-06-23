@@ -28,7 +28,7 @@ export class LoginComponent {
       this.loginMessage = 'Email and password is required to log in'
     } else {
       this.auth.login(this.credentials).subscribe(() => {
-        this.router.navigateByUrl(`/company`);
+        this.router.navigateByUrl(`/company/okrs`);
       }, (err) => {
         this.loginMessage = 'Wrong username or password'
       });

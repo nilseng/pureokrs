@@ -61,7 +61,6 @@ export class EditOkrComponent implements OnInit {
     this.noObjective = false;
     this.getOkr();
 
-    
     this.owner = this.auth.getUserDetails();
 
     this.parent = new Okr('', []);
@@ -95,6 +94,10 @@ export class EditOkrComponent implements OnInit {
             this.keyResults = krs;
             this.krCount = this.okr.keyResults.length;
           });
+        if(this.okr.parent){
+          this.okrService.getOkr(this.okr.parent)
+            .subscribe(parent => this.parent = parent);
+        }
       });
   }
 

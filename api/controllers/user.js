@@ -48,3 +48,29 @@ module.exports.getUsers = (req, res) => {
         }); 
     }
 }
+
+module.exports.getCompanyUsers = (req, res) => {
+    //If no user ID exists in the JWT, return a 401
+    if(!req.payload._id){
+        res.status(401).json({'message': 'UnauthorizedError: User needs to be logged in'});
+    }else{
+       //Otherwise continue
+        User.findById(req.payload._id)
+        .exec((err, user)=>{
+            if(err){
+                res.status(401).json('User not found');
+            }else{
+                User.find({
+                    company: decodeURIComponent(req.payload.company)
+                })
+                .exec((err, users)=>{
+                    if(err){
+                        console.log('Could not find users for ', decodeURIComponent(req.payload.company));
+                    } else{
+                        res.status(200).json(users);
+                    }
+                })
+            }
+        }); 
+    }
+}

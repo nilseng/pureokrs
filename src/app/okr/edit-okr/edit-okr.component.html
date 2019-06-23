@@ -31,7 +31,7 @@
     </ul>
   </div>
   <div class="form-group">
-    <label for="parentSearchBox">Linked to <span class="badge badge-primary">{{parent.objective}}</span></label>
+    <label for="parentSearchBox">Linked to <span *ngIf="parent" class="badge badge-primary">{{parent.objective}}</span></label>
     <input class="form-control input-sm p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
       placeholder="Link to parent objective" />
     <ul *ngIf="users$" class="list-group px-1 py-0">

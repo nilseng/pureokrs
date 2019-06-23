@@ -29,6 +29,7 @@ router.put('/okr', auth, ctrlOkr.updateOkr);
 //Users
 router.get('/user/:id', auth, ctrlUser.getUser);
 router.get('/user/search/:name', auth, ctrlUser.getUsers);
+router.get('/user/company/users', auth, ctrlUser.getCompanyUsers);
 
 //Authentication
 router.post('/register', ctrlAuth.register);

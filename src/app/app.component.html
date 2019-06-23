@@ -9,6 +9,9 @@
       <li *ngIf="!auth.isLoggedIn()" class="nav-item">
         <a routerLink="/login" class="nav-link">Log In</a>
       </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/company/users" class="nav-link">Users</a>
+      </li>
       <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">

@@ -17,8 +17,7 @@ export class CompanyComponent implements OnInit {
   user: UserDetails;
 
   constructor(
-    private auth: AuthenticationService, 
-    private location: Location,
+    private auth: AuthenticationService,
     private okrService: OkrService) { }
 
   ngOnInit() {

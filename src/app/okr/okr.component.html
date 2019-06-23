@@ -1,7 +1,9 @@
 <div class="okr card bg-light border-0 p-2 m-1">
   <h6 class="card-subtitle mt-1 mb-2">
-    <span *ngIf="averageProgress==100" class="badge badge-success">{{averageProgress}}%</span>
-    <span *ngIf="averageProgress<100" class="badge badge-primary">{{averageProgress}}%</span>
+    <span *ngIf="!averageProgress && averageProgress!=0" class="badge badge-secondary">0%</span>
+    <span *ngIf="averageProgress<30" class="badge badge-secondary">{{averageProgress}}%</span>
+    <span *ngIf="averageProgress<70 && averageProgress>=30" class="badge badge-primary">{{averageProgress}}%</span>
+    <span *ngIf="averageProgress>=70" class="badge badge-success">{{averageProgress}}%</span>
     <span class="dropdown float-right">
       <button class="btn bg-light p-0 m-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
