@@ -123,7 +123,7 @@ export class EditOkrComponent implements OnInit {
             this.addToParent(okr.parent, okr._id);
             console.log(`adding child with id ${okr._id} to parent w id ${this.okr.parent}`);
           }else{
-            this.router.navigateByUrl('/company')
+            this.router.navigateByUrl('/company/okrs')
           }
         });
     }
