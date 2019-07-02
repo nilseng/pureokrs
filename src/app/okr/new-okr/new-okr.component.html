@@ -9,26 +9,28 @@
   </div>
   <button class="btn btn-dark mt-1" style="width: 2rem;" (click)="addKeyResult()">+</button>
   <div class="form-group">
-    <label class="mt-1" for="ownerSearchBox">Assigned to <span
-        class="badge badge-primary">{{owner.name}}</span></label>
+    <label class="mt-1" for="ownerSearchBox">Assigned to
+      <span class="badge badge-primary">{{owner.name}}</span>
+    </label>
     <input class="form-control p-2" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
       placeholder="Assign to user" />
     <ul *ngIf="users$" class="list-group px-1 py-0">
       <li *ngFor="let user of users$ | async" class="list-group-item py-0 my-0">
-        <a class="btn" [ngClass]="{'bg-light text-primary': user._id==okr.userId}" (click)="assign(user);ownerSearchBox.value=''">
+        <a class="btn" [ngClass]="{'bg-light text-primary': user._id==okr.userId}"
+          (click)="assign(user);ownerSearchBox.value=''">
           {{user.name}}
         </a>
       </li>
     </ul>
   </div>
   <div class="form-group">
-    <label for="parentSearchBox">Linked to <span
-        class="badge badge-primary">{{parent.objective}}</span></label>
+    <label for="parentSearchBox">Linked to <span class="badge badge-primary">{{parent.objective}}</span></label>
     <input class="form-control p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
       placeholder="Link to parent objective" />
     <ul *ngIf="users$" class="list-group px-1 py-0">
       <li *ngFor="let parent of parents$ | async" class="list-group-item py-0 my-0">
-        <a class="btn" [ngClass]="{'bg-light text-primary': parent._id==okr.parent}" (click)="link(parent);parentSearchBox.value=''">
+        <a class="btn" [ngClass]="{'bg-light text-primary': parent._id==okr.parent}"
+          (click)="link(parent);parentSearchBox.value=''">
           {{parent.objective}}
         </a>
       </li>

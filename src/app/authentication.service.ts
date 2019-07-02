@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {map} from 'rxjs/operators';
-import {Router} from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { map, catchError, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
-export interface UserDetails{
+export interface UserDetails {
   _id: string;
   company: string;
   email: string;
@@ -32,19 +32,19 @@ export class AuthenticationService {
 
   constructor(private http: HttpClient, private router: Router) { }
 
-  private saveToken(token: string): void{
+  private saveToken(token: string): void {
     localStorage.setItem('mean-token', token);
     this.token = token;
   }
 
   public getToken(): string {
-    if(!this.token){
+    if (!this.token) {
       this.token = localStorage.getItem('mean-token');
     }
     return this.token;
   }
 
-  public logout(): void{
+  public logout(): void {
     this.token = '';
     window.localStorage.removeItem('mean-token');
     this.router.navigateByUrl('/');
@@ -75,38 +75,75 @@ export class AuthenticationService {
     }
   }
 
-  private request(method: 'get'|'post', type: 'login'|'register'|'company',
-    user?: TokenPayload): Observable<any>{
-      let base;
+  private request(method: 'get' | 'post', type: 'login' | 'register' | 'company',
+    user?: TokenPayload): Observable<any> {
+    let base;
 
-      if (method === 'post'){
-        base = this.http.post(`/api/${type}`, user);
-      } else {
-        base = this.http.get(`/api/${type}`, {headers: {Authorization:
-          `Bearer ${this.getToken()}`}});
-      }
+    if (method === 'post') {
+      base = this.http.post(`/api/${type}`, user);
+    } else {
+      base = this.http.get(`/api/${type}`, {
+        headers: {
+          Authorization:
+            `Bearer ${this.getToken()}`
+        }
+      });
+    }
 
-      const request = base.pipe(
-        map((data: TokenResponse) => {
-          if (data.token){
-            this.saveToken(data.token);
-          }
-          return data;
-        })
+    const request = base.pipe(
+      map((data: TokenResponse) => {
+        if (data.token) {
+          this.saveToken(data.token);
+        }
+        return data;
+      })
+    );
+
+    return request;
+  }
+
+  public register(user: TokenPayload): Observable<any> {
+    return this.request('post', 'register', user);
+  }
+
+  public login(user: TokenPayload): Observable<any> {
+    return this.request('post', 'login', user);
+  }
+
+  public company(): Observable<any> {
+    return this.request('get', 'company');
+  }
+
+  public addUser(user: TokenPayload): Observable<{}> {
+    return this.http.post('/api/adduser', user,
+      {
+        headers: {
+          Authorization: `Bearer ${this.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      }).pipe(
+        tap(() => console.log('added user to server')),
+        catchError(this.handleError('addUser'))
       );
+  }
 
-      return request;
-    }
+  /**
+   * Handle Http operation that failed
+   * Let the app continue
+   * @param operation - name of the operation that failed
+   * @param result - optional value to return as the observable result
+   */
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
 
-    public register(user: TokenPayload): Observable<any>{
-      return this.request('post', 'register', user);
-    }
+      //TODO: Send the error to remote logging infrastructure
+      console.error(error);
 
-    public login(user: TokenPayload): Observable<any>{
-      return this.request('post', 'login', user);
-    }
+      //TODO: Better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
 
-    public company(): Observable<any> {
-      return this.request('get', 'company');
-    }
+      // Let the app keep running by returning an empty result
+      return of(result as T);
+    };
+  }
 }

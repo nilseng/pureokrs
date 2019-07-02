@@ -37,7 +37,7 @@ module.exports.create = (req, res) => {
                     }
                     if (req.body.parent) {
                         okr.parent = req.body.parent;
-                        console.log('assigning parent', req.body.parent);
+                        console.log('assigning parent w id=', req.body.parent);
                     }
                     if (req.body.children) okr.children = req.body.children;
                     if (req.body.evaluation) okr.evaluation = req.body.evaluation;
@@ -101,8 +101,8 @@ module.exports.updateOkr = (req, res) => {
                                     okr.parent = req.body.okr.parent;
                                 }
                                 if (req.body.okr.children) okr.children = req.body.okr.children;
-                                if (req.body.evaluation) okr.evaluation = req.body.okr.evaluation;
-                                if (req.body.userId) {
+                                if (req.body.okr.evaluation) okr.evaluation = req.body.okr.evaluation;
+                                if (req.body.okr.userId) {
                                     okr.userId = mongoose.Types.ObjectId(req.body.okr.userId);
                                 }
                                 okr.company = user.company;

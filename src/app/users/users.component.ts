@@ -38,4 +38,9 @@ export class UsersComponent implements OnInit {
   showUserForm(): void{
     this.userForm = true;
   }
+
+  hideUserForm(hide: boolean){
+    this.userForm = false;
+    this.getUsers();
+  }
 }

@@ -130,6 +130,7 @@ export class NewOkrComponent implements OnInit {
 
   assign(owner: UserDetails): void{
     this.okr.userId = owner._id;
+    this.owner = owner;
     console.log(`Assigning ${owner.name} as owner`);
     this.ownerSearch('');
   }

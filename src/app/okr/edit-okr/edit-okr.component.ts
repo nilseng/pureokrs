@@ -61,8 +61,6 @@ export class EditOkrComponent implements OnInit {
     this.noObjective = false;
     this.getOkr();
 
-    this.owner = this.auth.getUserDetails();
-
     this.parent = new Okr('', []);
 
     this.users$ = this.ownerSearchTerms.pipe(
@@ -98,6 +96,10 @@ export class EditOkrComponent implements OnInit {
           this.okrService.getOkr(this.okr.parent)
             .subscribe(parent => this.parent = parent);
         }
+        if(this.okr.userId){
+          this.userService.getUser(this.okr.userId)
+            .subscribe(owner => this.owner = owner);
+        }
       });
   }
 
@@ -119,6 +121,7 @@ export class EditOkrComponent implements OnInit {
     } else {
       this.okrService.updateOkr(this.okr, this.keyResults)
         .subscribe((okr: Okr) => {
+          console.log(`Saving okr with owner id=${this.okr.userId}`);
           if(okr.parent){
             this.addToParent(okr.parent, okr._id);
             console.log(`adding child with id ${okr._id} to parent w id ${this.okr.parent}`);
@@ -138,8 +141,10 @@ export class EditOkrComponent implements OnInit {
   }
 
   assign(owner: UserDetails): void{
+    console.log(`The old owner had id=${this.okr.userId}`)
+    this.owner = owner;
     this.okr.userId = owner._id;
-    console.log(`Assigning ${owner.name} as owner`);
+    console.log(`Assigning owner with id=${this.okr.userId} as owner`);
     this.ownerSearch('');
   }
 

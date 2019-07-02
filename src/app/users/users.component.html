@@ -2,7 +2,7 @@
   {{user.company}}'s users.
 </h2>
 <button *ngIf="!userForm" class="btn btn-primary my-4 mx-1" (click)="showUserForm()">Add User</button>
-<app-new-user *ngIf="userForm"></app-new-user>
+<app-new-user *ngIf="userForm" (hide)="hideUserForm($event)"></app-new-user>
 <div class="row mb-4 mx-1">
   <div class="col-sm rounded bg-light">
     <ul class="list-group">

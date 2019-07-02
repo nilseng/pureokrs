@@ -1,11 +1,11 @@
 <div class="row my-4 mx-1">
   <div class="col-sm rounded bg-light p-2">
-    <form class="form-inline" (submit)="register()">
+    <form class="form-inline" (submit)="addUser()">
       <label class="mx-1" for="name">Full name</label>
-      <input type="text" class="form-control mx-1" id="name" name="name" placeholder="Enter name">
+      <input type="text" class="form-control mx-1" id="name" name="name" placeholder="Enter name" [(ngModel)]="credentials.name">
       <label class="mx-1" for="email">Email</label>
       <input id="email" id="email" name="email" type="email" class="form-control mx-1" required
-        placeholder="Enter email">
+        placeholder="Enter email" [(ngModel)]="credentials.email">
       <button type="submit" class="btn btn-success mx-1">Add</button>
     </form>
   </div>

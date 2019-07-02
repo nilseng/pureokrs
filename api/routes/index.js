@@ -32,6 +32,7 @@ router.get('/user/search/:name', auth, ctrlUser.getUsers);
 router.get('/user/company/users', auth, ctrlUser.getCompanyUsers);
 
 //Authentication
+router.post('/adduser', auth, ctrlAuth.addUser);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
 
