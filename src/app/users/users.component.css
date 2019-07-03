@@ -1,0 +1,6 @@
+@media only screen and (max-width: 820px) {
+    /* For mobile phones: */
+    [class*="table-button"] {
+      margin: 1px;
+    }
+  }

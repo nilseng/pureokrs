@@ -13,6 +13,7 @@ export class UsersComponent implements OnInit {
   users: {User};
   user: UserDetails;
   userForm: boolean;
+  initDeleteUser: UserDetails;
 
   constructor(private auth: AuthenticationService,
     private userService: UserService) { }
@@ -42,5 +43,18 @@ export class UsersComponent implements OnInit {
   hideUserForm(hide: boolean){
     this.userForm = false;
     this.getUsers();
+  }
+
+  initDelete(user: UserDetails): void{
+    this.initDeleteUser = user;
+  }
+
+  confirmDelete(): void{
+    this.userService.deleteUser(this.initDeleteUser)
+      .subscribe(() => {
+        console.log(`Deleted the user of ${this.initDeleteUser.name}`);
+        this.getUsers();
+        this.initDeleteUser = null;
+      });
   }
 }

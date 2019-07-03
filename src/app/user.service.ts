@@ -63,6 +63,20 @@ export class UserService {
     );
   }
 
+  deleteUser(user: UserDetails): Observable<{}>{
+    console.log('trying to delete user', user.name);
+    return this.http.delete<{}>(`${this.userUrl}/delete/${user._id}`,
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`
+        }
+      }
+    ).pipe(
+      tap(() => console.log(`deleted ${user.name}'s user`)),
+      catchError(this.handleError<{}>('deleteUser', {}))
+    );
+  }
+
   /**
    * Handle Http operation that failed
    * Let the app continue

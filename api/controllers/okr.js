@@ -4,7 +4,6 @@ var Okr = mongoose.model('Okr');
 var KeyResult = mongoose.model('KeyResult');
 
 module.exports.create = (req, res) => {
-    //TODO: Make Async
     //If no user ID exists in the JWT, return a 401
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });

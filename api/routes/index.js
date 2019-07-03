@@ -30,6 +30,7 @@ router.put('/okr', auth, ctrlOkr.updateOkr);
 router.get('/user/:id', auth, ctrlUser.getUser);
 router.get('/user/search/:name', auth, ctrlUser.getUsers);
 router.get('/user/company/users', auth, ctrlUser.getCompanyUsers);
+router.delete('/user/delete/:id', auth, ctrlUser.deleteUser);
 
 //Authentication
 router.post('/adduser', auth, ctrlAuth.addUser);
