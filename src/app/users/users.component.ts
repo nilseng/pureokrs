@@ -54,7 +54,12 @@ export class UsersComponent implements OnInit {
       .subscribe(() => {
         console.log(`Deleted the user of ${this.initDeleteUser.name}`);
         this.getUsers();
-        this.initDeleteUser = null;
+        if(this.auth.getUserDetails().email === this.initDeleteUser.email){
+          this.initDeleteUser = null;
+          this.auth.logout();
+        }else{
+          this.initDeleteUser = null;
+        }
       });
   }
 }

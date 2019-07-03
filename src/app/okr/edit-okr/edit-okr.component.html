@@ -23,7 +23,7 @@
       placeholder="Assign to user" />
     <ul *ngIf="users$" class="list-group px-1 py-0">
       <li *ngFor="let user of users$ | async" class="list-group-item py-0 my-0">
-        <a class="btn" [ngClass]="{'bg-light text-primary': user._id==owner._id}"
+        <a class="btn" [ngClass]="{'bg-light text-primary': !!owner && user._id==owner._id}"
           (click)="assign(user);ownerSearchBox.value=''">
           {{user.name}}
         </a>
