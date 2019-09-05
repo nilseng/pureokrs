@@ -6,7 +6,8 @@
       <label class="mx-1" for="email">Email</label>
       <input id="email" id="email" name="email" type="email" class="form-control mx-1" required
         placeholder="Enter email" [(ngModel)]="credentials.email">
-      <button type="submit" class="btn btn-success mx-1">Add</button>
+      <button type="submit" class="btn btn-sm btn-success float-right mx-1">Add</button>
+      <button class="btn btn-sm btn-secondary float-right mx-1" (click)="hideNew()">Hide</button>
     </form>
   </div>
 </div>

@@ -3,7 +3,7 @@
 </h2>
 <button *ngIf="!userForm" class="btn btn-primary my-4 mx-1" (click)="showUserForm()">Add User</button>
 <app-new-user *ngIf="userForm" (hide)="hideUserForm($event)"></app-new-user>
-<div class="bg-light py-2 rounded mx-1">
+<div class="table-responsive-sm bg-light py-2 rounded mx-1">
   <table class="table table-striped bg-light my-1">
     <thead>
       <tr style="border-top: 0">
