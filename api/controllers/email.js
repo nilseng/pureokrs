@@ -38,8 +38,8 @@ module.exports.sendNewUserEmail = (email, companyName) => {
 module.exports.sendResetEmail = (email, token) => {
   let msg = {
     from: 'teodor.nilseng@gmail.com',
-    text: 'Follow the following link to reset your password. www.pureokrs.com/resetpassword/'+ email + '/' + token,
-    html: 'Follow the link below to reset your password. <a href="www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
+    text: 'Follow the following link to reset your password. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
+    html: 'Follow the link below to reset your password. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
   };
   msg.subject = 'You can now reset your password at pureOKRs.';
   msg.to = email;
