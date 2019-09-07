@@ -97,6 +97,7 @@ export class NewOkrComponent implements OnInit {
       this.okrService.getOkr(parentId)
         .subscribe((okr: Okr) => {
           this.parent = okr;
+          this.okr.parent = okr._id;
         });
     }
   }
@@ -110,7 +111,11 @@ export class NewOkrComponent implements OnInit {
   }
 
   hideNew(): void {
-    this.hide.emit(true);
+    if(this.router.url === '/company/okrs'){
+      this.hide.emit(true);
+    }else{
+      this.router.navigateByUrl('/company/okrs');
+    }    
   }
 
   save(): void {
