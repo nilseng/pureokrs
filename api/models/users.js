@@ -38,7 +38,6 @@ userSchema.methods.setPassword = (user, cb) => {
 };
 
 userSchema.methods.validPassword = (password, user, cb) => {
-    console.log('Validating password');
     if(user.salt){
         crypto.pbkdf2(password, user.salt, 1000, 64, 'sha512', (err, hash) => {
             if(err){

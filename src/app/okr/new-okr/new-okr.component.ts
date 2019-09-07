@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -42,7 +42,7 @@ export class NewOkrComponent implements OnInit {
     private auth: AuthenticationService,
     private userService: UserService,
     private router: Router,
-    private location: Location
+    private route: ActivatedRoute
   ) { }
   
   // Push a owner search term into the observable stream.
@@ -70,7 +70,7 @@ export class NewOkrComponent implements OnInit {
     
     this.owner = this.auth.getUserDetails();
 
-    this.parent = new Okr('', []);
+    this.getParent();
 
     this.users$ = this.ownerSearchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -89,6 +89,16 @@ export class NewOkrComponent implements OnInit {
       // switch to new search observable each time the term changes
       switchMap((term: string) => this.okrService.searchOkrs(term)),
     );
+  }
+
+  getParent(){
+    let parentId = this.route.snapshot.paramMap.get('parent');
+    if(parentId){
+      this.okrService.getOkr(parentId)
+        .subscribe((okr: Okr) => {
+          this.parent = okr;
+        });
+    }
   }
 
   addKeyResult(): void {
@@ -111,7 +121,9 @@ export class NewOkrComponent implements OnInit {
       this.okrService.createOkr(this.okr)
         .subscribe((okr: Okr) => {
           if(okr.parent){
-            this.addToParent(okr.parent, okr._id);
+            this.addToParentOnSave(okr.parent, okr._id, ()=>{
+              this.hideNew();
+            });
             console.log(`adding child with id ${okr._id} to parent w id ${this.okr.parent}`);
           }else{
             this.hideNew();
@@ -120,11 +132,11 @@ export class NewOkrComponent implements OnInit {
     }
   }
 
-  addToParent(parentId: string, childId: string): void{
+  addToParentOnSave(parentId: string, childId: string, cb: () => void): void{
     this.okrService.addChild(parentId, childId)
       .subscribe(()=>{
         console.log('Added child to parent');
-        this.hideNew();
+        cb();
       });
   }
 
