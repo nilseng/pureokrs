@@ -9,9 +9,9 @@ import {AuthenticationService} from '../../authentication.service';
 })
 export class NewPasswordComponent implements OnInit {
 
-  private password: string;
-  private email: string;
-  private token: string;
+  password: string;
+  email: string;
+  token: string;
   private pwdReset: boolean;
   private message: string;
 
