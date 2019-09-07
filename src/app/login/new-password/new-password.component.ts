@@ -12,8 +12,8 @@ export class NewPasswordComponent implements OnInit {
   password: string;
   email: string;
   token: string;
-  private pwdReset: boolean;
-  private message: string;
+  pwdReset: boolean;
+  message: string;
 
   constructor(
     private route: ActivatedRoute,
