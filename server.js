@@ -24,7 +24,7 @@ console.log(distDir);
 
 app.use(express.static(distDir));
 
-var server = app.listen(process.env.PORT || 8080, ()=>{
+var server = app.listen(process.env.PORT || 5000, ()=>{
     var port = server.address().port;
     console.log('App now running on port', port);
 });

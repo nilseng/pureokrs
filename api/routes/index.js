@@ -36,5 +36,7 @@ router.delete('/user/delete/:id', auth, ctrlUser.deleteUser);
 router.post('/adduser', auth, ctrlAuth.addUser);
 router.post('/register', ctrlAuth.register);
 router.post('/login', ctrlAuth.login);
+router.post('/sendresetemail', ctrlAuth.sendResetEmail);
+router.post('/newpassword', ctrlAuth.setNewPassword);
 
 module.exports = router;

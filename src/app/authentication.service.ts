@@ -127,6 +127,36 @@ export class AuthenticationService {
       );
   }
 
+  public sendResetEmail(email: string): Observable<any>{
+    return this.http.post('/api/sendresetemail', {'email': email},
+      {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .pipe(
+        tap(()=>console.log('an email was sent to reset the password.')),
+        catchError(this.handleError('sendResetEmail'))
+      );
+  }
+
+  public newPassword(email: string, token: string, password: string): Observable<any>{
+    return this.http.post('/api/newpassword', 
+      {'email':email, 'token':token, 'password':password},
+      {
+        headers: {'Content-Type': 'application/json'}
+      })
+      .pipe(
+        map((data: TokenResponse) => {
+          if (data.token) {
+            this.saveToken(data.token);
+          }
+          return data;
+        }),
+        catchError(this.handleError('newPassword'))
+      );
+  }
+
   /**
    * Handle Http operation that failed
    * Let the app continue

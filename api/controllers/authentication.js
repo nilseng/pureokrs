@@ -4,7 +4,7 @@ var User = mongoose.model('User');
 var crypto = require('crypto');
 var email = require('./email.js');
 
-module.exports.register = (req, res) => {  
+module.exports.register = (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.password) {
         res.status(400).json({ "message": "all fields required" });
     } else {
@@ -50,7 +50,6 @@ module.exports.login = (req, res) => {
 };
 
 module.exports.addUser = (req, res) => {
-    console.log('The server has been asked to add a user');
     if (!req.body.name || !req.body.email || !req.body.password) {
         res.status(400).json({ "message": "all fields required" });
     } else {
@@ -66,9 +65,66 @@ module.exports.addUser = (req, res) => {
             } else {
                 //Send email to new user
                 email.sendNewUserEmail(user.email, user.company);
-
                 res.status(200).json('New user created.');
             }
         });
     }
 };
+
+module.exports.sendResetEmail = (req, res) => {
+    if (!req.body.email) {
+        res.status(400).json({ "message": "no email received by server" });
+    } else {
+        User.findOne({ email: req.body.email }).exec((err, user) => {
+            if (err || !user) {
+                res.status(400).json('Could not find a user with email' + req.body.email);
+            } else {
+                //hashing the email to use as token when resetting password
+                crypto.pbkdf2(user.email, user.salt, 1000, 64, 'sha512', (err, hash) => {
+                    if (err) {
+                        res.status(400).json('Could not send email to reset password.');
+                    } else {
+                        let token = hash.toString('hex');
+                        email.sendResetEmail(req.body.email, token);
+                        res.status(200).json('An email was sent with instructions to reset the password.')
+                    }
+                });
+            }
+        })
+    }
+}
+
+module.exports.setNewPassword = (req, res) => {
+    if (!req.body.email || !req.body.token || !req.body.password) {
+        res.status(400).json({ 'message': 'email, token or password missing not received by server' });
+    } else {
+        User.findOne({ email: req.body.email }).exec((err, user) => {
+            if (err || !user) {
+                res.status(400).json('Could not find a user with email' + req.body.email);
+            } else {
+                crypto.pbkdf2(user.email, user.salt, 1000, 64, 'sha512', (err, hash) => {
+                    if (err) {
+                        res.status(400).json('Could not reset password');
+                    } else {
+                        if (hash.toString('hex') !== req.body.token) {
+                            res.status(401).json('The link used to reset the password is invalid or is already used.');
+                        } else {
+                            user.password = req.body.password;
+
+                            user.save((err) => {
+                                if (err) {
+                                    res.status(400).json(err);
+                                } else {
+                                    //Generate and return token
+                                    var token;
+                                    token = user.generateJwt(user);
+                                    res.status(200).json({ 'token': token });
+                                }
+                            });
+                        }
+                    }
+                })
+            }
+        });
+    }
+}
