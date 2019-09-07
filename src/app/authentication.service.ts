@@ -135,8 +135,7 @@ export class AuthenticationService {
         }
       })
       .pipe(
-        tap(()=>console.log('an email was sent to reset the password.')),
-        catchError(this.handleError('sendResetEmail'))
+        tap(()=>console.log('an email was sent to reset the password.'))
       );
   }
 
@@ -152,8 +151,7 @@ export class AuthenticationService {
             this.saveToken(data.token);
           }
           return data;
-        }),
-        catchError(this.handleError('newPassword'))
+        })
       );
   }
 
