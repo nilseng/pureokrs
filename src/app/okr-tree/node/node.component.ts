@@ -10,7 +10,8 @@ import { KeyResult } from '../../okr/okr';
 })
 export class NodeComponent implements OnInit, AfterViewInit {
   @Input() node: Node;
-  @Output() okrId = new EventEmitter<Node>();
+  @Output() nodeShow = new EventEmitter<Node>();
+  @Output() nodeHide = new EventEmitter<Node>();
 
   @ViewChild('nodeVisual') nodeVisual: ElementRef;
   @ViewChild('text') textEl: ElementRef;
@@ -161,7 +162,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   showChildren(): void {
-    this.okrId.emit(this.node);
+    if(this.node.showChildren){
+      this.nodeHide.emit(this.node);
+    }else{
+      this.nodeShow.emit(this.node);
+    }
+    this.node.showChildren = !this.node.showChildren;
   }
-
 }

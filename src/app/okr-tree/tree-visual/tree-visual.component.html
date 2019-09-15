@@ -5,7 +5,9 @@
       <g [edge]="edge" *ngFor="let edge of edges"></g>
     </g>
     <g *ngFor="let level of nodes">
-      <g [node]="node" *ngFor="let node of level" (okrId)="showChildren($event)"></g>
+      <g [node]="node" *ngFor="let node of level" 
+        (nodeShow)="showChildren($event)"
+        (nodeHide)="hideChildren($event)"></g>
     </g>
   </g>
 </svg>

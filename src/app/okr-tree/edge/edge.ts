@@ -1,3 +1,5 @@
+import {Node} from '../node/node';
+
 export class Edge{
     source: Node;
     target: Node;

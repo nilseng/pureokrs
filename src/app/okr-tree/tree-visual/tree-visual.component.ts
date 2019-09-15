@@ -120,4 +120,14 @@ export class TreeVisualComponent implements OnInit {
     }
   }
 
+  hideChildren(node: Node){
+    if(this.nodes[node.level + 1] === undefined){
+      return;
+    }else{
+      this.nodes[node.level + 1] = this.nodes[node.level + 1]
+        .filter(child => !node.okr.children.includes(child.okr._id));
+      this.edges = this.edges
+        .filter(edge => edge.source !== node)
+    }
+  }
 }

@@ -10,8 +10,9 @@ export class Node {
     okr: Okr;
     siblings: number;
     level: number;
+    showChildren: boolean;
     
-    constructor(okr, x, y, width, height, siblings, level){
+    constructor(okr, x, y, width, height, siblings, level, showChildren = false){
         this.okr = okr;
         this.x = x;
         this.y = y;
@@ -21,6 +22,7 @@ export class Node {
         this.centerY = y - this.height / 2;
         this.siblings = siblings;
         this.level = level;
+        this.showChildren = showChildren;
     }
 
     get cx(){
