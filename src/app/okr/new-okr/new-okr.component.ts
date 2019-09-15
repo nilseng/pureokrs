@@ -33,7 +33,8 @@ export class NewOkrComponent implements OnInit {
 
   okr: Okr;
   objective: string;
-  keyResults: KeyResult[];
+  keyResults: KeyResult[] = [];
+  krCount: number;
 
   noObjective: boolean;
 
@@ -60,12 +61,9 @@ export class NewOkrComponent implements OnInit {
   ngOnInit() {
     this.objective = '';
     this.noObjective = false;
-    let krCount = 1;
-    this.keyResults = [];
-    for (let i = 0; i < krCount; i++) {
-      this.keyResults.push(new KeyResult(''));
-    }
-    this.okr = new Okr(this.objective, this.keyResults);
+    this.krCount = 1;
+    this.keyResults.push(new KeyResult(''));
+    this.okr = new Okr(this.objective);
     this.okr.userId = this.auth.getUserDetails()._id;
     
     this.owner = this.auth.getUserDetails();
@@ -103,15 +101,18 @@ export class NewOkrComponent implements OnInit {
   }
 
   addKeyResult(): void {
-    this.okr.keyResults.push(new KeyResult(''));
+    let kr = new KeyResult('');
+    this.keyResults[this.krCount] = kr;
+    this.krCount++;
   }
 
-  removeKeyResult(): void {
-    this.okr.keyResults.pop();
+  removeKeyResult(id: string, index: number): void {
+    delete this.keyResults[index];
+    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
   }
 
   hideNew(): void {
-    if(this.router.url === '/company/okrs'){
+    if(this.router.url === '/company/okrs' || this.router.url === '/okr-map'){
       this.hide.emit(true);
     }else{
       this.router.navigateByUrl('/company/okrs');
@@ -123,9 +124,11 @@ export class NewOkrComponent implements OnInit {
       this.noObjective = true;
       return;
     } else {
-      this.okrService.createOkr(this.okr)
+      this.okrService.createOkr(this.okr, this.keyResults)
         .subscribe((okr: Okr) => {
-          if(okr.parent){
+          if(!okr){
+            console.log('Something went wrong - could not create OKR.');
+          }else if(okr.parent){
             this.addToParentOnSave(okr.parent, okr._id, ()=>{
               this.hideNew();
             });

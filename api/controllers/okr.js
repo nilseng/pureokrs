@@ -15,18 +15,19 @@ module.exports.create = (req, res) => {
                     res.status(401).json('User not found');
                 } else {
                     var okr = new Okr();
-                    if (req.body.objective) {
-                        okr.objective = req.body.objective;
+                    if (req.body.okr.objective) {
+                        okr.objective = req.body.okr.objective;
                     } else {
-                        return res.status(400).json('OKR did not have an objective and could not be saved');
+                        okr.objective = '';
                     }
                     okr.keyResults = [];
                     for (i = 0; i < req.body.keyResults.length; i++) {
                         console.log('kr:', req.body.keyResults[i]);
-                        if (!req.body.keyResults[i]) {
+                        if (!req.body.keyResults[i].keyResult) {
                             console.log('empty KR');
                         } else {
                             var KR = new KeyResult({ okrId: okr._id, keyResult: req.body.keyResults[i].keyResult });
+                            if(req.body.keyResults[i].progress) KR.progress = req.body.keyResults[i].progress; 
                             KR.save((err) => {
                                 if (err) console.log('could not save Key Result');
                                 else console.log('Key Result saved');
@@ -34,14 +35,13 @@ module.exports.create = (req, res) => {
                             okr.keyResults.push(KR);
                         }
                     }
-                    if (req.body.parent) {
-                        okr.parent = req.body.parent;
-                        console.log('assigning parent w id=', req.body.parent);
+                    if (req.body.okr.parent) {
+                        okr.parent = req.body.okr.parent;
+                        console.log('assigning parent w id=', req.body.okr.parent);
                     }
-                    if (req.body.children) okr.children = req.body.children;
-                    if (req.body.evaluation) okr.evaluation = req.body.evaluation;
-                    if (req.body.userId) {
-                        okr.userId = mongoose.Types.ObjectId(req.body.userId);
+                    if (req.body.okr.children) okr.children = req.body.okr.children;
+                    if (req.body.okr.userId) {
+                        okr.userId = mongoose.Types.ObjectId(req.body.okr.userId);
                     }
                     okr.company = user.company;
 
@@ -169,8 +169,30 @@ module.exports.getById = (req, res) => {
     }
 }
 
+module.exports.getOkrs = (req, res) => {
+    if(!req.payload._id){
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' }); 
+    }else{
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if (err) {
+                    res.status(401).json('User not found');
+                } else {
+                    Okr.find({
+                        company: user.company
+                    }, (err, okrs) => {
+                        if (err) {
+                            res.status(400).json({'Could not get okrs':err});
+                        } else {
+                            res.status(200).json(okrs);
+                        }
+                    });
+                }
+            });
+    }
+}
+
 module.exports.getCompanyOkrs = (req, res) => {
-    if (!req.params.company) console.log('No company sent to api');
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
@@ -180,11 +202,11 @@ module.exports.getCompanyOkrs = (req, res) => {
                     res.status(401).json('User not found');
                 } else {
                     Okr.find({
-                        company: req.params.company,
+                        company: user.company,
                         parent: null
                     }, (err, okrs) => {
                         if (err) {
-                            res.status(400).json('Could not get okrs');
+                            res.status(400).json({'Could not get okrs':err});
                         } else {
                             res.status(200).json(okrs);
                         }

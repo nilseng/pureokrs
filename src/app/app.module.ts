@@ -17,6 +17,17 @@ import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
 import { ResetpasswordComponent } from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
+import { OkrmapComponent } from './okrmap/okrmap.component';
+import { NodeVisualComponent } from './okrmap/node-visual/node-visual.component';
+import { LinkVisualComponent } from './okrmap/link-visual/link-visual.component';
+import { GraphComponent } from './okrmap/graph/graph.component';
+import { D3_DIRECTIVES} from './d3';
+import { D3Service} from './d3/d3.service';
+import {SHARED_VISUALS} from './okrmap/index';
+import { OkrTreeComponent } from './okr-tree/okr-tree.component';
+import { TreeVisualComponent } from './okr-tree/tree-visual/tree-visual.component';
+import { NodeComponent } from './okr-tree/node/node.component';
+import { EdgeComponent } from './okr-tree/edge/edge.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +41,17 @@ import { NewPasswordComponent } from './login/new-password/new-password.componen
     UsersComponent,
     NewUserComponent,
     ResetpasswordComponent,
-    NewPasswordComponent
+    NewPasswordComponent,
+    OkrmapComponent,
+    NodeVisualComponent,
+    LinkVisualComponent,
+    GraphComponent,
+    ...SHARED_VISUALS,
+    ...D3_DIRECTIVES,
+    OkrTreeComponent,
+    TreeVisualComponent,
+    NodeComponent,
+    EdgeComponent
   ],
   imports: [
     BrowserModule,
@@ -38,7 +59,7 @@ import { NewPasswordComponent } from './login/new-password/new-password.componen
     FormsModule,
     HttpClientModule
   ],
-  providers: [AuthenticationService, AuthGuardService],
+  providers: [AuthenticationService, AuthGuardService, D3Service],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -31,7 +31,7 @@ export class EditOkrComponent implements OnInit {
 
   okr: Okr;
   objective: string;
-  keyResults: {KeyResult};
+  keyResults: {};
   krCount: number;
 
   noObjective: boolean;
@@ -90,6 +90,7 @@ export class EditOkrComponent implements OnInit {
         this.okrService.getKeyResults(okr._id)
           .subscribe(krs => {
             this.keyResults = krs;
+            console.log(krs);
             this.krCount = this.okr.keyResults.length;
           });
         if(this.okr.parent){

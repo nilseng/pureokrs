@@ -8,7 +8,7 @@ export class Okr {
     userId: string;
     company: string;
 
-    constructor(obj: string, keyRes: KeyResult[], parent: string = '', children: string[] = [],
+    constructor(obj: string, keyRes: KeyResult[] = [], parent: string = '', children: string[] = [],
         evaluation: string ='', userId: string = '', company: string = ''){
         this.objective = obj;
         this.keyResults = keyRes;

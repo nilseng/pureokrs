@@ -3,8 +3,8 @@ const sgMail = require('@sendgrid/mail');
 
 const msg = {
   from: 'teodor.nilseng@gmail.com',
-  text: 'Welcome to www.pureokrs.com. Add your first Objective and Key Results to get started.',
-  html: 'Welcome to www.pureokrs.com. Add your first Objective and Key Results to get started.',
+  text: 'Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.',
+  html: '<strong>Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.</strong>',
 };
 
 module.exports.sendEmail = (email, companyName) => {

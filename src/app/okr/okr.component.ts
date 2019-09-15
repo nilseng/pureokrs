@@ -49,9 +49,9 @@ export class OkrComponent implements OnInit {
       });
   }
 
-  verifyChildrenList(): void{
-    for(let child in this.children){
-      if(!this.okr.children.includes(this.children[child]._id)){
+  verifyChildrenList(): void {
+    for (let child in this.children) {
+      if (!this.okr.children.includes(this.children[child]._id)) {
         this.okrService.addChild(this.okr._id, this.children[child]._id)
           .subscribe(() => console.log('Added childId to parent children array'));
       }
@@ -64,24 +64,21 @@ export class OkrComponent implements OnInit {
   }
 
   getKeyResults(): void {
-    let user = this.auth.getUserDetails();
-    if (user.company == this.okr.company) {
-      this.okrService.getKeyResults(this.okr._id)
-        .subscribe(krs => {
-          this.keyResults = krs;
-          if (krs) {
-            let sum = 0;
-            let count = 0;
-            for(let i in krs){
-              if (krs[i].progress){
-                sum += krs[i].progress;
-              }
-              count += 1;
+    this.okrService.getKeyResults(this.okr._id)
+      .subscribe(krs => {
+        this.keyResults = krs;
+        if (krs) {
+          let sum = 0;
+          let count = 0;
+          for (let i in krs) {
+            if (krs[i].progress) {
+              sum += krs[i].progress;
             }
-            this.averageProgress = Math.round(sum/count);
+            count += 1;
           }
-        });
-    }
+          this.averageProgress = Math.round(sum / count);
+        }
+      });
   }
 
   getOwner(): void {
@@ -105,7 +102,7 @@ export class OkrComponent implements OnInit {
       .subscribe(() => this.hideOkrId.emit(this.okr._id));
   }
 
-  hideChild(okrId: string){
+  hideChild(okrId: string) {
     this.getChildren();
     this.childrenCount = this.childrenCount - 1;
   }

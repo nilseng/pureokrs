@@ -1,0 +1,41 @@
+<svg:g #nodeVisual>
+  <svg:rect #rect
+    [attr.x]="node.centerX" 
+    [attr.y]="node.centerY"
+    [attr.width]="node.width" 
+    [attr.height]="node.height"
+    [attr.rx]="2"
+    [attr.ry]="2" 
+    style="fill:rgb(249,249,249);stroke-width:1;stroke:#428bca">
+  </svg:rect>
+  <svg:text #text
+    [attr.x]="node.x" 
+    [attr.y]="node.y"
+    [attr.font-size]="12"
+    dominant-baseline="middle"
+    text-anchor="middle"
+    style="font-weight: bold;">
+    {{node.okr.objective}}
+  </svg:text>
+  <svg:a
+    style="text-decoration: none;cursor:pointer;"
+    (click)="showChildren()">
+    <svg:circle
+      [attr.cx]="node.cx"
+      [attr.cy]="node.cy"
+      [attr.r]="10"
+      style="fill:#428bca">
+    </svg:circle>
+    <svg:text
+      [attr.x]="node.cx"
+      [attr.y]="node.cy"
+      [attr.font-size]="10"
+      dominant-baseline="middle"
+      text-anchor="middle"
+      style="fill:rgb(249,249,249);font-weight: bold;">
+      {{node.children}}
+    </svg:text>
+    <svg:path #progress
+      style="fill:none;stroke-width:2;stroke:#5cb85c;"/>
+  </svg:a>
+</svg:g>
