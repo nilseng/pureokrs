@@ -97,6 +97,9 @@ export class TreeVisualComponent implements OnInit {
   showChildren(node: Node) {
     let children = [];
     let center = node.x;
+    if (node.okr.children.length % 2 === 0) {
+      center -= this.xUnit / 2;
+    }
     let offset = 0;
     if(this.nodes[node.level + 1] === undefined){
       this.nodes[node.level + 1] = [];
@@ -124,6 +127,11 @@ export class TreeVisualComponent implements OnInit {
     if(this.nodes[node.level + 1] === undefined){
       return;
     }else{
+      for(let child of this.nodes[node.level + 1]){
+        if(node.okr.children.includes(child.okr._id) && child.showChildren){
+          this.hideChildren(child);
+        }
+      }
       this.nodes[node.level + 1] = this.nodes[node.level + 1]
         .filter(child => !node.okr.children.includes(child.okr._id));
       this.edges = this.edges
