@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Edge } from './edge';
 
 @Component({
   selector: '[edge]',
@@ -7,7 +8,7 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class EdgeComponent implements OnInit {
 
-  @Input() edge: number;
+  @Input() edge: Edge;
 
   constructor() { }
 
