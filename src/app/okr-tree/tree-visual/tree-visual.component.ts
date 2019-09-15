@@ -20,7 +20,7 @@ export class TreeVisualComponent implements OnInit {
     this.createLevel0();
   }
 
-  private _options: { width, height } = { width: 800, height: 600 };
+  _options: { width, height } = { width: 800, height: 600 };
 
   okrs: Okr[];
   nodes: Node[][] = [];
