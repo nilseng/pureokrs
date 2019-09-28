@@ -26,7 +26,7 @@ export class UserService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap(_ => console.log(`fetched User w id=${id}`)),
+        tap(),
         catchError(this.handleError<UserDetails>(`getUser id=${id}`))
       );
   }

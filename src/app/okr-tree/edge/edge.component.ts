@@ -15,5 +15,5 @@ export class EdgeComponent implements OnInit {
 
   ngOnInit() {
   }
-
+  
 }

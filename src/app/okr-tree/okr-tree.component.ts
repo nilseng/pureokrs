@@ -19,10 +19,10 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this._width = window.innerWidth * 0.8;
+    this._width = window.innerWidth * 0.9;
     this._height = window.innerHeight * 0.6;
-    this._nodeWidth = Math.max(this._width / 10, 100);
-    this._nodeHeight = this._nodeWidth / 2;
+    this._nodeWidth = Math.max(this._width / 6, 100);
+    this._nodeHeight = this._nodeWidth / 2.5;
     this.draw(this.rootNode);
   }
 
@@ -50,7 +50,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
-    this._width = window.innerWidth * 0.8;
+    this._width = window.innerWidth * 0.9;
     this._height = window.innerHeight * 0.6;
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;

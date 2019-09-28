@@ -17,13 +17,8 @@ import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
 import { ResetpasswordComponent } from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
-import { OkrmapComponent } from './okrmap/okrmap.component';
-import { NodeVisualComponent } from './okrmap/node-visual/node-visual.component';
-import { LinkVisualComponent } from './okrmap/link-visual/link-visual.component';
-import { GraphComponent } from './okrmap/graph/graph.component';
 import { D3_DIRECTIVES} from './d3';
 import { D3Service} from './d3/d3.service';
-import {SHARED_VISUALS} from './okrmap/index';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
@@ -41,11 +36,6 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
     NewUserComponent,
     ResetpasswordComponent,
     NewPasswordComponent,
-    OkrmapComponent,
-    NodeVisualComponent,
-    LinkVisualComponent,
-    GraphComponent,
-    ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     OkrTreeComponent,
     NodeComponent,

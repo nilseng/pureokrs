@@ -32,7 +32,7 @@ export class OkrService {
       }
     )
       .pipe(
-        tap(_ => console.log('fetched okrs')),
+        tap(),
         catchError(this.handleError<Okr[]>('getOkrs'))
       );
   }
@@ -45,7 +45,7 @@ export class OkrService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap((krs: { KeyResult }) => console.log(`retrieved key results for OKR with id=${okrId}`)),
+        tap(),
         catchError(this.handleError<{ KeyResult }>('getCompanyOKRs'))
       );
   }
@@ -58,22 +58,8 @@ export class OkrService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap((okrs: { Okr }) => console.log(`retrieved all OKRs for ${company}`)),
+        tap(),
         catchError(this.handleError<{ Okr }>('getCompanyOKRs'))
-      );
-  }
-
-  /**GET OKR by id. Return undefined when id not found */
-  getOkrNo404<Data>(id: string): Observable<Okr> {
-    const url = `${this.okrsUrl}/?id=${id}`;
-    return this.http.get<Okr[]>(url)
-      .pipe(
-        map(okrs => okrs[0]), //returns a {0|1} element array
-        tap(o => {
-          const outcome = o ? `fetched` : `did not find`;
-          console.log(`${outcome} okr id=${id}`);
-        }),
-        catchError(this.handleError<Okr>(`getOkr id=${id}`))
       );
   }
 
@@ -87,7 +73,7 @@ export class OkrService {
         }
       }
     ).pipe(
-      tap(_ => console.log(`fetched Okr w id=${id}`)),
+      tap(),
       catchError(this.handleError<Okr>(`getOkr id=${id}`))
     );
   }
@@ -105,7 +91,7 @@ export class OkrService {
         }
       }
     ).pipe(
-      tap(_ => console.log(`found OKRs matching "${term}"`)),
+      tap(),
       catchError(this.handleError<{}>('searchOkrs', []))
     );
   }
@@ -119,7 +105,7 @@ export class OkrService {
         }
       }
     ).pipe(
-      tap(_ => console.log(`found children for OKR w id=${id}`)),
+      tap(),
       catchError(this.handleError<{}>('getChildren', {}))
     );
   }

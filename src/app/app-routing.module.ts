@@ -11,7 +11,6 @@ import {NewOkrComponent} from './okr/new-okr/new-okr.component';
 import { UsersComponent } from './users/users.component';
 import {ResetpasswordComponent} from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
-import { OkrmapComponent } from './okrmap/okrmap.component';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 
 const routes: Routes = [
@@ -20,7 +19,6 @@ const routes: Routes = [
   {path: 'register', component: RegisterComponent},
   {path: 'company/okrs', component: CompanyComponent, canActivate: [AuthGuardService]},
   {path: 'okr-tree', component: OkrTreeComponent, canActivate: [AuthGuardService]},
-  {path: 'okr-map', component: OkrmapComponent, canActivate: [AuthGuardService]},
   {path: 'edit-okr/:id', component: EditOkrComponent, canActivate: [AuthGuardService]},
   {path: 'new-okr/:parent', component: NewOkrComponent, canActivate: [AuthGuardService]},
   {path: 'company/users', component: UsersComponent, canActivate: [AuthGuardService]},
