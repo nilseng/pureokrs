@@ -32,14 +32,14 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   edges: HierarchyPointLink<Node>[];
   nodes: HierarchyPointNode<Node>[];
 
-  private _width: number;
-  private _height: number;
-  private _nodeWidth: number;
-  private _nodeHeight: number;
-  private root: HierarchyPointNode<Node>;
-  private tree: TreeLayout<Node>;
-  private svg: any;
-  private diagonal: any;
+  _width: number;
+  _height: number;
+  _nodeWidth: number;
+  _nodeHeight: number;
+  root: HierarchyPointNode<Node>;
+  tree: TreeLayout<Node>;
+  svg: any;
+  diagonal: any;
 
   constructor(
     private okrService: OkrService,
