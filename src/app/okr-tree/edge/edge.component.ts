@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HierarchyPointLink } from 'd3';
+import {Node} from '../node/node';
 
 @Component({
   selector: '[edge]',
