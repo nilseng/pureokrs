@@ -25,7 +25,6 @@ import { D3_DIRECTIVES} from './d3';
 import { D3Service} from './d3/d3.service';
 import {SHARED_VISUALS} from './okrmap/index';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
-import { TreeVisualComponent } from './okr-tree/tree-visual/tree-visual.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
 
@@ -49,7 +48,6 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
     ...SHARED_VISUALS,
     ...D3_DIRECTIVES,
     OkrTreeComponent,
-    TreeVisualComponent,
     NodeComponent,
     EdgeComponent
   ],

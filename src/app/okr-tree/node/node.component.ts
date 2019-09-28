@@ -2,6 +2,8 @@ import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit,
 import { Node } from './node';
 import { OkrService } from '../../okr.service';
 import { KeyResult } from '../../okr/okr';
+import * as d3 from 'd3';
+import { HierarchyPointNode } from 'd3';
 
 @Component({
   selector: '[node]',
@@ -9,14 +11,15 @@ import { KeyResult } from '../../okr/okr';
   styleUrls: ['./node.component.css']
 })
 export class NodeComponent implements OnInit, AfterViewInit {
-  @Input() node: Node;
-  @Output() nodeShow = new EventEmitter<Node>();
-  @Output() nodeHide = new EventEmitter<Node>();
+  @Input() node: HierarchyPointNode<Node>;
+  @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
+  @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
 
   @ViewChild('nodeVisual') nodeVisual: ElementRef;
   @ViewChild('text') textEl: ElementRef;
   @ViewChild('rect') rectEl: ElementRef;
   @ViewChild('progress') progressEl: ElementRef;
+  @ViewChild('showChildrenLink') childrenLink: ElementRef;
 
   keyResults: {};
   progress: number;
@@ -25,25 +28,56 @@ export class NodeComponent implements OnInit, AfterViewInit {
   text: string;
   words: string[] = [];
 
+  X: number;
+  Y: number;
+  cx: number;
+  cy: number;
+  texty: number;
+
+  childrenVisible: boolean;
+
   private _options: { width, height } = { width: 800, height: 600 };
 
   constructor(private okrService: OkrService) { }
 
   ngOnInit() {
     this.maxLines = 3;
+    this.X = this.node.x + this.node.data.offsetX;
+    this.Y = this.node.y + this.node.data.offsetY;
+    this.cx = this.X + this.node.data.width/2;
+    this.cy = this.Y + this.node.data.height;
+    this.texty = this.Y + this.node.data.height/2;
+
+    this.childrenVisible = false;
+    
+    this.getProgress();
+    this.showChildrenLink()
   }
 
   ngAfterViewInit() {
     this.wrapTextinNode();
-    this.getProgress();
+  }
+
+  showChildrenLink(){
+    if(this.node.data.okr.children && this.node.data.okr.children.length>0){
+      d3.select(this.childrenLink.nativeElement).style('cursor', 'pointer');
+    }
+  }
+
+  showChildren(){
+    if(this.node.children && this.node.children.length > 0){
+      this.nodeHide.emit(this.node);
+    }else{
+      this.nodeShow.emit(this.node);
+    }
   }
 
   wrapTextinNode() {
     //Get the full text from the svg text element
-    this.text = this.node.okr.objective;
+    this.text = this.node.data.okr.objective;
 
     //Calculate number of chars per line
-    let lineChars = Math.floor(this.node.width / 6);//Math.floor(chars / this.lineNum) - 1;
+    let lineChars = Math.floor(this.node.data.width / 6);//Math.floor(chars / this.lineNum) - 1;
 
     //Clear the svg text element and initialize variables
     this.textEl.nativeElement.innerHTML = '';
@@ -53,8 +87,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
     //Create the initial tspan element in the text element
     lineEl = document.createElementNS("http://www.w3.org/2000/svg", 'tspan');
-    lineEl.setAttribute('x', this.node.x);
-    lineEl.setAttribute('y', this.node.centerY + 1 * this.textEl.nativeElement.getAttribute('font-size'));
+    lineEl.setAttribute('x', this.cx);
+    lineEl.setAttribute('y', this.texty - this.textEl.nativeElement.getAttribute('font-size'));
 
     //Create array of words in node text and remove empty words
     this.words = this.text.split(' ')
@@ -82,7 +116,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
         lineCount++;
         line = this.words[word];
         lineEl = document.createElementNS("http://www.w3.org/2000/svg", 'tspan');
-        lineEl.setAttribute('x', this.node.x);
+        lineEl.setAttribute('x', this.cx);
         lineEl.setAttribute('dy', this.textEl.nativeElement.getAttribute('font-size'));
       }
       else if ((line + ' ' + this.words[word]).length > lineChars && line.length > 0) {
@@ -92,7 +126,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
         lineCount++;
         line = this.words[word];
         lineEl = document.createElementNS("http://www.w3.org/2000/svg", 'tspan');
-        lineEl.setAttribute('x', this.node.x);
+        lineEl.setAttribute('x', this.cx);
         lineEl.setAttribute('dy', this.textEl.nativeElement.getAttribute('font-size'));
         if (+word == this.words.length - 1 && lineCount <= this.maxLines) {
           line = this.words[word];
@@ -116,7 +150,8 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   getProgress(): void {
-    this.okrService.getKeyResults(this.node.okr._id)
+    if(this.node.data.okr._id){
+      this.okrService.getKeyResults(this.node.data.okr._id)
       .subscribe(krs => {
         this.keyResults = krs;
         if (krs) {
@@ -134,16 +169,17 @@ export class NodeComponent implements OnInit, AfterViewInit {
           }
         }
       });
+    }
   }
 
   calculateProgressCircle() {
-    let x1 = this.node.x;
+    let x1 = this.cx;
     let r = 9;
-    let y1 = (this.node.y + this.node.height / 2 - r);
+    let y1 = this.cy;
     if (this.progress === 1) {
       let circle = document.createElementNS("http://www.w3.org/2000/svg", 'circle');
-      circle.setAttribute('cx', '' + this.node.cx);
-      circle.setAttribute('cy', '' + this.node.cy);
+      circle.setAttribute('cx', '' + x1);
+      circle.setAttribute('cy', '' + y1);
       circle.setAttribute('r', '9');
       circle.setAttribute('fill', 'none');
       circle.setAttribute('stroke', '#5cb85c');
@@ -151,22 +187,13 @@ export class NodeComponent implements OnInit, AfterViewInit {
       this.nodeVisual.nativeElement.append(circle);
     } else {
       let x2 = x1 + r * Math.sin(2 * Math.PI * this.progress);
-      let y2 = this.node.y - r * Math.cos(2 * Math.PI * this.progress) + this.node.height / 2;
+      let y2 = y1 - r * Math.cos(2 * Math.PI * this.progress);
       if(this.progress<=0.5){
-        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + y1 + ' A' + r + ',' + r + ' 1,0,1 ' + x2 + ',' + y2);
+        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1-r) + ' A' + r + ',' + r + ' 1,0,1 ' + x2 + ',' + y2);
       }else{
-        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + y1 + ' A' + r + ',' + r + ' 1,1,1 ' + x2 + ',' + y2);
+        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1-r) + ' A' + r + ',' + r + ' 1,1,1 ' + x2 + ',' + y2);
       }
       
     }
-  }
-
-  showChildren(): void {
-    if(this.node.showChildren){
-      this.nodeHide.emit(this.node);
-    }else{
-      this.nodeShow.emit(this.node);
-    }
-    this.node.showChildren = !this.node.showChildren;
   }
 }

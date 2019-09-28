@@ -1,2 +1,15 @@
 <h5 class="text-success pb-2 pl-2 pt-0">UNDER DEVELOPMENT</h5>
-<app-tree-visual></app-tree-visual>
+<svg #svg [attr.width]="_width" [attr.height]="_height" style="margin:auto;display: block;">
+    <rect [attr.height]="_height" [attr.width]="_width" rx="2" ry="2" fill="#f9f9f9"></rect>
+    <g id="container" [zoomableOf]="svg" #container>
+        <g [edge]="edge" *ngFor="let edge of edges">
+        </g>
+        <g *ngIf="root" [node]="root">
+        </g>
+        <g *ngFor="let node of nodes" 
+            [node]="node" 
+            (nodeShow)="pushChildren($event)" 
+            (nodeHide)="hideChildren($event)">
+        </g>
+    </g>
+</svg>

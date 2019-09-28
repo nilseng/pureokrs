@@ -1,39 +1,39 @@
 <svg:g #nodeVisual>
   <svg:rect #rect
-    [attr.x]="node.centerX" 
-    [attr.y]="node.centerY"
-    [attr.width]="node.width" 
-    [attr.height]="node.height"
+    [attr.x]="X" 
+    [attr.y]="Y"
+    [attr.width]="node.data.width" 
+    [attr.height]="node.data.height"
     [attr.rx]="2"
     [attr.ry]="2" 
     style="fill:rgb(249,249,249);stroke-width:1;stroke:#428bca">
   </svg:rect>
   <svg:text #text
-    [attr.x]="node.x" 
-    [attr.y]="node.y"
-    [attr.font-size]="12"
+    [attr.x]="cx" 
+    [attr.y]="texty"
+    [attr.font-size]="10"
     dominant-baseline="middle"
     text-anchor="middle"
     style="font-weight: bold;">
-    {{node.okr.objective}}
+    {{node.data.okr.objective}}
   </svg:text>
-  <svg:a
-    style="text-decoration: none;cursor:pointer;"
+  <svg:a #showChildrenLink
+    style="text-decoration: none;"
     (click)="showChildren()">
-    <svg:circle
-      [attr.cx]="node.cx"
-      [attr.cy]="node.cy"
+    <svg:circle *ngIf="node.parent!=null"
+      [attr.cx]="cx"
+      [attr.cy]="cy"
       [attr.r]="10"
       style="fill:#428bca">
     </svg:circle>
-    <svg:text
-      [attr.x]="node.cx"
-      [attr.y]="node.cy"
+    <svg:text *ngIf="node.data.okr.children && node.data.okr.children.length>0 && node.parent"
+      [attr.x]="cx"
+      [attr.y]="cy"
       [attr.font-size]="10"
       dominant-baseline="middle"
       text-anchor="middle"
       style="fill:rgb(249,249,249);font-weight: bold;">
-      {{node.children}}
+      {{node.data.okr.children.length}}
     </svg:text>
     <svg:path #progress
       style="fill:none;stroke-width:2;stroke:#5cb85c;"/>

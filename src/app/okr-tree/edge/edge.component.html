@@ -1,6 +1,6 @@
 <svg:line 
-  [attr.x1]="edge.x1" 
-  [attr.y1]="edge.y1" 
-  [attr.x2]="edge.x2"
-  [attr.y2]="edge.y2" 
+  [attr.x1]="edge.source.x + edge.source.data.offsetX + edge.source.data.width/2" 
+  [attr.y1]="edge.source.y + edge.source.data.offsetY + edge.source.data.height/2" 
+  [attr.x2]="edge.target.x + edge.target.data.offsetX + edge.target.data.width/2"
+  [attr.y2]="edge.target.y + edge.target.data.offsetY + edge.target.data.height/2" 
   style="stroke: rgb(200,200,200)"></svg:line>
