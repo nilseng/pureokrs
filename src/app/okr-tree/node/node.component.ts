@@ -36,7 +36,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   childrenVisible: boolean;
 
-  private _options: { width, height } = { width: 800, height: 600 };
+  _options: { width, height } = { width: 800, height: 600 };
 
   constructor(private okrService: OkrService) { }
 

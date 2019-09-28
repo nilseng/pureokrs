@@ -15,6 +15,7 @@ import { AuthenticationService, UserDetails } from '../authentication.service';
 export class OkrTreeComponent implements OnInit, AfterViewInit {
   @ViewChild('svg') svgEl: ElementRef;
   @ViewChild('container') containerEl: ElementRef;
+  @ViewChild('modal') modal: ElementRef;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -26,6 +27,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   }
 
   user: UserDetails;
+  newOkr: boolean;
 
   okrs: Okr[];
   rootNode: Node;
@@ -44,7 +46,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   constructor(
     private okrService: OkrService,
     private authService: AuthenticationService
-    ) {
+  ) {
   }
 
   ngOnInit() {
@@ -53,13 +55,14 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
     this.getUserDetails();
+    this.newOkr = false;
   }
 
   ngAfterViewInit() {
     this.getOkrs();
   }
 
-  getUserDetails(){
+  getUserDetails() {
     this.user = this.authService.getUserDetails();
   }
 
@@ -117,10 +120,10 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this.draw(this.rootNode);
   }
 
-  pushChildren(node: HierarchyPointNode<Node>){
+  pushChildren(node: HierarchyPointNode<Node>) {
     let children = this.okrs.filter(okr => okr.parent === node.data.okr._id);
     let childNode: Node;
-    for(let child of children){
+    for (let child of children) {
       childNode = new Node(
         child,
         this._nodeWidth,
@@ -133,9 +136,14 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this.draw(this.rootNode);
   }
 
-  hideChildren(node: HierarchyPointNode<Node>){
+  hideChildren(node: HierarchyPointNode<Node>) {
     node.data.children = [];
     this.draw(this.rootNode);
+  }
+
+  hideNewOkr(hide: boolean) {
+    this.getOkrs();
+    d3.select(this.modal.nativeElement).attr('aria-hidden', true);
   }
 
 }

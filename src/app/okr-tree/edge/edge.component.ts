@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Edge } from './edge';
+import { HierarchyPointLink } from 'd3';
 
 @Component({
   selector: '[edge]',
@@ -8,7 +8,7 @@ import { Edge } from './edge';
 })
 export class EdgeComponent implements OnInit {
 
-  @Input() edge: Edge;
+  @Input() edge: HierarchyPointLink<Node>;
 
   constructor() { }
 

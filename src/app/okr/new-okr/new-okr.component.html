@@ -1,4 +1,4 @@
-<div *ngIf="okr" class="okr form bg-white border-0 rounded p-2 m-1 mb-4">
+<div *ngIf="okr" class="form bg-white border-0 rounded p-2 m-1 mb-4">
     <input class="form-control input-lg p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
     <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
     <div class="form-row bg-light rounded p-0 mx-0 my-1" *ngFor="let kr of keyResults;index as i">

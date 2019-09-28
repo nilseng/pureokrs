@@ -112,7 +112,7 @@ export class NewOkrComponent implements OnInit {
   }
 
   hideNew(): void {
-    if(this.router.url === '/company/okrs' || this.router.url === '/okr-map'){
+    if(this.router.url === '/company/okrs' || this.router.url === '/okr-tree'){
       this.hide.emit(true);
     }else{
       this.router.navigateByUrl('/company/okrs');
