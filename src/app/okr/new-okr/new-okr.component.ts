@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ViewChild, ElementRef, OnChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Observable, Subject } from 'rxjs';
 import {
@@ -15,8 +15,11 @@ import { UserService } from '../../user.service';
   templateUrl: './new-okr.component.html',
   styleUrls: ['./new-okr.component.css']
 })
-export class NewOkrComponent implements OnInit {
+export class NewOkrComponent implements OnInit, OnChanges {
+  @Input() parentId: string;
   @Output() savedOkr = new EventEmitter<Okr>();
+
+  @ViewChild('openModal') openModal: ElementRef;
 
   //Variables for searching for OKR owner
   users$: Observable<{}>;
@@ -42,7 +45,7 @@ export class NewOkrComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router
   ) { }
-  
+
   // Push a owner search term into the observable stream.
   ownerSearch(term: string): void {
     this.ownerSearchTerms.next(term);
@@ -60,7 +63,7 @@ export class NewOkrComponent implements OnInit {
     this.keyResults.push(new KeyResult(''));
     this.okr = new Okr(this.objective);
     this.okr.userId = this.auth.getUserDetails()._id;
-    
+
     this.owner = this.auth.getUserDetails();
 
     this.getParent();
@@ -84,14 +87,20 @@ export class NewOkrComponent implements OnInit {
     );
   }
 
-  getParent(){
-    let parentId = this.route.snapshot.paramMap.get('parent');
-    if(parentId){
-      this.okrService.getOkr(parentId)
-        .subscribe((okr: Okr) => {
-          this.parent = okr;
-          this.okr.parent = okr._id;
-        });
+  ngOnChanges() {
+    if (!!this.parentId) {
+      this.getParent();
+    }
+  }
+
+  getParent() {
+    if(this.parentId){
+      this.okrService.getOkr(this.parentId)
+      .subscribe((okr: Okr) => {
+        this.parent = okr;
+        this.okr.parent = okr._id;
+        this.showModal();
+      });
     }
   }
 
@@ -113,12 +122,12 @@ export class NewOkrComponent implements OnInit {
     } else {
       this.okrService.createOkr(this.okr, this.keyResults)
         .subscribe((okr: Okr) => {
-          if(!okr){
+          if (!okr) {
             //Something went wrong went creating the OKR
-          }else if(okr.parent){
-            this.addToParentOnSave(okr.parent, okr._id, ()=>{});
+          } else if (okr.parent) {
+            this.addToParentOnSave(okr.parent, okr._id, () => { });
             this.savedOkr.emit(okr);
-          }else{
+          } else {
             this.savedOkr.emit(okr);
             this.clearForm();
           }
@@ -126,26 +135,26 @@ export class NewOkrComponent implements OnInit {
     }
   }
 
-  addToParentOnSave(parentId: string, childId: string, cb: () => void): void{
+  addToParentOnSave(parentId: string, childId: string, cb: () => void): void {
     this.okrService.addChild(parentId, childId)
-      .subscribe(()=>{
+      .subscribe(() => {
         cb();
       });
   }
 
-  assign(owner: UserDetails): void{
+  assign(owner: UserDetails): void {
     this.okr.userId = owner._id;
     this.owner = owner;
     this.ownerSearch('');
   }
 
-  link(parent: Okr): void{
+  link(parent: Okr): void {
     this.okr.parent = parent._id;
     this.parent = parent;
     this.parentSearch('');
   }
 
-  clearForm(){
+  clearForm() {
     this.objective = '';
     this.noObjective = false;
     this.krCount = 1;
@@ -153,9 +162,13 @@ export class NewOkrComponent implements OnInit {
     this.keyResults.push(new KeyResult(''));
     this.okr = new Okr(this.objective);
     this.okr.userId = this.auth.getUserDetails()._id;
-    
+
     this.owner = this.auth.getUserDetails();
 
     this.getParent();
+  }
+
+  showModal() {
+    this.openModal.nativeElement.click();
   }
 }

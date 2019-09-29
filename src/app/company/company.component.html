@@ -1,7 +1,12 @@
 <h2 class="text-light m-1">
   {{user.company}}'s objectives and key results.
 </h2>
-<app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
+<app-new-okr [parentId]="parentId" (savedOkr)="savedOkr($event)"></app-new-okr>
 <div *ngIf="okrs">
-  <app-okr *ngFor="let okr of okrs" class="m-1" [okr]="okr" (hideOkrId)="hideOkr($event)"></app-okr>
+  <app-okr 
+    *ngFor="let okr of okrs" 
+    class="m-1" 
+    [okr]="okr" 
+    (hideOkrId)="hideOkr($event)"
+    (parentId)="addChild($event)"></app-okr>
 </div>

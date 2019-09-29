@@ -16,6 +16,7 @@ export class OkrComponent implements OnInit {
 
   @Input() okr: Okr;
   @Output() hideOkrId = new EventEmitter<string>();
+  @Output() parentId = new EventEmitter<string>();
 
   keyResults: {};
   owner: UserDetails;
@@ -49,6 +50,11 @@ export class OkrComponent implements OnInit {
       });
   }
 
+  addChild(){
+    this.parentId.emit(this.okr._id);
+  }
+
+  //TODO: This method should not be necessary and should be removed
   verifyChildrenList(): void {
     for (let child in this.children) {
       if (!this.okr.children.includes(this.children[child]._id)) {
