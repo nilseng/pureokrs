@@ -22,29 +22,22 @@ module.exports.create = (req, res) => {
                     }
                     okr.keyResults = [];
                     for (i = 0; i < req.body.keyResults.length; i++) {
-                        console.log('kr:', req.body.keyResults[i]);
                         if (!req.body.keyResults[i].keyResult) {
-                            console.log('empty KR');
                         } else {
                             var KR = new KeyResult({ okrId: okr._id, keyResult: req.body.keyResults[i].keyResult });
-                            if(req.body.keyResults[i].progress) KR.progress = req.body.keyResults[i].progress; 
-                            KR.save((err) => {
-                                if (err) console.log('could not save Key Result');
-                                else console.log('Key Result saved');
-                            });
+                            if (req.body.keyResults[i].progress) KR.progress = req.body.keyResults[i].progress;
+                            KR.save((err) => { });
                             okr.keyResults.push(KR);
                         }
                     }
                     if (req.body.okr.parent) {
                         okr.parent = req.body.okr.parent;
-                        console.log('assigning parent w id=', req.body.okr.parent);
                     }
                     if (req.body.okr.children) okr.children = req.body.okr.children;
                     if (req.body.okr.userId) {
                         okr.userId = mongoose.Types.ObjectId(req.body.okr.userId);
                     }
                     okr.company = user.company;
-
                     okr.save((err) => {
                         if (err) {
                             res.status(400).json(err);
@@ -58,7 +51,6 @@ module.exports.create = (req, res) => {
 }
 
 module.exports.updateOkr = (req, res) => {
-    //TODO: Update key results, okr fields and save
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
     } else {
@@ -78,20 +70,15 @@ module.exports.updateOkr = (req, res) => {
                             }
                             okr.keyResults = [];
                             KeyResult.deleteMany({ okrId: okr._id }, (err, result) => {
-                                if (err) console.log('Coud not delete key results before update');
                                 for (i = 0; i < req.body.keyResults.length; i++) {
-                                    console.log('kr:', req.body.keyResults[i]);
                                     if (!req.body.keyResults[i]) {
-                                        console.log('empty KR');
                                     } else {
-                                        var KR = new KeyResult({ 
-                                            okrId: okr._id, 
+                                        var KR = new KeyResult({
+                                            okrId: okr._id,
                                             keyResult: req.body.keyResults[i].keyResult,
                                             progress: req.body.keyResults[i].progress
                                         });
                                         KR.save((err) => {
-                                            if (err) console.log('could not save Key Result');
-                                            else console.log('Key Result saved');
                                         });
                                         okr.keyResults.push(KR._id);
                                     }
@@ -136,7 +123,6 @@ module.exports.addChild = (req, res) => {
                         { new: true },
                         (err, okr) => {
                             if (err) {
-                                console.log(err);
                                 res.status(400).json(err);
                             } else {
                                 res.status(200).json('Added child to parent');
@@ -148,7 +134,6 @@ module.exports.addChild = (req, res) => {
 }
 
 module.exports.getById = (req, res) => {
-    if (!req.params.id) console.log('No OKR id sent to api');
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
@@ -170,9 +155,9 @@ module.exports.getById = (req, res) => {
 }
 
 module.exports.getOkrs = (req, res) => {
-    if(!req.payload._id){
-        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' }); 
-    }else{
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
+    } else {
         User.findById(req.payload._id)
             .exec((err, user) => {
                 if (err) {
@@ -182,7 +167,7 @@ module.exports.getOkrs = (req, res) => {
                         company: user.company
                     }, (err, okrs) => {
                         if (err) {
-                            res.status(400).json({'Could not get okrs':err});
+                            res.status(400).json({ 'Could not get okrs': err });
                         } else {
                             res.status(200).json(okrs);
                         }
@@ -206,7 +191,7 @@ module.exports.getCompanyOkrs = (req, res) => {
                         parent: null
                     }, (err, okrs) => {
                         if (err) {
-                            res.status(400).json({'Could not get okrs':err});
+                            res.status(400).json({ 'Could not get okrs': err });
                         } else {
                             res.status(200).json(okrs);
                         }
@@ -217,7 +202,6 @@ module.exports.getCompanyOkrs = (req, res) => {
 }
 
 module.exports.getOkrsByObjective = (req, res) => {
-    if (!req.params.term) console.log('No search term sent to api');
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
@@ -242,7 +226,6 @@ module.exports.getOkrsByObjective = (req, res) => {
 }
 
 module.exports.getKeyResults = (req, res) => {
-    if (!req.params.okrid) console.log('No OKR id retrieved by api');
     if (!req.payload._id) {
         res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
     } else {
@@ -281,7 +264,6 @@ module.exports.getChildren = (req, res) => {
                         if (err) {
                             res.status(400).json(err);
                         } else {
-                            console.log('Children found:', okrs.length)
                             res.status(200).json(okrs);
                         }
                     });
@@ -316,7 +298,6 @@ module.exports.deleteOkr = (req, res) => {
                                             if (err) {
                                                 res.status.json('Could not delete the reference of parent');
                                             } else {
-                                                console.log('Deleted OKR and all references.');
                                                 res.status(200).json(doc4);
                                             }
                                         }

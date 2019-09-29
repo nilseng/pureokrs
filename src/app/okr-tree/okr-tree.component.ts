@@ -27,7 +27,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   }
 
   user: UserDetails;
-  newOkr: boolean;
 
   okrs: Okr[];
   rootNode: Node;
@@ -55,7 +54,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
     this.getUserDetails();
-    this.newOkr = false;
   }
 
   ngAfterViewInit() {
@@ -68,6 +66,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   //Getting the list of OKRs and transforming it to a tree structure
   getOkrs() {
+    this.okrs = [];
     this.okrService.getOkrs()
       .subscribe(okrs => {
         this.okrs = okrs;
@@ -78,6 +77,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   private draw(root: Node) {
     this.edges = [];
     this.nodes = [];
+    this.root = undefined;
 
     let width = this._width;
     let height = this._height;
@@ -105,7 +105,8 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
       this._width / 2 - this._nodeWidth / 2,
       this._nodeHeight / 2
     );
-    let level0 = this.okrs.filter(okr => !okr.parent || okr.parent === null || okr.parent == '');
+    let level0 = [];
+    level0 = this.okrs.filter(okr => !okr.parent || okr.parent === null || okr.parent == '');
     let node: Node;
     for (let okr of level0) {
       node = new Node(
@@ -141,9 +142,8 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this.draw(this.rootNode);
   }
 
-  hideNewOkr(hide: boolean) {
+  savedOkr(okr: Okr) {
     this.getOkrs();
-    d3.select(this.modal.nativeElement).attr('aria-hidden', true);
   }
 
 }

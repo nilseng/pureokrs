@@ -40,7 +40,7 @@ export class UserService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap((users: {User}) => console.log(`fetched users for company ${company}`)),
+        tap(),
         catchError(this.handleError<{User}>(`getUsers company=${company}`))
       );
   }
@@ -58,7 +58,7 @@ export class UserService {
         }
       }
     ).pipe(
-      tap(_ => console.log(`Search complete for term "${term}"`)),
+      tap(),
       catchError(this.handleError<{}>('searchUsers', {}))
     );
   }
@@ -72,7 +72,7 @@ export class UserService {
         }
       }
     ).pipe(
-      tap(() => console.log(`deleted ${user.name}'s user`)),
+      tap(),
       catchError(this.handleError<{}>('deleteUser', {}))
     );
   }

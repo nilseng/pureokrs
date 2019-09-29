@@ -1,50 +1,72 @@
-<div *ngIf="okr" class="form bg-white border-0 rounded p-2 m-1 mb-4">
-    <input class="form-control input-lg p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
-    <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
-    <div class="form-row bg-light rounded p-0 mx-0 my-1" *ngFor="let kr of keyResults;index as i">
-      <div *ngIf="kr" class="form-group col-md-7 p-0 m-0">
-        <label class="badge m-0" for="keyResult">Key Result</label>
-        <input class="form-control input-sm p-1" [(ngModel)]="kr.keyResult" placeholder="Key Result" id="keyResult" />
+<div *ngIf="okr">
+  <button class="btn btn-primary my-4 ml-1" data-toggle="modal" data-target="#modal">
+    New OKR
+  </button>
+  <!-- Modal -->
+  <div class="modal form fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" #modal>
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="modalLabel">Create a new Objective with Key Results</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <input class="form-control input-lg p-1" [(ngModel)]="okr.objective" placeholder="Objective" />
+          <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
+          <div class="form-row bg-light rounded p-0 mx-0 my-1" *ngFor="let kr of keyResults;index as i">
+            <div *ngIf="kr" class="form-group col-md-7 p-0 m-0">
+              <label class="badge m-0" for="keyResult">Key Result</label>
+              <input class="form-control input-sm p-1" [(ngModel)]="kr.keyResult" placeholder="Key Result"
+                id="keyResult" />
+            </div>
+            <div *ngIf="kr" class="form-group col-auto p-0 m-0">
+              <label class="badge m-0" for="progress">Progress [%]</label>
+              <input type="number" class="form-control input-sm p-1 mx-1" [(ngModel)]="kr.progress" placeholder="0"
+                min=0 max=100 id="progress" />
+            </div>
+            <div *ngIf="kr" class="form-group col-auto p-0 pt-4 m-0 ml-2">
+              <label class="sr-only" for="remove">Remove</label>
+              <button class="btn btn-sm btn-secondary p-1" title="Delete Key Result" (click)="removeKeyResult(kr._id, i)"
+                id="remove">Remove</button>
+            </div>
+          </div>
+          <button class="btn btn-sm btn-secondary mt-1" (click)="addKeyResult()">Add</button>
+          <div class="form-group mt-2">
+            <label class="mt-1" for="ownerSearchBox">Assigned to <span *ngIf="owner"
+                class="badge badge-primary">{{owner.name}}</span></label>
+            <input class="form-control input-sm p-1" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
+              placeholder="Assign to user" />
+            <ul *ngIf="users$" class="list-group px-1 py-0">
+              <li *ngFor="let user of users$ | async" class="list-group-item py-0 my-0">
+                <a class="btn" [ngClass]="{'bg-light text-primary': !!owner && user._id==owner._id}"
+                  (click)="assign(user);ownerSearchBox.value=''">
+                  {{user.name}}
+                </a>
+              </li>
+            </ul>
+          </div>
+          <div class="form-group">
+            <label for="parentSearchBox">Linked to <span *ngIf="parent"
+                class="badge badge-primary">{{parent.objective}}</span></label>
+            <input class="form-control input-sm p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
+              placeholder="Link to parent objective" />
+            <ul *ngIf="users$" class="list-group px-1 py-0">
+              <li *ngFor="let parent of parents$ | async" class="list-group-item py-0 my-0">
+                <a class="btn" [ngClass]="{'bg-light text-primary': parent._id==okr.parent}"
+                  (click)="link(parent);parentSearchBox.value=''">
+                  {{parent.objective}}
+                </a>
+              </li>
+            </ul>
+          </div>
+        </div>
+          <div class="modal-footer">
+            <button class="btn btn-success mr-1" (click)="save()" data-dismiss="modal">Save</button>
+          </div>
       </div>
-      <div *ngIf="kr" class="form-group col-auto p-0 m-0">
-        <label class="badge m-0" for="progress">Progress [%]</label>
-        <input type="number" class="form-control input-sm p-1 mx-1" [(ngModel)]="kr.progress"
-          placeholder="0" min=0 max=100 id="progress" />
-      </div>
-      <div *ngIf="kr" class="form-group col-auto p-0 pt-4 m-0 ml-2">
-        <label class="sr-only" for="remove">Remove</label>
-        <button class="btn btn-sm btn-danger p-1" title="Delete Key Result" (click)="removeKeyResult(kr._id, i)" id="remove">Remove</button>
-      </div>
-    </div>
-    <button class="btn btn-sm btn-success mt-1" (click)="addKeyResult()">New Key Result</button>
-    <div class="form-group mt-2">
-      <label class="mt-1" for="ownerSearchBox">Assigned to <span *ngIf="owner" class="badge badge-primary">{{owner.name}}</span></label>
-      <input class="form-control input-sm p-1" #ownerSearchBox (keyup)="ownerSearch(ownerSearchBox.value)"
-        placeholder="Assign to user" />
-      <ul *ngIf="users$" class="list-group px-1 py-0">
-        <li *ngFor="let user of users$ | async" class="list-group-item py-0 my-0">
-          <a class="btn" [ngClass]="{'bg-light text-primary': !!owner && user._id==owner._id}"
-            (click)="assign(user);ownerSearchBox.value=''">
-            {{user.name}}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="form-group">
-      <label for="parentSearchBox">Linked to <span *ngIf="parent" class="badge badge-primary">{{parent.objective}}</span></label>
-      <input class="form-control input-sm p-1" #parentSearchBox (keyup)="parentSearch(parentSearchBox.value)"
-        placeholder="Link to parent objective" />
-      <ul *ngIf="users$" class="list-group px-1 py-0">
-        <li *ngFor="let parent of parents$ | async" class="list-group-item py-0 my-0">
-          <a class="btn" [ngClass]="{'bg-light text-primary': parent._id==okr.parent}"
-            (click)="link(parent);parentSearchBox.value=''">
-            {{parent.objective}}
-          </a>
-        </li>
-      </ul>
-    </div>
-    <div class="form-inline">
-      <button class="btn btn-success mr-1" (click)="save()">Save</button>
-      <button class="btn btn-danger" (click)="hideNew()">Discard</button>
     </div>
   </div>
+</div>

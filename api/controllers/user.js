@@ -40,7 +40,6 @@ module.exports.getUsers = (req, res) => {
                 })
                 .exec((err, users)=>{
                     if(err){
-                        console.log('Could not find user with name', decodeURIComponent(req.params.name));
                     } else{
                         res.status(200).json(users);
                     }
@@ -66,7 +65,6 @@ module.exports.getCompanyUsers = (req, res) => {
                 })
                 .exec((err, users)=>{
                     if(err){
-                        console.log('Could not find users for ', decodeURIComponent(req.payload.company));
                     } else{
                         res.status(200).json(users);
                     }

@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {Location} from '@angular/common';
 
 import {AuthenticationService, UserDetails} from '../authentication.service';
 import {OkrService} from '../okr.service';
-import {Okr, KeyResult} from '../okr/okr';
+import {Okr} from '../okr/okr';
 
 @Component({
   selector: 'app-company',
@@ -30,18 +29,17 @@ export class CompanyComponent implements OnInit {
     this.user = this.auth.getUserDetails();
   }
 
-  setNewOKR(){
-    this.newOKR = true;
-  }
-
-  hideNewOkr(hide: boolean){
-    this.newOKR = false;
-    this.getCompanyOkrs();
-  }
-
   hideOkr(okrId: string){
-    console.log(`OKR with id=${okrId} deleted`);
     this.getCompanyOkrs();
+  }
+
+  savedOkr(okr: Okr){
+    console.log('okr saved');
+    if(okr.parent && okr.parent.trim()){
+      
+    }else{
+      this.getCompanyOkrs();
+    }
   }
 
   getCompanyOkrs(): void{

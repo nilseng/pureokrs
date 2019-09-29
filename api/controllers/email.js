@@ -11,13 +11,7 @@ module.exports.sendEmail = (email, companyName) => {
   msg.subject = companyName + ' is registered. Welcome!';
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) =>{
-    if(err){
-      console.log(err);
-    }else{
-      console.log('email sent');
-    }
-  });
+  sgMail.send(msg, (err, doc) =>{});
   return;
 }
 
@@ -25,13 +19,7 @@ module.exports.sendNewUserEmail = (email, companyName) => {
   msg.subject = 'You now have a user at pureOKRs. Welcome!';
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) =>{
-    if(err){
-      console.log(err);
-    }else{
-      console.log('email sent');
-    }
-  });
+  sgMail.send(msg, (err, doc) =>{});
   return;
 }
 
@@ -44,12 +32,6 @@ module.exports.sendResetEmail = (email, token) => {
   msg.subject = 'You can now reset your password at pureOKRs.';
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) =>{
-    if(err){
-      console.log(err);
-    }else{
-      console.log('email sent');
-    }
-  });
+  sgMail.send(msg, (err, doc) =>{});
   return;
 }

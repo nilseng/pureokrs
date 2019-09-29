@@ -1,6 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
-import { Location } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, switchMap
@@ -17,9 +16,7 @@ import { UserService } from '../../user.service';
   styleUrls: ['./new-okr.component.css']
 })
 export class NewOkrComponent implements OnInit {
-
-  //Tell parent component to hide this component when OKR is saved
-  @Output() hide = new EventEmitter<boolean>();
+  @Output() savedOkr = new EventEmitter<Okr>();
 
   //Variables for searching for OKR owner
   users$: Observable<{}>;
@@ -42,20 +39,18 @@ export class NewOkrComponent implements OnInit {
     private okrService: OkrService,
     private auth: AuthenticationService,
     private userService: UserService,
-    private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
   
   // Push a owner search term into the observable stream.
   ownerSearch(term: string): void {
     this.ownerSearchTerms.next(term);
-    console.log('Searching for owner', term);
   }
 
   // Push a parent OKR search term into the observable stream.
   parentSearch(term: string): void {
     this.parentSearchTerms.next(term);
-    console.log('Searching for parent', term);
   }
 
   ngOnInit() {
@@ -111,14 +106,6 @@ export class NewOkrComponent implements OnInit {
     this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
   }
 
-  hideNew(): void {
-    if(this.router.url === '/company/okrs' || this.router.url === '/okr-tree'){
-      this.hide.emit(true);
-    }else{
-      this.router.navigateByUrl('/company/okrs');
-    }    
-  }
-
   save(): void {
     if (!this.okr.objective.trim()) {
       this.noObjective = true;
@@ -127,14 +114,13 @@ export class NewOkrComponent implements OnInit {
       this.okrService.createOkr(this.okr, this.keyResults)
         .subscribe((okr: Okr) => {
           if(!okr){
-            console.log('Something went wrong - could not create OKR.');
+            //Something went wrong went creating the OKR
           }else if(okr.parent){
-            this.addToParentOnSave(okr.parent, okr._id, ()=>{
-              this.hideNew();
-            });
-            console.log(`adding child with id ${okr._id} to parent w id ${this.okr.parent}`);
+            this.addToParentOnSave(okr.parent, okr._id, ()=>{});
+            this.savedOkr.emit(okr);
           }else{
-            this.hideNew();
+            this.savedOkr.emit(okr);
+            this.clearForm();
           }
         });
     }
@@ -143,7 +129,6 @@ export class NewOkrComponent implements OnInit {
   addToParentOnSave(parentId: string, childId: string, cb: () => void): void{
     this.okrService.addChild(parentId, childId)
       .subscribe(()=>{
-        console.log('Added child to parent');
         cb();
       });
   }
@@ -151,14 +136,26 @@ export class NewOkrComponent implements OnInit {
   assign(owner: UserDetails): void{
     this.okr.userId = owner._id;
     this.owner = owner;
-    console.log(`Assigning ${owner.name} as owner`);
     this.ownerSearch('');
   }
 
   link(parent: Okr): void{
     this.okr.parent = parent._id;
     this.parent = parent;
-    console.log(`Linking to parent with objective ${parent.objective}`);
     this.parentSearch('');
-  }  
+  }
+
+  clearForm(){
+    this.objective = '';
+    this.noObjective = false;
+    this.krCount = 1;
+    this.keyResults = []
+    this.keyResults.push(new KeyResult(''));
+    this.okr = new Okr(this.objective);
+    this.okr.userId = this.auth.getUserDetails()._id;
+    
+    this.owner = this.auth.getUserDetails();
+
+    this.getParent();
+  }
 }

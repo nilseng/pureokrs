@@ -1,23 +1,4 @@
-<button *ngIf="!newOkr" class="btn btn-primary my-4 ml-1" data-toggle="modal" data-target="#modal">
-    New OKR
-</button>
-<!-- Modal -->
-<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal"
-    aria-hidden="true" #modal>
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalLabel">Create a new Objective with Key Results</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body m-0 p-0">
-                <app-new-okr (hide)="hideNewOkr($event)"></app-new-okr>
-            </div>
-        </div>
-    </div>
-</div>
+<app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
 <svg #svg [attr.width]="_width" [attr.height]="_height" style="margin:auto;display: block;">
     <rect [attr.height]="_height" [attr.width]="_width" rx="2" ry="2" fill="#f9f9f9"></rect>
     <g id="container" [zoomableOf]="svg" #container>

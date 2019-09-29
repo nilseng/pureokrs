@@ -122,7 +122,7 @@ export class AuthenticationService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap(() => console.log('added user to server')),
+        tap(),
         catchError(this.handleError('addUser'))
       );
   }
@@ -135,7 +135,7 @@ export class AuthenticationService {
         }
       })
       .pipe(
-        tap(()=>console.log('an email was sent to reset the password.'))
+        tap()
       );
   }
 

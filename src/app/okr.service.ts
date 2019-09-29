@@ -112,7 +112,6 @@ export class OkrService {
 
   /**POST: add a new OKR to the server */
   createOkr(okr: Okr, keyResults: KeyResult[]): Observable<Okr> {
-    console.log(okr, keyResults);
     return this.http.post(this.okrsUrl, { 'okr': okr, 'keyResults': keyResults },
       {
         headers: {
@@ -120,7 +119,7 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap((okr: Okr) => console.log(`added OKR with id=${okr._id}`)),
+        tap((okr: Okr) => {}),
         catchError(this.handleError<Okr>('createOkr'))
       );
   }
@@ -137,7 +136,7 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap((doc) => console.log(`deleted OKR w/ id=${id}`)),
+        tap(),
         catchError(this.handleError<{}>('deleteOkr'))
       );
   }
@@ -152,7 +151,7 @@ export class OkrService {
         'Content-Type': 'application/json'
       }
     }).pipe(
-      tap(_ => console.log(`updated OKR w/ id=${okr._id}`)),
+      tap(),
       catchError(this.handleError<any>('updateOkr'))
     );
   }
@@ -167,7 +166,7 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap(() => console.log(`added child with id=${childId} to parent with id=${parentId}`)),
+        tap(),
         catchError(this.handleError('addChild'))
       );
   }
