@@ -58,4 +58,8 @@ export class CompanyComponent implements OnInit {
   addChild(parentId: string) {
     this.parentId = parentId;
   }
+
+  clearParent(){
+    this.parentId = undefined;
+  }
 }

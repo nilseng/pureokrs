@@ -18,6 +18,7 @@ import { UserService } from '../../user.service';
 export class NewOkrComponent implements OnInit, OnChanges {
   @Input() parentId: string;
   @Output() savedOkr = new EventEmitter<Okr>();
+  @Output() clearP = new EventEmitter();
 
   @ViewChild('openModal') openModal: ElementRef;
 
@@ -99,9 +100,13 @@ export class NewOkrComponent implements OnInit, OnChanges {
       .subscribe((okr: Okr) => {
         this.parent = okr;
         this.okr.parent = okr._id;
-        this.showModal();
       });
     }
+  }
+
+  clearParent(){
+    this.parent = undefined;
+    this.clearP.emit();
   }
 
   addKeyResult(): void {
@@ -166,9 +171,5 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.owner = this.auth.getUserDetails();
 
     this.getParent();
-  }
-
-  showModal() {
-    this.openModal.nativeElement.click();
   }
 }
