@@ -1,12 +1,15 @@
-<app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
-<svg #svg [attr.width]="_width" [attr.height]="_height" style="margin:auto;display: block;">
-    <rect [attr.height]="_height" [attr.width]="_width" rx="2" ry="2" fill="#f9f9f9"></rect>
-    <g id="container" [zoomableOf]="svg" #container>
-        <g [edge]="edge" *ngFor="let edge of edges">
+<div class="mb-4">
+    <app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
+    <svg #svg [attr.height]="_height" [attr.width]="_width" style="margin:auto;display: block;">
+        <rect [attr.height]="_height" [attr.width]="_width" rx="2" ry="2" fill="#f9f9f9"></rect>
+        <g id="container" [zoomableOf]="svg" #container>
+            <g [edge]="edge" *ngFor="let edge of edges">
+            </g>
+            <g *ngIf="root" [node]="root">
+            </g>
+            <g *ngFor="let node of nodes" [node]="node" (nodeShow)="pushChildren($event)"
+                (nodeHide)="hideChildren($event)">
+            </g>
         </g>
-        <g *ngIf="root" [node]="root">
-        </g>
-        <g *ngFor="let node of nodes" [node]="node" (nodeShow)="pushChildren($event)" (nodeHide)="hideChildren($event)">
-        </g>
-    </g>
-</svg>
+    </svg>
+</div>
