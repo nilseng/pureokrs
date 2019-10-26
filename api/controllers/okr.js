@@ -22,7 +22,8 @@ module.exports.create = (req, res) => {
                     }
                     okr.keyResults = [];
                     for (i = 0; i < req.body.keyResults.length; i++) {
-                        if (!req.body.keyResults[i].keyResult) {
+                        if (!req.body.keyResults[i] || !req.body.keyResults[i].keyResult) {
+
                         } else {
                             var KR = new KeyResult({ okrId: okr._id, keyResult: req.body.keyResults[i].keyResult });
                             if (req.body.keyResults[i].progress) KR.progress = req.body.keyResults[i].progress;
