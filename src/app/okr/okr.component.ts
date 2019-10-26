@@ -50,8 +50,8 @@ export class OkrComponent implements OnInit {
       });
   }
 
-  addChild(){
-    this.parentId.emit(this.okr._id);
+  addChild(parentId: string){
+    this.parentId.emit(parentId);
   }
 
   //TODO: This method should not be necessary and should be removed

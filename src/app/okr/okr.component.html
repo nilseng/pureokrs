@@ -14,7 +14,7 @@
         </svg>
       </button>
       <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" (click)="addChild()" data-toggle="modal" data-target="#modal">Add child OKR</a>
+        <a class="dropdown-item" (click)="addChild(okr._id)" data-toggle="modal" data-target="#modal">Add child OKR</a>
         <a class="dropdown-item" routerLink="/edit-okr/{{okr._id}}">Edit</a>
         <a class="dropdown-item" (click)="deleteOKR()">Delete</a>
       </div>
@@ -48,5 +48,10 @@
   </div>
 </div>
 <div *ngIf="showChildren" class="ml-4 mt-1">
-  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event)>child</app-okr>
+  <app-okr 
+    *ngFor="let child of children" 
+    [okr]="child" 
+    (hideOkrId)=hideChild($event) 
+    (parentId)="addChild($event)">
+  </app-okr>
 </div>
