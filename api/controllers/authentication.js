@@ -5,26 +5,33 @@ var crypto = require('crypto');
 var email = require('./email.js');
 
 module.exports.register = (req, res) => {
-    if (!req.body.name || !req.body.email || !req.body.password) {
+    if (!req.body.name || !req.body.email || !req.body.password || !req.body.company) {
         res.status(400).json({ "message": "all fields required" });
     } else {
-        var user = new User();
-        user.company = req.body.company;
-        user.name = req.body.name;
-        user.email = req.body.email;
-        user.password = req.body.password;
-
-        user.save((err) => {
-            if (err) {
-                res.status(400).json(err);
+        let registered = null;
+        checkIfCompanyExists(req.body.company, (registered) => {
+            if (registered) {
+                res.status(400).json({ "message": "the company is already registered" });
             } else {
-                //Send email to new user
-                email.sendEmail(user.email, user.company);
+                var user = new User();
+                user.company = req.body.company;
+                user.name = req.body.name;
+                user.email = req.body.email;
+                user.password = req.body.password;
 
-                //Generate and return token
-                var token;
-                token = user.generateJwt(user);
-                res.status(200).json({ 'token': token });
+                user.save((err) => {
+                    if (err) {
+                        res.status(400).json(err);
+                    } else {
+                        //Send email to new user
+                        email.sendEmail(user.email, user.company);
+
+                        //Generate and return token
+                        var token;
+                        token = user.generateJwt(user);
+                        res.status(200).json({ 'token': token });
+                    }
+                });
             }
         });
     }
@@ -127,4 +134,22 @@ module.exports.setNewPassword = (req, res) => {
             }
         });
     }
+}
+
+checkIfCompanyExists = (company, cb) => {
+    let registered = null;
+    User.find({
+        company: company
+    }).exec((err, users) => {
+        if (err) {
+            registered = true;
+        } else {
+            if (users.length > 0) {
+                registered = true;
+            } else {
+                registered = false;
+            }
+        }
+        cb(registered);
+    });
 }
