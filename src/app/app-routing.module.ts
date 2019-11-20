@@ -13,7 +13,7 @@ import { NewPasswordComponent } from './login/new-password/new-password.componen
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 
 const routes: Routes = [
-  {path: '', redirectTo: '/company/okrs', pathMatch: 'full'},
+  {path: '', redirectTo: '/company/okrs', pathMatch: 'full', canActivate: [AuthGuardService]},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'company/okrs', component: CompanyComponent, canActivate: [AuthGuardService]},

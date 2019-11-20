@@ -38,28 +38,28 @@ export class OkrService {
   }
 
   /**GET Key Results for a given OKR */
-  getKeyResults(okrId: string): Observable<{ KeyResult }> {
-    return this.http.get<{ KeyResult }>(`${this.okrsUrl}/keyresults/${okrId}`,
+  getKeyResults(okrId: string): Observable<KeyResult[]> {
+    return this.http.get<KeyResult[]>(`${this.okrsUrl}/keyresults/${okrId}`,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
         tap(),
-        catchError(this.handleError<{ KeyResult }>('getCompanyOKRs'))
+        catchError(this.handleError<KeyResult[]>('getCompanyOKRs'))
       );
   }
 
   /**GET all OKRs at level 0 */
-  getCompanyOkrs(company: string): Observable<{ Okr }> {
-    return this.http.get<{ Okr }>(`${this.okrsUrl}/company/level0`,
+  getCompanyOkrs(company: string): Observable<Okr[]> {
+    return this.http.get<Okr[]>(`${this.okrsUrl}/company/level0`,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
         tap(),
-        catchError(this.handleError<{ Okr }>('getCompanyOKRs'))
+        catchError(this.handleError<Okr[]>('getCompanyOKRs'))
       );
   }
 
@@ -79,12 +79,12 @@ export class OkrService {
   }
 
   /**GET okrs whose objective contains search term */
-  searchOkrs(term: string): Observable<{}> {
+  searchOkrs(term: string): Observable<Okr[]> {
     if (!term.trim()) {
       //if not search term, return empty OKR array
       return of([]);
     }
-    return this.http.get<{}>(`${this.okrsUrl}/objective/${term}`,
+    return this.http.get<Okr[]>(`${this.okrsUrl}/objective/${term}`,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
@@ -92,7 +92,7 @@ export class OkrService {
       }
     ).pipe(
       tap(),
-      catchError(this.handleError<{}>('searchOkrs', []))
+      catchError(this.handleError<Okr[]>('searchOkrs', []))
     );
   }
 

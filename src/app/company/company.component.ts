@@ -11,7 +11,7 @@ import { Okr } from '../okr/okr';
 })
 export class CompanyComponent implements OnInit {
 
-  okrs: { Okr };
+  okrs: Okr[];
   newOKR: boolean;
   user: UserDetails;
 
@@ -37,7 +37,6 @@ export class CompanyComponent implements OnInit {
   }
 
   savedOkr(okr: Okr) {
-    console.log('okr saved');
     if (okr.parent && okr.parent.trim()) {
 
     } else {
@@ -59,7 +58,7 @@ export class CompanyComponent implements OnInit {
     this.parentId = parentId;
   }
 
-  clearParent(){
+  clearParent() {
     this.parentId = undefined;
   }
 }
