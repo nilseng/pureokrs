@@ -1,7 +1,7 @@
 <div class="row">
   <div class="col-sm pt-4">
-    <div class="text-light rounded p-4 h-100">
-      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" style="width: 18rem;" novalidate>
+    <div class="text-light rounded p-4">
+      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" novalidate>
         <div class="form-group">
           <label for="email">Email</label>
           <em *ngIf="email.touched && email.invalid">
@@ -27,7 +27,7 @@
     </div>
   </div>
   <div class="col-sm pt-4">
-    <div class="text-light rounded p-4 h-100">
+    <div class="text-light rounded p-4">
       <h5 class="font-italic">This is the simplest OKR tool on the web.</h5>
       <h5>Why Objectives and Key Results?</h5>
       <ul>
