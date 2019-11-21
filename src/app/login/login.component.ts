@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthenticationService, TokenPayload } from '../authentication.service';
 import { Router } from '@angular/router';
+import {FormControl, FormGroup, Validators} from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -8,6 +9,11 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent {
+
+  loginForm: FormGroup;
+  email: FormControl;
+  password: FormControl;
+
   loginMessage: string;
 
   credentials: TokenPayload;
@@ -15,18 +21,28 @@ export class LoginComponent {
   constructor(private auth: AuthenticationService, private router: Router) { }
 
   ngOnInit() {
+    this.email = new FormControl('', Validators.required);
+    this.password = new FormControl('', Validators.required);
+
+    this.loginForm = new FormGroup({
+      email: this.email,
+      password: this.password
+    })
+
     this.loginMessage = '';
     this.credentials = {
       company: '',
-      email: '',
-      password: ''
+      email: this.email.value,
+      password: this.password.value
     }
   }
 
-  login() {
-    if (!this.credentials.email || !this.credentials.password) {
+  login(formValues) {
+    if (!formValues.email || !formValues.password) {
       this.loginMessage = 'Email and password is required to log in'
     } else {
+      this.credentials.email = formValues.email;
+      this.credentials.password = formValues.password;
       this.auth.login(this.credentials).subscribe(() => {
         this.router.navigateByUrl(`/company/okrs`);
       }, (err) => {
