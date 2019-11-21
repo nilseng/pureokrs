@@ -22,6 +22,7 @@ import { D3Service} from './d3/d3.service';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
+import { FaqComponent } from './faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
     ...D3_DIRECTIVES,
     OkrTreeComponent,
     NodeComponent,
-    EdgeComponent
+    EdgeComponent,
+    FaqComponent
   ],
   imports: [
     BrowserModule,

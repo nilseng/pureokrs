@@ -1,5 +1,5 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-  <a class="navbar-brand" href="/">Pure Objectives and Key Results</a>
+  <a class="navbar-brand" [routerLink]="['']">Pure Objectives and Key Results</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
     aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -7,8 +7,11 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       <li *ngIf="!auth.isLoggedIn()" class="nav-item">
-        <a routerLink="/login" class="nav-link">Log In</a>
+        <a routerLink="/login" class="nav-link">Log in</a>
       </li>
+      <li *ngIf="!auth.isLoggedIn()" class="nav-item">
+          <a routerLink="/register" class="nav-link">Register</a>
+        </li>
       <li *ngIf="auth.isLoggedIn()" class="nav-item">
         <a routerLink="/okr-tree" class="nav-link">Tree view</a>
       </li>
@@ -51,7 +54,7 @@
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3">
         <h5 class="text-uppercase">Resources</h5>
-        <p><a class="text-light" href="/faq">Frequently Asked Questions</a></p>
+        <p><a class="text-light" [routerLink]="['faq']">Frequently Asked Questions</a></p>
       </div>
       <hr class="clearfix w-100 d-md-none pb-3">
       <div class="col-md-3 mb-md-0 mb-3">

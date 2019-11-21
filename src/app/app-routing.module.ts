@@ -11,6 +11,7 @@ import { UsersComponent } from './users/users.component';
 import {ResetpasswordComponent} from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
+import { FaqComponent } from './faq/faq.component';
 
 const routes: Routes = [
   {path: '', redirectTo: '/company/okrs', pathMatch: 'full', canActivate: [AuthGuardService]},
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path: 'edit-okr/:id', component: EditOkrComponent, canActivate: [AuthGuardService]},
   {path: 'company/users', component: UsersComponent, canActivate: [AuthGuardService]},
   {path: 'resetpassword', component: ResetpasswordComponent},
-  {path: 'resetpassword/:email/:token', component: NewPasswordComponent}
+  {path: 'resetpassword/:email/:token', component: NewPasswordComponent},
+  {path: 'faq', component: FaqComponent}
 ];
 
 @NgModule({
