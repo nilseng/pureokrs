@@ -46,7 +46,7 @@ export class CompanyComponent implements OnInit {
 
   getCompanyOkrs(): void {
     let user = this.auth.getUserDetails();
-    if (user.company) {
+    if (user && user.company) {
       this.okrService.getCompanyOkrs(decodeURIComponent(user.company))
         .subscribe(okrs => {
           this.okrs = okrs;

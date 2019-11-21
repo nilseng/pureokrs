@@ -1,6 +1,9 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {FormsModule} from '@angular/forms';
 
 import { EditOkrComponent } from './edit-okr.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('EditOkrComponent', () => {
   let component: EditOkrComponent;
@@ -8,6 +11,11 @@ describe('EditOkrComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
+      imports: [
+        FormsModule,
+        HttpClientTestingModule,
+        RouterTestingModule
+      ],
       declarations: [ EditOkrComponent ]
     })
     .compileComponents();

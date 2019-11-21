@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppComponent } from './app.component';
@@ -43,8 +43,9 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
     HttpClientModule
   ],
   providers: [AuthenticationService, AuthGuardService, D3Service],

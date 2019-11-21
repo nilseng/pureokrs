@@ -1,29 +1,29 @@
 <div class="row">
   <div class="col-sm mb-4">
     <div class="bg-light rounded p-4 h-100">
-      <form (submit)="login()" style="width: 18rem;">
+      <form #loginForm="ngForm" (ngSubmit)="login()" style="width: 18rem;" novalidate>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="form-control" required placeholder="Enter email"
-            [(ngModel)]="credentials.email" #email="ngModel">
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="email.errors.required">
+          <input id="email" name="email" type="email" class="form-control" placeholder="Enter email"
+            (ngModel)="credentials.email" required>
+          <div *ngIf="loginForm.controls.email?.invalid &&
+            (loginForm.controls.email?.dirty && loginForm.controls.email?.touched)" 
+            class=" alert alert-warning mx-1 my-0">
               Email is missing or invalid
-            </div>
           </div>
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <input id="password" type="password" class="form-control" name="password" placeholder="Password"
-            [(ngModel)]="credentials.password" required #password="ngModel">
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="password.errors.required">
+            (ngModel)="credentials.password" required>
+          <div *ngIf="loginForm.controls.password?.invalid && 
+          (loginForm.controls.password?.dirty && loginForm.controls.password?.touched)" 
+          class=" alert alert-warning mx-1 my-0">
               Password is missing or invalid
-            </div>
           </div>
         </div>
         <div *ngIf="loginMessage" class=" alert alert-warning mx-1 my-0">{{loginMessage}}</div>
-        <button type="submit" class="btn btn-primary m-2">Log in</button>
+        <button type="submit" [disabled]="loginForm.disabled" class="btn btn-primary m-2">Log in</button>
         <button type="button" routerLink="/register" class="btn btn-success m-2">Register</button>
       </form>
       <button class="btn btn-sm btn-link" routerLink="/resetpassword">Forgot your password?</button>
