@@ -23,6 +23,7 @@ import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
 import { FaqComponent } from './faq/faq.component';
+import { OcticonDirective } from './shared/octicon-directive.directive';
 
 @NgModule({
   declarations: [
@@ -41,7 +42,8 @@ import { FaqComponent } from './faq/faq.component';
     OkrTreeComponent,
     NodeComponent,
     EdgeComponent,
-    FaqComponent
+    FaqComponent,
+    OcticonDirective
   ],
   imports: [
     BrowserModule,

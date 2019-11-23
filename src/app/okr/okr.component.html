@@ -1,31 +1,27 @@
 <div class="okr card bg-light border-0 p-2 m-1">
-  <h6 class="card-subtitle mt-1 mb-2">
-    <span *ngIf="!averageProgress && averageProgress!=0" class="badge badge-secondary">0%</span>
-    <span *ngIf="averageProgress<30" class="badge badge-secondary">{{averageProgress}}%</span>
-    <span *ngIf="averageProgress<70 && averageProgress>=30" class="badge badge-primary">{{averageProgress}}%</span>
-    <span *ngIf="averageProgress>=70" class="badge badge-success">{{averageProgress}}%</span>
-    <span class="dropdown float-right">
-      <button class="btn bg-light p-0 m-0" type="button" id="dropdownMenuButton" data-toggle="dropdown"
-        aria-haspopup="true" aria-expanded="false">
-        <svg width="27" height="4">
-          <circle cx="4" cy="2" r="2" fill="black" />
-          <circle cx="13" cy="2" r="2" fill="black" />
-          <circle cx="22" cy="2" r="2" fill="black" />
-        </svg>
-      </button>
-      <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton">
+  <span>
+    <span class="dropdown">
+      <a class="btn btn-sm bg-light p-0 m-0" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+        aria-expanded="false">
+        <span octicon="kebab-horizontal" width="15px"></span>
+      </a>
+      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
         <a class="dropdown-item" (click)="addChild(okr._id)" data-toggle="modal" data-target="#modal">Add child OKR</a>
         <a class="dropdown-item" [routerLink]="['/edit-okr', okr._id]">Edit</a>
         <a class="dropdown-item" (click)="deleteOKR()">Delete</a>
       </div>
     </span>
-  </h6>
+    <p *ngIf="owner" class="badge badge-primary float-right m-1">{{owner.name}}</p>
+    <p *ngIf="!averageProgress && averageProgress!=0" class="badge badge-secondary float-right m-1">0%</p>
+    <p *ngIf="averageProgress<30" class="badge badge-secondary float-right m-1">{{averageProgress}}%</p>
+    <p *ngIf="averageProgress<70 && averageProgress>=30" class="badge badge-primary float-right m-1">
+      {{averageProgress}}%
+    </p>
+    <p *ngIf="averageProgress>=70" class="badge badge-success float-right">{{averageProgress}}%</p>
+  </span>
   <h5 class="card-title">
     <span>{{okr.objective}}</span>
   </h5>
-  <h6 *ngIf="owner" class="card-subtitle">
-    <span class="badge badge-primary float-right ml-4 mr-0 my-1">{{owner.name}}</span>
-  </h6>
   <div class="card-body pt-0 pr-0 m-0">
     <div class="row">
       <ul *ngIf="keyResults" class="list-group">
@@ -48,10 +44,6 @@
   </div>
 </div>
 <div *ngIf="showChildren" class="ml-4 mt-1">
-  <app-okr 
-    *ngFor="let child of children" 
-    [okr]="child" 
-    (hideOkrId)=hideChild($event) 
-    (parentId)="addChild($event)">
+  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event) (parentId)="addChild($event)">
   </app-okr>
 </div>

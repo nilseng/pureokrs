@@ -3,6 +3,8 @@
     max-width: 500px;
 }
 
+.dropdown-item:hover {cursor: pointer}
+
 @media only screen and (max-width: 768px) {
     /* For mobile phones: */
     [class*="okr"] {
