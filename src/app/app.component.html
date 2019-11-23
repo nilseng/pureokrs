@@ -10,33 +10,31 @@
         <a routerLink="/login" class="nav-link">Log in</a>
       </li>
       <li *ngIf="!auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/register" class="nav-link">Register</a>
-        </li>
-      <li *ngIf="auth.isLoggedIn()" class="nav-item">
-        <a routerLink="/okr-tree" class="nav-link">Tree view</a>
+        <a routerLink="/register" class="nav-link">Register</a>
       </li>
       <li *ngIf="auth.isLoggedIn()" class="nav-item">
-        <a routerLink="/company/users" class="nav-link">Users</a>
+        <a routerLink="/okr-tree" class="nav-link">
+          <fa-icon [icon]="faSitemap"></fa-icon>
+          Tree view
+        </a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/company/users" class="nav-link">
+          <fa-icon [icon]="faUsers"></fa-icon>
+          Users
+        </a>
       </li>
       <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
-          {{auth.getUserDetails()?.name}} - {{auth.getUserDetails()?.company}}
+          <fa-icon [icon]="faUserNinja"></fa-icon>
+          {{auth.getUserDetails()?.name}}
         </a>
         <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
         </div>
       </li>
     </ul>
-    <div *ngIf="auth.isLoggedIn()">
-      <a class="navbar-brand">
-        <svg width="40" height="40">
-          <circle cx="20" cy="20" r="20" fill="#5cb85c">
-          </circle>
-          <text fill="white" x="20" y="27" text-anchor="middle">{{auth.getUserDetails()?.name.charAt(0)}}</text>
-        </svg>
-      </a>
-    </div>
   </div>
 </nav>
 <main class="bd-masthead bg-dark" role="main">
@@ -54,17 +52,28 @@
     <div class="row">
       <div class="col-md-6 mt-md-0 mt-3">
         <h5 class="text-uppercase">Resources</h5>
-        <p><a class="text-light" [routerLink]="['faq']">Frequently Asked Questions</a></p>
+        <ul class="list-group">
+          <li class="list-group-item active">
+            <a class="text-light" [routerLink]="['faq']">
+              <fa-icon [icon]="faQuestionCircle"></fa-icon>
+              Frequently Asked Questions
+            </a>
+          </li>
+        </ul>
       </div>
       <hr class="clearfix w-100 d-md-none pb-3">
       <div class="col-md-3 mb-md-0 mb-3">
         <h5 class="text-uppercase">Get in touch</h5>
-        <ul class="list-unstyled">
-          <li>
-            <p><a class="text-light" href="http://www.nilseng.com" target="_blank">nilseng.com</a></p>
+        <ul class="list-group">
+          <li class="list-group-item active">
+            <a class="text-light" href="http://www.nilseng.com" target="_blank">
+              <fa-icon [icon]="faBlog"></fa-icon>
+              nilseng.com
+            </a>
           </li>
-          <li>
-            <p><a class="text-light" href="mailto:teodor.nilseng@gmail.com">teodor.nilseng@gmail.com</a></p>
+          <li class="list-group-item active">
+            <fa-icon [icon]="faEnvelope"></fa-icon>
+            <a class="text-light" href="mailto:teodor.nilseng@gmail.com">teodor.nilseng@gmail.com</a>
           </li>
         </ul>
       </div>

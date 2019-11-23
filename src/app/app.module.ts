@@ -24,8 +24,17 @@ import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
 import { FaqComponent } from './faq/faq.component';
 import { OcticonDirective } from './shared/octicon-directive.directive';
+import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
 
 @NgModule({
+  imports: [
+    BrowserModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    FontAwesomeModule
+  ],
   declarations: [
     AppComponent,
     RegisterComponent,
@@ -44,13 +53,6 @@ import { OcticonDirective } from './shared/octicon-directive.directive';
     EdgeComponent,
     FaqComponent,
     OcticonDirective
-  ],
-  imports: [
-    BrowserModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
-    HttpClientModule
   ],
   providers: [AuthenticationService, AuthGuardService, D3Service],
   bootstrap: [AppComponent]
