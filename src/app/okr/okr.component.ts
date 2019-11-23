@@ -1,5 +1,11 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
+import {
+  faPlusCircle, faPen, faTrashAlt, faUserNinja,
+  faBatteryEmpty, faAdjust, faCheckCircle,
+  faChevronUp, faChevronDown
+}
+  from '@fortawesome/free-solid-svg-icons';
 
 import { OkrService } from '../okr.service';
 import { AuthenticationService, UserDetails } from '../authentication.service';
@@ -13,6 +19,16 @@ import { Okr, KeyResult } from '../okr/okr';
 })
 
 export class OkrComponent implements OnInit {
+
+  faPlusCircle = faPlusCircle;
+  faPen = faPen;
+  faTrashAlt = faTrashAlt;
+  faUserNinja = faUserNinja;
+  faBatteryEmpty = faBatteryEmpty;
+  faAdjust = faAdjust;
+  faCheckCircle = faCheckCircle;
+  faChevronUp = faChevronUp;
+  faChevronDown = faChevronDown;
 
   @Input() okr: Okr;
   @Output() hideOkrId = new EventEmitter<string>();
@@ -50,7 +66,7 @@ export class OkrComponent implements OnInit {
       });
   }
 
-  addChild(parentId: string){
+  addChild(parentId: string) {
     this.parentId.emit(parentId);
   }
 

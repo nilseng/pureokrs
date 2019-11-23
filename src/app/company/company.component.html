@@ -3,10 +3,16 @@
 </h2>
 <app-new-okr [parentId]="parentId" (savedOkr)="savedOkr($event)" (clearP)="clearParent()"></app-new-okr>
 <div *ngIf="okrs">
-  <app-okr 
-    *ngFor="let okr of okrs" 
-    class="m-1" 
-    [okr]="okr" 
-    (hideOkrId)="hideOkr($event)"
-    (parentId)="addChild($event)"></app-okr>
+  <app-okr *ngFor="let okr of okrs" class="m-1" [okr]="okr" (hideOkrId)="hideOkr($event)" (parentId)="addChild($event)">
+  </app-okr>
+</div>
+<div *ngIf="!okrs || okrs.length===0">
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title">It seems like you have no OKRs yet - select New OKR to create your first!</h5>
+      <p class="card-text">
+        If you don't know what an OKR is, try a quick google search or feel free to send me an email.
+      </p>
+    </div>
+  </div>
 </div>

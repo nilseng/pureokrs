@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import {AuthenticationService, UserDetails} from '../authentication.service';
 import {UserService} from '../user.service';
+import {faTrashAlt, faPlusCircle, faUserNinja, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-users',
@@ -9,6 +10,11 @@ import {UserService} from '../user.service';
   styleUrls: ['./users.component.css']
 })
 export class UsersComponent implements OnInit {
+
+  faTrashAlt = faTrashAlt;
+  faPlusCircle = faPlusCircle;
+  faUserNinja = faUserNinja;
+  faEnvelope = faEnvelope;
 
   users: {User};
   user: UserDetails;
