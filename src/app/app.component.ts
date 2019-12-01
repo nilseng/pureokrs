@@ -1,7 +1,5 @@
 import { Component } from '@angular/core';
-import {AuthenticationService} from './authentication.service';
 import {Title} from '@angular/platform-browser';
-import {faSitemap, faUsers, faUserNinja, faQuestionCircle, faBlog, faEnvelope} from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-root',
@@ -9,14 +7,8 @@ import {faSitemap, faUsers, faUserNinja, faQuestionCircle, faBlog, faEnvelope} f
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  faSitemap = faSitemap;
-  faUsers = faUsers;
-  faUserNinja = faUserNinja;
-  faQuestionCircle = faQuestionCircle;
-  faBlog = faBlog;
-  faEnvelope = faEnvelope;
-
-  constructor(private titleService: Title, public auth: AuthenticationService){
+  
+  constructor(private titleService: Title){
     
   }
   title = "PureOKRs";

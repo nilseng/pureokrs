@@ -25,6 +25,10 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
 import { FaqComponent } from './faq/faq.component';
 import { OcticonDirective } from './shared/octicon-directive.directive';
 import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
+import { OkrService } from './okr.service';
+import { OkrResolver } from './okr/okr-resolver.service';
+import { FooterComponent } from './footer/footer.component';
+import { NavbarComponent } from './navbar/navbar.component';
 
 @NgModule({
   imports: [
@@ -52,9 +56,17 @@ import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
     NodeComponent,
     EdgeComponent,
     FaqComponent,
-    OcticonDirective
+    OcticonDirective,
+    FooterComponent,
+    NavbarComponent
   ],
-  providers: [AuthenticationService, AuthGuardService, D3Service],
+  providers: [
+    AuthenticationService, 
+    AuthGuardService, 
+    D3Service,
+    OkrService,
+    OkrResolver
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

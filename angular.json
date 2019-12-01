@@ -27,7 +27,8 @@
               "node_modules/@primer/octicons/build/build.css",
               "node_modules/font-awesome/css/font-awesome.css"
             ],
-            "scripts": []
+            "scripts": [
+            ]
           },
           "configurations": {
             "production": {

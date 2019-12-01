@@ -37,19 +37,6 @@ export class OkrService {
       );
   }
 
-  /**GET Key Results for a given OKR */
-  getKeyResults(okrId: string): Observable<KeyResult[]> {
-    return this.http.get<KeyResult[]>(`${this.okrsUrl}/keyresults/${okrId}`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }).pipe(
-        tap(),
-        catchError(this.handleError<KeyResult[]>('getCompanyOKRs'))
-      );
-  }
-
   /**GET all OKRs at level 0 */
   getCompanyOkrs(company: string): Observable<Okr[]> {
     return this.http.get<Okr[]>(`${this.okrsUrl}/company/level0`,
@@ -111,8 +98,8 @@ export class OkrService {
   }
 
   /**POST: add a new OKR to the server */
-  createOkr(okr: Okr, keyResults: KeyResult[]): Observable<Okr> {
-    return this.http.post(this.okrsUrl, { 'okr': okr, 'keyResults': keyResults },
+  createOkr(okr: Okr): Observable<Okr> {
+    return this.http.post(this.okrsUrl, {'okr': okr},
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`,
@@ -142,10 +129,10 @@ export class OkrService {
   }
 
   /**PUT: update the OKR on the server */
-  updateOkr(okr: Okr, keyResults: {}): Observable<any> {
+  updateOkr(okr: Okr): Observable<any> {
     const id = typeof okr === 'string' ? okr : okr._id;
 
-    return this.http.put(this.okrsUrl, { okr, keyResults }, {
+    return this.http.put(this.okrsUrl, {okr}, {
       headers: {
         Authorization: `Bearer ${this.auth.getToken()}`,
         'Content-Type': 'application/json'

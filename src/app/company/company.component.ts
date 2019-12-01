@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 
 import { AuthenticationService, UserDetails } from '../authentication.service';
 import { OkrService } from '../okr.service';
@@ -12,6 +13,7 @@ import { Okr } from '../okr/okr';
 export class CompanyComponent implements OnInit {
 
   okrs: Okr[];
+  visibleOkrs: Okr[] = [];
   newOKR: boolean;
   user: UserDetails;
 
@@ -19,10 +21,14 @@ export class CompanyComponent implements OnInit {
 
   constructor(
     private auth: AuthenticationService,
-    private okrService: OkrService) { }
+    private okrService: OkrService,
+    private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getCompanyOkrs();
+    this.okrs = this.route.snapshot.data['okrs'];
+    if (this.okrs) {
+      this.getCompanyOkrs();
+    }
     this.newOKR = false;
     this.getUserDetails();
     this.parentId = '';
@@ -33,25 +39,25 @@ export class CompanyComponent implements OnInit {
   }
 
   hideOkr(okrId: string) {
-    this.getCompanyOkrs();
+    this.getOkrs();
   }
 
   savedOkr(okr: Okr) {
-    if (okr.parent && okr.parent.trim()) {
+    this.getOkrs();
+  }
 
-    } else {
-      this.getCompanyOkrs();
-    }
+  getOkrs() {
+    this.okrService.getOkrs()
+      .subscribe(okrs => {
+        this.okrs = okrs;
+        this.getCompanyOkrs();
+      });
   }
 
   getCompanyOkrs(): void {
-    let user = this.auth.getUserDetails();
-    if (user && user.company) {
-      this.okrService.getCompanyOkrs(decodeURIComponent(user.company))
-        .subscribe(okrs => {
-          this.okrs = okrs;
-        });
-    }
+    this.visibleOkrs = this.okrs.filter(okr => {
+      return (okr.parent === '' || !okr.parent || okr.parent === null);
+    });
   }
 
   addChild(parentId: string) {

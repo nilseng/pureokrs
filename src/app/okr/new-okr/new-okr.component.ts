@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
-import {faPlusCircle} from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
 
 import { Okr, KeyResult } from '../okr';
 import { OkrService } from '../../okr.service';
@@ -25,6 +25,11 @@ export class NewOkrComponent implements OnInit, OnChanges {
 
   @ViewChild('openModal') openModal: ElementRef;
 
+  okr: Okr;
+  krCount: number;
+
+  noObjective: boolean;
+
   //Variables for searching for OKR owner
   users$: Observable<{}>;
   private ownerSearchTerms = new Subject<string>();
@@ -34,13 +39,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
   parents$: Observable<{}>;
   private parentSearchTerms = new Subject<string>();
   parent: Okr;
-
-  okr: Okr;
-  objective: string;
-  keyResults: KeyResult[] = [];
-  krCount: number;
-
-  noObjective: boolean;
 
   constructor(
     private okrService: OkrService,
@@ -61,16 +59,13 @@ export class NewOkrComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    this.objective = '';
-    this.noObjective = false;
-    this.krCount = 1;
-    this.keyResults.push(new KeyResult(''));
-    this.okr = new Okr(this.objective);
+    this.okr = new Okr('');
+    this.okr.keyResults.push(new KeyResult(''));
     this.okr.userId = this.auth.getUserDetails()._id;
-
     this.owner = this.auth.getUserDetails();
-
     this.getParent();
+
+    this.noObjective = false;
 
     this.users$ = this.ownerSearchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -97,56 +92,50 @@ export class NewOkrComponent implements OnInit, OnChanges {
     }
   }
 
-  getParent() {
-    if(this.parentId){
-      this.okrService.getOkr(this.parentId)
-      .subscribe((okr: Okr) => {
-        this.parent = okr;
-        this.okr.parent = okr._id;
-      });
-    }
-  }
-
-  clearParent(){
-    this.parent = undefined;
-    this.clearP.emit();
-  }
-
-  addKeyResult(): void {
-    let kr = new KeyResult('');
-    this.keyResults[this.krCount] = kr;
-    this.krCount++;
-  }
-
-  removeKeyResult(id: string, index: number): void {
-    delete this.keyResults[index];
-    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
-  }
-
   save(): void {
     if (!this.okr.objective.trim()) {
       this.noObjective = true;
       return;
     } else {
-      this.okrService.createOkr(this.okr, this.keyResults)
+      this.okrService.createOkr(this.okr)
         .subscribe((okr: Okr) => {
-          if (!okr) {
-            //Something went wrong went creating the OKR
-          } else if (okr.parent) {
-            this.addToParentOnSave(okr.parent, okr._id, () => { });
-            this.savedOkr.emit(okr);
+          if (okr.parent) {
+            this.addToParentOnSave(okr);
           } else {
-            this.savedOkr.emit(okr);
             this.clearForm();
+            this.savedOkr.emit(okr);
           }
         });
     }
   }
 
-  addToParentOnSave(parentId: string, childId: string, cb: () => void): void {
-    this.okrService.addChild(parentId, childId)
+  getParent() {
+    if (this.parentId) {
+      this.okrService.getOkr(this.parentId)
+        .subscribe((okr: Okr) => {
+          this.parent = okr;
+          this.okr.parent = okr._id;
+        });
+    }
+  }
+
+  clearParent() {
+    this.parent = undefined;
+    this.clearP.emit();
+  }
+
+  addKeyResult(): void {
+    this.okr.keyResults.push(new KeyResult(''));
+  }
+
+  removeKeyResult(id: string, index: number): void {
+    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
+  }
+
+  addToParentOnSave(okr: Okr) {
+    this.okrService.addChild(okr.parent, okr._id)
       .subscribe(() => {
-        cb();
+        this.savedOkr.emit(okr);
       });
   }
 
@@ -163,16 +152,13 @@ export class NewOkrComponent implements OnInit, OnChanges {
   }
 
   clearForm() {
-    this.objective = '';
-    this.noObjective = false;
-    this.krCount = 1;
-    this.keyResults = []
-    this.keyResults.push(new KeyResult(''));
-    this.okr = new Okr(this.objective);
+    this.okr = new Okr('');
+    this.okr.objective = '';
+    this.okr.keyResults = []
+    this.okr.keyResults.push(new KeyResult(''));
     this.okr.userId = this.auth.getUserDetails()._id;
-
     this.owner = this.auth.getUserDetails();
-
-    this.getParent();
+    this.parent = undefined;
+    this.noObjective = false;
   }
 }

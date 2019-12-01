@@ -1,9 +1,10 @@
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit, HostListener, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit, HostListener, EventEmitter, Inject } from '@angular/core';
 import { Node } from './node';
 import { OkrService } from '../../okr.service';
 import { KeyResult } from '../../okr/okr';
 import * as d3 from 'd3';
 import { HierarchyPointNode } from 'd3';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: '[node]',
@@ -11,6 +12,8 @@ import { HierarchyPointNode } from 'd3';
   styleUrls: ['./node.component.css']
 })
 export class NodeComponent implements OnInit, AfterViewInit {
+  faPen = faPen;
+
   @Input() node: HierarchyPointNode<Node>;
   @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
   @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
@@ -38,18 +41,20 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   _options: { width, height } = { width: 800, height: 600 };
 
-  constructor(private okrService: OkrService) { }
+  constructor(
+    private okrService: OkrService
+  ) { }
 
   ngOnInit() {
     this.maxLines = 3;
     this.X = this.node.x + this.node.data.offsetX;
     this.Y = this.node.y + this.node.data.offsetY;
-    this.cx = this.X + this.node.data.width/2;
+    this.cx = this.X + this.node.data.width / 2;
     this.cy = this.Y + this.node.data.height;
-    this.texty = this.Y + this.node.data.height/2;
+    this.texty = this.Y + this.node.data.height / 2;
 
     this.childrenVisible = false;
-    
+
     this.getProgress();
     this.showChildrenLink()
   }
@@ -58,16 +63,16 @@ export class NodeComponent implements OnInit, AfterViewInit {
     this.wrapTextinNode();
   }
 
-  showChildrenLink(){
-    if(this.node.data.okr.children && this.node.data.okr.children.length>0){
+  showChildrenLink() {
+    if (this.node.data.okr.children && this.node.data.okr.children.length > 0) {
       d3.select(this.childrenLink.nativeElement).style('cursor', 'pointer');
     }
   }
 
-  showChildren(){
-    if(this.node.children && this.node.children.length > 0){
+  showChildren() {
+    if (this.node.children && this.node.children.length > 0) {
       this.nodeHide.emit(this.node);
-    }else{
+    } else {
       this.nodeShow.emit(this.node);
     }
   }
@@ -150,25 +155,20 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   getProgress(): void {
-    if(this.node.data.okr._id){
-      this.okrService.getKeyResults(this.node.data.okr._id)
-      .subscribe(krs => {
-        this.keyResults = krs;
-        if (krs) {
-          let sum = 0;
-          let count = 0;
-          for (let i in krs) {
-            if (krs[i].progress) {
-              sum += krs[i].progress;
-            }
-            count += 1;
+    if (this.node.data.okr._id) {
+      let sum = 0;
+      let count = 0;
+      this.node.data.okr.keyResults
+        .forEach(kr => {
+          if (kr.progress) {
+            sum += kr.progress;
           }
-          this.progress = Math.round(sum / count) / 100;
-          if (this.progress && this.progress > 0) {
-            this.calculateProgressCircle();
-          }
-        }
-      });
+          count += 1;
+        });
+      this.progress = Math.round(sum / count)/100;
+      if (this.progress && this.progress > 0) {
+        this.calculateProgressCircle();
+      }
     }
   }
 
@@ -188,12 +188,12 @@ export class NodeComponent implements OnInit, AfterViewInit {
     } else {
       let x2 = x1 + r * Math.sin(2 * Math.PI * this.progress);
       let y2 = y1 - r * Math.cos(2 * Math.PI * this.progress);
-      if(this.progress<=0.5){
-        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1-r) + ' A' + r + ',' + r + ' 1,0,1 ' + x2 + ',' + y2);
-      }else{
-        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1-r) + ' A' + r + ',' + r + ' 1,1,1 ' + x2 + ',' + y2);
+      if (this.progress <= 0.5) {
+        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1 - r) + ' A' + r + ',' + r + ' 1,0,1 ' + x2 + ',' + y2);
+      } else {
+        this.progressEl.nativeElement.setAttribute('d', 'M' + x1 + ',' + (y1 - r) + ' A' + r + ',' + r + ' 1,1,1 ' + x2 + ',' + y2);
       }
-      
+
     }
   }
 }

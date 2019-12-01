@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import {
   faPlusCircle, faPen, faTrashAlt, faUserNinja,
@@ -18,7 +18,7 @@ import { Okr, KeyResult } from '../okr/okr';
   styleUrls: ['./okr.component.css']
 })
 
-export class OkrComponent implements OnInit {
+export class OkrComponent implements OnChanges {
 
   faPlusCircle = faPlusCircle;
   faPen = faPen;
@@ -48,13 +48,13 @@ export class OkrComponent implements OnInit {
     private userService: UserService
   ) { }
 
-  ngOnInit() {
-    this.getKeyResults();
+  ngOnChanges() {
     this.getOwner();
     this.getParent();
     this.children = [];
     this.showChildren = false;
     this.childrenCount = this.okr.children.length;
+    this.getAverageProgress();
   }
 
   getChildren(): void {
@@ -85,22 +85,17 @@ export class OkrComponent implements OnInit {
     this.showChildren = false;
   }
 
-  getKeyResults(): void {
-    this.okrService.getKeyResults(this.okr._id)
-      .subscribe(krs => {
-        this.keyResults = krs;
-        if (krs) {
-          let sum = 0;
-          let count = 0;
-          for (let i in krs) {
-            if (krs[i].progress) {
-              sum += krs[i].progress;
-            }
-            count += 1;
-          }
-          this.averageProgress = Math.round(sum / count);
+  getAverageProgress() {
+    let sum = 0;
+    let count = 0;
+    this.okr.keyResults
+      .forEach(kr => {
+        if (kr.progress) {
+          sum += kr.progress;
         }
+        count += 1;
       });
+    this.averageProgress = Math.round(sum / count);
   }
 
   getOwner(): void {

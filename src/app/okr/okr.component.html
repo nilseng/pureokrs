@@ -46,10 +46,10 @@
   </h5>
   <div class="card-body pt-0 pr-0 m-0">
     <div class="row">
-      <ul *ngIf="keyResults" class="list-group">
-        <li *ngFor="let kr of keyResults"
+      <ul *ngIf="okr.keyResults" class="list-group">
+        <li *ngFor="let kr of okr.keyResults"
           class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
-          {{kr.keyResult}}
+          {{kr?.keyResult}}
           <span *ngIf="!kr.progress && kr.progress!=0" class="badge badge-secondary">
             <fa-icon [icon]="faBatteryEmpty"></fa-icon>
             0%

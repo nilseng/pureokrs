@@ -46,7 +46,6 @@ export class UserService {
   }
 
   searchUsers(term: string): Observable<{}> {
-    console.log('User service searching for', term);
     if (!term.trim()) {
       //if not search term, return empty user array
       return of([]);
