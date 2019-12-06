@@ -17,6 +17,7 @@ export class CompanyComponent implements OnInit {
   user: UserDetails;
 
   parentId: string;
+  okrToEdit: Okr;
 
   constructor(
     private auth: AuthenticationService,
@@ -51,6 +52,10 @@ export class CompanyComponent implements OnInit {
 
   addChild(parentId: string) {
     this.parentId = parentId;
+  }
+
+  editOkr(okr: Okr) {
+    this.okrToEdit = okr;
   }
 
   clearParent() {

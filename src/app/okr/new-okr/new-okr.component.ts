@@ -23,8 +23,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
   @Output() savedOkr = new EventEmitter<Okr>();
   @Output() clearP = new EventEmitter();
 
-  @ViewChild('openModal') openModal: ElementRef;
-
   okr: Okr;
   krCount: number;
 
@@ -129,7 +127,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
   }
 
   removeKeyResult(id: string, index: number): void {
-    this.okr.keyResults = this.okr.keyResults.filter(e => e._id !== id);
+    this.okr.keyResults.splice(index, 1);
   }
 
   addToParentOnSave(okr: Okr) {

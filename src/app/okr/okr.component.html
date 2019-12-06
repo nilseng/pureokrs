@@ -6,11 +6,11 @@
         <span octicon="kebab-horizontal" width="15px"></span>
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" (click)="addChild(okr._id)" data-toggle="modal" data-target="#modal">
+        <a class="dropdown-item" (click)="addChild(okr._id)" data-toggle="modal" data-target="#newOkrModal">
           <fa-icon [icon]="faPlusCircle"></fa-icon>
           Add child OKR
         </a>
-        <a class="dropdown-item" [routerLink]="['/edit-okr', okr._id]">
+        <a class="dropdown-item" (click)="editOkr(okr)" data-toggle="modal" data-target="#editOkrModal" >
           <fa-icon [icon]="faPen"></fa-icon>
           Edit
         </a>
@@ -79,6 +79,6 @@
   </div>
 </div>
 <div *ngIf="showChildren" class="ml-4 mt-1">
-  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event) (parentId)="addChild($event)">
+  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event) (okrToEdit)="editOkr($event)" (parentId)="addChild($event)">
   </app-okr>
 </div>

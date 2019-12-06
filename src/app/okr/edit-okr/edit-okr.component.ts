@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import { Observable, Subject } from 'rxjs';
@@ -19,14 +19,20 @@ import { UserService } from '../../user.service';
 })
 export class EditOkrComponent implements OnInit {
 
-  okr: Okr;
+  @Input() okr: Okr;
+  @Output() savedOkr = new EventEmitter<Okr>();
+  @Output() clearP = new EventEmitter();
+
+  krCount: number;
 
   noObjective: boolean;
 
+  //Variables for searching for OKR owner
   users$: Observable<{}>;
   private ownerSearchTerms = new Subject<string>();
   owner: UserDetails;
 
+  //Variables for searching for OKR parent
   parents$: Observable<{}>;
   private parentSearchTerms = new Subject<string>();
   parent: Okr;
@@ -35,25 +41,23 @@ export class EditOkrComponent implements OnInit {
     private okrService: OkrService,
     private auth: AuthenticationService,
     private userService: UserService,
-    private router: Router,
-    private location: Location,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private router: Router
   ) { }
 
+  // Push a owner search term into the observable stream.
   ownerSearch(term: string): void {
     this.ownerSearchTerms.next(term);
   }
 
+  // Push a parent OKR search term into the observable stream.
   parentSearch(term: string): void {
     this.parentSearchTerms.next(term);
-    console.log('Searching for parent', term);
   }
 
   ngOnInit() {
-    this.noObjective = false;
-    this.getOkr();
 
-    this.parent = new Okr('', []);
+    this.noObjective = false;
 
     this.users$ = this.ownerSearchTerms.pipe(
       // wait 300ms after each keystroke before considering the term
@@ -74,29 +78,10 @@ export class EditOkrComponent implements OnInit {
     );
   }
 
-  getOkr(): void {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.okrService.getOkr(id)
-      .subscribe(okr => {
-        this.okr = okr;
-        if (this.okr.parent) {
-          this.okrService.getOkr(this.okr.parent)
-            .subscribe(parent => this.parent = parent);
-        }
-        if (this.okr.userId) {
-          this.userService.getUser(this.okr.userId)
-            .subscribe(owner => this.owner = owner);
-        }
-      });
-  }
-
-  addKeyResult(): void {
-    this.okr.keyResults.push(new KeyResult(''));
-  }
-
-  removeKeyResult(index: number): void {
-    this.okr.keyResults = this.okr.keyResults
-      .filter(kr => this.okr.keyResults.indexOf(kr) !== index);
+  ngOnChanges() {
+    this.userService.getUser(this.okr.userId)
+      .subscribe(owner => this.owner = owner);
+    this.getParent();
   }
 
   save(): void {
@@ -106,25 +91,45 @@ export class EditOkrComponent implements OnInit {
     } else {
       this.okrService.updateOkr(this.okr)
         .subscribe((okr: Okr) => {
-          if (okr.parent) {
-            this.addToParent(okr.parent, okr._id);
-          } else {
-            this.router.navigate(['company/okrs']);
-          }
+          this.clearForm();
+          this.savedOkr.emit(okr);
         });
     }
   }
 
-  addToParent(parentId: string, childId: string): void {
-    this.okrService.addChild(parentId, childId)
+  getParent() {
+    if (this.okr.parent) {
+      this.okrService.getOkr(this.okr.parent)
+        .subscribe((okr: Okr) => {
+          this.parent = okr;
+          this.okr.parent = okr._id;
+        });
+    }
+  }
+
+  clearParent() {
+    this.parent = undefined;
+    this.clearP.emit();
+  }
+
+  addKeyResult(): void {
+    this.okr.keyResults.push(new KeyResult(''));
+  }
+
+  removeKeyResult(index: number): void {
+    this.okr.keyResults.splice(index, 1);
+  }
+
+  addToParentOnSave(okr: Okr) {
+    this.okrService.addChild(okr.parent, okr._id)
       .subscribe(() => {
-        this.router.navigate(['company/okrs']);
+        this.savedOkr.emit(okr);
       });
   }
 
   assign(owner: UserDetails): void {
-    this.owner = owner;
     this.okr.userId = owner._id;
+    this.owner = owner;
     this.ownerSearch('');
   }
 
@@ -132,5 +137,16 @@ export class EditOkrComponent implements OnInit {
     this.okr.parent = parent._id;
     this.parent = parent;
     this.parentSearch('');
+  }
+
+  clearForm() {
+    this.okr = new Okr('');
+    this.okr.objective = '';
+    this.okr.keyResults = []
+    this.okr.keyResults.push(new KeyResult(''));
+    this.okr.userId = this.auth.getUserDetails()._id;
+    this.owner = this.auth.getUserDetails();
+    this.parent = undefined;
+    this.noObjective = false;
   }
 }

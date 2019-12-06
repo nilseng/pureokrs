@@ -33,6 +33,7 @@ export class OkrComponent implements OnChanges {
   @Input() okr: Okr;
   @Output() hideOkrId = new EventEmitter<string>();
   @Output() parentId = new EventEmitter<string>();
+  @Output() okrToEdit = new EventEmitter<Okr>();
 
   keyResults: {};
   owner: UserDetails;
@@ -68,6 +69,10 @@ export class OkrComponent implements OnChanges {
 
   addChild(parentId: string) {
     this.parentId.emit(parentId);
+  }
+
+  editOkr(okr: Okr){
+    this.okrToEdit.emit(okr);
   }
 
   //TODO: This method should not be necessary and should be removed
