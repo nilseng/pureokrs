@@ -38,7 +38,7 @@ export class OkrService {
   }
 
   /**GET all OKRs at level 0 */
-  getCompanyOkrs(company: string): Observable<Okr[]> {
+  getCompanyOkrs(): Observable<Okr[]> {
     return this.http.get<Okr[]>(`${this.okrsUrl}/company/level0`,
       {
         headers: {

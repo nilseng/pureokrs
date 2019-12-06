@@ -13,7 +13,6 @@ import { Okr } from '../okr/okr';
 export class CompanyComponent implements OnInit {
 
   okrs: Okr[];
-  visibleOkrs: Okr[] = [];
   newOKR: boolean;
   user: UserDetails;
 
@@ -26,9 +25,6 @@ export class CompanyComponent implements OnInit {
 
   ngOnInit() {
     this.okrs = this.route.snapshot.data['okrs'];
-    if (this.okrs) {
-      this.getCompanyOkrs();
-    }
     this.newOKR = false;
     this.getUserDetails();
     this.parentId = '';
@@ -50,14 +46,7 @@ export class CompanyComponent implements OnInit {
     this.okrService.getOkrs()
       .subscribe(okrs => {
         this.okrs = okrs;
-        this.getCompanyOkrs();
       });
-  }
-
-  getCompanyOkrs(): void {
-    this.visibleOkrs = this.okrs.filter(okr => {
-      return (okr.parent === '' || !okr.parent || okr.parent === null);
-    });
   }
 
   addChild(parentId: string) {

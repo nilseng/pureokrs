@@ -3,7 +3,7 @@
 </h2>
 <app-new-okr [parentId]="parentId" (savedOkr)="savedOkr($event)" (clearP)="clearParent()"></app-new-okr>
 <div *ngIf="okrs">
-  <app-okr *ngFor="let okr of visibleOkrs" class="m-1" [okr]="okr" (hideOkrId)="hideOkr($event)" (parentId)="addChild($event)">
+  <app-okr *ngFor="let okr of okrs" [okr]="okr" (hideOkrId)="hideOkr($event)" (parentId)="addChild($event)">
   </app-okr>
 </div>
 <div *ngIf="okrs?.length===0">

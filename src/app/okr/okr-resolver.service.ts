@@ -8,6 +8,6 @@ export class OkrResolver implements Resolve<any> {
     constructor(private okrService: OkrService) { }
 
     resolve(){
-        return this.okrService.getOkrs();
+        return this.okrService.getCompanyOkrs();
     }
 }
