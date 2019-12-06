@@ -1,10 +1,10 @@
 <div *ngIf="okr">
-  <button id="openModal" class="btn btn-primary my-4 ml-1" data-toggle="modal" data-target="#modal" (click)="clearForm()">
+  <button id="openModal" class="btn btn-primary my-4 ml-1" data-toggle="modal" data-target="#newOkrModal" (click)="clearForm()">
     <fa-icon class="mr-1" [icon]="faPlusCircle"></fa-icon>
     New OKR
   </button>
   <!-- Modal -->
-  <div class="modal form fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modal" aria-hidden="true" #modal>
+  <div class="modal form fade" id="newOkrModal" tabindex="-1" role="dialog" aria-labelledby="newOkrModal" aria-hidden="true" #newOkrModal>
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">

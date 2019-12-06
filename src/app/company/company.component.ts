@@ -43,7 +43,7 @@ export class CompanyComponent implements OnInit {
   }
 
   getOkrs() {
-    this.okrService.getOkrs()
+    this.okrService.getCompanyOkrs()
       .subscribe(okrs => {
         this.okrs = okrs;
       });
