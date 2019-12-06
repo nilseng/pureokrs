@@ -2,7 +2,7 @@
   {{user?.company}}'s objectives and key results.
 </h2>
 <app-new-okr [parentId]="parentId" (savedOkr)="savedOkr($event)" (clearP)="clearParent()"></app-new-okr>
-<div *ngIf="okrs">
+<div *ngIf="okrs" class="pb-4">
   <app-okr *ngFor="let okr of okrs" [okr]="okr" (hideOkrId)="hideOkr($event)" (parentId)="addChild($event)">
   </app-okr>
 </div>
