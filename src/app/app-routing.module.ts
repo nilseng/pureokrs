@@ -13,6 +13,7 @@ import { NewPasswordComponent } from './login/new-password/new-password.componen
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { FaqComponent } from './faq/faq.component';
 import { OkrResolver } from './okr/okr-resolver.service';
+import { UsersResolver } from './users/users-resolver.service';
 
 const routes: Routes = [
   {path: '', redirectTo: '/company/okrs', pathMatch: 'full', canActivate: [AuthGuardService]},
@@ -21,7 +22,7 @@ const routes: Routes = [
   {path: 'company/okrs', component: CompanyComponent, canActivate: [AuthGuardService], resolve: {okrs: OkrResolver}},
   {path: 'okr-tree', component: OkrTreeComponent, canActivate: [AuthGuardService]},
   {path: 'edit-okr/:id', component: EditOkrComponent, canActivate: [AuthGuardService]},
-  {path: 'company/users', component: UsersComponent, canActivate: [AuthGuardService]},
+  {path: 'company/users', component: UsersComponent, canActivate: [AuthGuardService], resolve: {users: UsersResolver}},
   {path: 'resetpassword', component: ResetpasswordComponent},
   {path: 'resetpassword/:email/:token', component: NewPasswordComponent},
   {path: 'faq', component: FaqComponent}

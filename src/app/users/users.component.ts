@@ -3,6 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import {AuthenticationService, UserDetails} from '../authentication.service';
 import {UserService} from '../user.service';
 import {faTrashAlt, faPlusCircle, faUserNinja, faEnvelope} from '@fortawesome/free-solid-svg-icons';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-users',
@@ -22,10 +23,10 @@ export class UsersComponent implements OnInit {
   initDeleteUser: UserDetails;
 
   constructor(private auth: AuthenticationService,
-    private userService: UserService) { }
+    private userService: UserService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.getUsers();
+    this.users = this.route.snapshot.data['users'];
     this.getUserDetails();
     this.userForm = false;
   }

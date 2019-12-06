@@ -29,6 +29,7 @@ import { OkrService } from './okr.service';
 import { OkrResolver } from './okr/okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
+import {UsersResolver} from './users/users-resolver.service';
 
 @NgModule({
   imports: [
@@ -65,7 +66,8 @@ import { NavbarComponent } from './navbar/navbar.component';
     AuthGuardService, 
     D3Service,
     OkrService,
-    OkrResolver
+    OkrResolver,
+    UsersResolver
   ],
   bootstrap: [AppComponent]
 })
