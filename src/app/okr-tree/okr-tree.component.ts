@@ -6,6 +6,7 @@ import { OkrService } from '../okr.service';
 import { Node } from './node/node';
 import { Edge } from './edge/edge';
 import { AuthenticationService, UserDetails } from '../authentication.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-okr-tree',
@@ -44,7 +45,8 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   constructor(
     private okrService: OkrService,
-    private authService: AuthenticationService
+    private authService: AuthenticationService,
+    private route: ActivatedRoute
   ) {
   }
 
@@ -54,10 +56,12 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
     this.getUserDetails();
+    this.okrs = this.route.snapshot.data['okrs'];
+    this.initOkrTree();
   }
 
   ngAfterViewInit() {
-    this.getOkrs();
+    
   }
 
   getUserDetails() {
@@ -123,6 +127,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   pushChildren(node: HierarchyPointNode<Node>) {
     let children = this.okrs.filter(okr => okr.parent === node.data.okr._id);
+    console.log('the node has this number of children', children.length);
     let childNode: Node;
     for (let child of children) {
       childNode = new Node(

@@ -4,10 +4,10 @@ import { Resolve } from '@angular/router';
 import {OkrService} from '../okr.service';
 
 @Injectable()
-export class OkrResolver implements Resolve<any> {
+export class Level0OkrResolver implements Resolve<any> {
     constructor(private okrService: OkrService) { }
 
     resolve(){
-        return this.okrService.getOkrs();
+        return this.okrService.getCompanyOkrs();
     }
 }

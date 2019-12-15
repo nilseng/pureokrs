@@ -27,6 +27,7 @@ import { OcticonDirective } from './shared/octicon-directive.directive';
 import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
 import { OkrService } from './okr.service';
 import { OkrResolver } from './okr/okr-resolver.service';
+import { Level0OkrResolver} from './okr/level0-okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {UsersResolver} from './users/users-resolver.service';
@@ -66,6 +67,7 @@ import {UsersResolver} from './users/users-resolver.service';
     AuthGuardService, 
     D3Service,
     OkrService,
+    Level0OkrResolver,
     OkrResolver,
     UsersResolver
   ],
