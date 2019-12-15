@@ -127,7 +127,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   pushChildren(node: HierarchyPointNode<Node>) {
     let children = this.okrs.filter(okr => okr.parent === node.data.okr._id);
-    console.log('the node has this number of children', children.length);
     let childNode: Node;
     for (let child of children) {
       childNode = new Node(
