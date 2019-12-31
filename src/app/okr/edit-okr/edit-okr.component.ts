@@ -6,6 +6,7 @@ import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
 import { ActivatedRoute } from '@angular/router';
+import {faPlusCircle, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
 
 import { Okr, KeyResult } from '../okr';
 import { OkrService } from '../../okr.service';
@@ -18,6 +19,9 @@ import { UserService } from '../../user.service';
   styleUrls: ['./edit-okr.component.css']
 })
 export class EditOkrComponent implements OnInit {
+
+  faPlusCircle = faPlusCircle;
+  faTrashAlt = faTrashAlt;
 
   @Input() okr: Okr;
   @Output() savedOkr = new EventEmitter<Okr>();

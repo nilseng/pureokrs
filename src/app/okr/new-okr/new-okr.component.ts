@@ -4,7 +4,7 @@ import { Observable, Subject } from 'rxjs';
 import {
   debounceTime, distinctUntilChanged, switchMap
 } from 'rxjs/operators';
-import { faPlusCircle } from '@fortawesome/free-solid-svg-icons';
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons';
 
 import { Okr, KeyResult } from '../okr';
 import { OkrService } from '../../okr.service';
@@ -18,6 +18,7 @@ import { UserService } from '../../user.service';
 })
 export class NewOkrComponent implements OnInit, OnChanges {
   faPlusCircle = faPlusCircle;
+  faTrashAlt = faTrashAlt;
 
   @Input() parentId: string;
   @Output() savedOkr = new EventEmitter<Okr>();

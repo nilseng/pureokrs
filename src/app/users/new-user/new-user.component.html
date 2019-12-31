@@ -3,11 +3,11 @@
     <form class="form-inline" (submit)="addUser()">
       <label class="mx-1" for="name">Full name</label>
       <input type="text" class="form-control mx-1" id="name" name="name" placeholder="Enter name" [(ngModel)]="credentials.name">
-      <label class="mx-1" for="email">Email</label>
-      <input id="email" id="email" name="email" type="email" class="form-control mx-1" required
+      <label class="m-1" for="email">Email</label>
+      <input id="email" id="email" name="email" type="email" class="form-control m-1" required
         placeholder="Enter email" [(ngModel)]="credentials.email">
-      <button type="submit" class="btn btn-sm btn-success float-right mx-1">Add</button>
-      <button class="btn btn-sm btn-secondary float-right mx-1" (click)="hideNew()">Hide</button>
+      <button type="submit" class="btn btn-sm btn-success float-right m-1">Add</button>
+      <button class="btn btn-sm btn-secondary float-right m-1" (click)="hideNew()">Hide</button>
     </form>
   </div>
 </div>
