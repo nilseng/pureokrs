@@ -18,8 +18,8 @@ module.exports.sendEmail = (email, companyName) => {
 module.exports.sendNewUserEmail = (email, companyName, token) => {
   let msg = {
     from: 'teodor.nilseng@gmail.com',
-    text: 'Follow the following link to set a password and activate your user. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
-    html: 'Follow the link below to reset your password. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
+    text: 'Click the following link or paste it in your browser to set a password and activate your user. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
+    html: 'Click the following link to set a password and activate your user. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
   };
   msg.subject = 'You now have a user at pureOKRs. Welcome!';
   msg.to = email;
@@ -31,8 +31,8 @@ module.exports.sendNewUserEmail = (email, companyName, token) => {
 module.exports.sendResetEmail = (email, token) => {
   let msg = {
     from: 'teodor.nilseng@gmail.com',
-    text: 'Follow the following link to reset your password. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
-    html: 'Follow the link below to reset your password. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
+    text: 'Click the following link or paste it in your browser to reset your password. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
+    html: 'Click the following link to reset your password. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
   };
   msg.subject = 'You can now reset your password at pureOKRs.';
   msg.to = email;
