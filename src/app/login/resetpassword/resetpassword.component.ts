@@ -20,7 +20,6 @@ export class ResetpasswordComponent implements OnInit {
 
   ngOnInit() {
     this.loginMessage = '';
-    this.email = '';
   }
 
   reset() {
