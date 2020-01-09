@@ -40,7 +40,7 @@ export class NewPasswordComponent implements OnInit {
   newPassword(){
     this.auth.newPassword(this.email, this.token, this.password)
       .subscribe(()=>{
-        this.router.navigateByUrl('/company/okrs');
+        this.router.navigateByUrl('');
       }, (err) => {
         this.message = 'Wrong username or password'
       });

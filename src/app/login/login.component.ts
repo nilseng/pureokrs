@@ -44,7 +44,7 @@ export class LoginComponent {
       this.credentials.email = formValues.email;
       this.credentials.password = formValues.password;
       this.auth.login(this.credentials).subscribe(() => {
-        this.router.navigateByUrl(`/company/okrs`);
+        this.router.navigateByUrl('');
       }, (err) => {
         this.loginMessage = 'Wrong username or password'
       });

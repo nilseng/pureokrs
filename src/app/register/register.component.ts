@@ -33,7 +33,7 @@ export class RegisterComponent {
       this.message = 'The password must contain at least 6 characters';
     }else{
       this.auth.register(this.credentials).subscribe(()=>{
-        this.router.navigateByUrl(`/company/okrs`);
+        this.router.navigateByUrl('');
       }, (err) => {
         this.message = "Could not register. Log in instead if you're already registered.";
       });
