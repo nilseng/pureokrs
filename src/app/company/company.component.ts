@@ -40,6 +40,7 @@ export class CompanyComponent implements OnInit {
   }
 
   savedOkr(okr: Okr) {
+    this.parentId = undefined;
     this.getOkrs();
   }
 

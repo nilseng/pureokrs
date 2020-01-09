@@ -22,7 +22,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
 
   @Input() parentId: string;
   @Output() savedOkr = new EventEmitter<Okr>();
-  @Output() clearP = new EventEmitter();
 
   okr: Okr;
   krCount: number;
@@ -86,9 +85,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
-    if (!!this.parentId) {
-      this.getParent();
-    }
+    this.getParent();
   }
 
   save(): void {
@@ -101,9 +98,9 @@ export class NewOkrComponent implements OnInit, OnChanges {
           if (okr.parent) {
             this.addToParentOnSave(okr);
           } else {
-            this.clearForm();
             this.savedOkr.emit(okr);
           }
+          this.clearForm();
         });
     }
   }
@@ -116,11 +113,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
           this.okr.parent = okr._id;
         });
     }
-  }
-
-  clearParent() {
-    this.parent = undefined;
-    this.clearP.emit();
   }
 
   addKeyResult(): void {
