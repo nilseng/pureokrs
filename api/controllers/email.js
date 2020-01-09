@@ -19,7 +19,7 @@ module.exports.sendNewUserEmail = (email, companyName, token) => {
   let msg = {
     from: 'teodor.nilseng@gmail.com',
     text: 'Click the following link or paste it in your browser to set a password and activate your user. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
-    html: 'Click the following link to set a password and activate your user. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
+    html: 'Click the following link to set a password and activate your user. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Activate User</a>',
   };
   msg.subject = 'You now have a user at pureOKRs. Welcome!';
   msg.to = email;
