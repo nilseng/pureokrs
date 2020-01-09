@@ -22,6 +22,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
 
   @Input() parentId: string;
   @Output() savedOkr = new EventEmitter<Okr>();
+  @Output() clearParent = new EventEmitter();
 
   okr: Okr;
   krCount: number;
@@ -85,6 +86,13 @@ export class NewOkrComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges() {
+    this.okr = new Okr('');
+    this.okr.objective = '';
+    this.okr.keyResults = []
+    this.okr.keyResults.push(new KeyResult(''));
+    this.okr.userId = this.auth.getUserDetails()._id;
+    this.owner = this.auth.getUserDetails();
+    this.noObjective = false;
     this.getParent();
   }
 
@@ -150,6 +158,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.okr.userId = this.auth.getUserDetails()._id;
     this.owner = this.auth.getUserDetails();
     this.parent = undefined;
+    this.clearParent.emit()
     this.noObjective = false;
   }
 }
