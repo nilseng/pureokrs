@@ -63,7 +63,6 @@ export class UserService {
   }
 
   deleteUser(user: UserDetails): Observable<{}>{
-    console.log('trying to delete user', user.name);
     return this.http.delete<{}>(`${this.userUrl}/delete/${user._id}`,
       {
         headers: {

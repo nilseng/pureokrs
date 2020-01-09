@@ -70,9 +70,16 @@ module.exports.addUser = (req, res) => {
             if (err) {
                 res.status(400).json(err);
             } else {
-                //Send email to new user
-                email.sendNewUserEmail(user.email, user.company);
-                res.status(200).json('New user created.');
+                //hashing the email to use as token when resetting password
+                crypto.pbkdf2(user.email, user.salt, 1000, 64, 'sha512', (err, hash) => {
+                    if (err) {
+                        res.status(400).json('Could not generate token for email to new user.');
+                    } else {
+                        let token = hash.toString('hex');
+                        email.sendNewUserEmail(user.email, user.company, token);
+                        res.status(200).json('New user created.');
+                    }
+                });
             }
         });
     }

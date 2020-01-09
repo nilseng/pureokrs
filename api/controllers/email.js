@@ -15,7 +15,12 @@ module.exports.sendEmail = (email, companyName) => {
   return;
 }
 
-module.exports.sendNewUserEmail = (email, companyName) => {
+module.exports.sendNewUserEmail = (email, companyName, token) => {
+  let msg = {
+    from: 'teodor.nilseng@gmail.com',
+    text: 'Follow the following link to set a password and activate your user. https://www.pureokrs.com/resetpassword/'+ email + '/' + token,
+    html: 'Follow the link below to reset your password. <a href="https://www.pureokrs.com/resetpassword/'+ email + '/' + token +'">Reset</a>',
+  };
   msg.subject = 'You now have a user at pureOKRs. Welcome!';
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);

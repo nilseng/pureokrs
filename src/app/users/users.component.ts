@@ -59,7 +59,6 @@ export class UsersComponent implements OnInit {
   confirmDelete(): void{
     this.userService.deleteUser(this.initDeleteUser)
       .subscribe(() => {
-        console.log(`Deleted the user of ${this.initDeleteUser.name}`);
         this.getUsers();
         if(this.auth.getUserDetails().email === this.initDeleteUser.email){
           this.initDeleteUser = null;
