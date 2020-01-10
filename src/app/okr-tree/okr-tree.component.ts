@@ -147,7 +147,26 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   }
 
   savedOkr(okr: Okr) {
-    this.getOkrs();
+    this.okrs.push(okr)
+    if(!!okr.parent){
+      let parent = this.okrs.find(parent => parent._id === okr.parent)
+      parent.children.push(okr._id)
+      let parentNode = this.nodes.find(node => node.data.okr._id === okr.parent)
+      if(parentNode.children && parentNode.children.length > 0){
+        parentNode.data.children = []
+        this.pushChildren(parentNode)
+      }
+    }else{
+      let childNode = new Node(
+        okr,
+        this._nodeWidth,
+        this._nodeHeight,
+        this._width / 2 - this._nodeWidth / 2,
+        this._nodeHeight / 2
+      );
+      this.rootNode.children.push(childNode);
+      this.draw(this.rootNode);
+    }
   }
 
 }
