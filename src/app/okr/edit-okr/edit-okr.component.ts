@@ -28,8 +28,8 @@ export class EditOkrComponent implements OnInit {
   @Output() clearP = new EventEmitter();
 
   krCount: number;
-
   noObjective: boolean;
+  oldParentId: string;
 
   //Variables for searching for OKR owner
   users$: Observable<{}>;
@@ -83,6 +83,7 @@ export class EditOkrComponent implements OnInit {
   }
 
   ngOnChanges() {
+    this.oldParentId = this.okr.parent;
     this.userService.getUser(this.okr.userId)
       .subscribe(owner => this.owner = owner);
     this.getParent();
@@ -95,8 +96,8 @@ export class EditOkrComponent implements OnInit {
     } else {
       this.okrService.updateOkr(this.okr)
         .subscribe((okr: Okr) => {
-          if (okr.parent) {
-            this.addToParentOnSave(okr);
+          if (okr.parent && okr.parent !== this.oldParentId) {
+            this.changeParent(okr)
           } else {
             this.savedOkr.emit(okr);
           }
@@ -128,7 +129,14 @@ export class EditOkrComponent implements OnInit {
     this.okr.keyResults.splice(index, 1);
   }
 
-  addToParentOnSave(okr: Okr) {
+  changeParent(child: Okr){
+    this.okrService.removeChild(this.oldParentId, child._id)
+      .subscribe(() => {
+        this.addChildToParent(child)
+      });
+  }  
+
+  addChildToParent(okr: Okr) {
     this.okrService.addChild(okr.parent, okr._id)
       .subscribe(() => {
         this.savedOkr.emit(okr);

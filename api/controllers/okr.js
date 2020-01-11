@@ -13,8 +13,8 @@ module.exports.create = (req, res) => {
                 if (err) {
                     res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' });
                 } else {
-                    if(!req.body.okr.parent || req.body.okr.parent === '' ) delete req.body.okr.parent;
-                    if(!req.body.okr.userId || req.body.okr.userId === '') delete req.body.okr.userId;
+                    if (!req.body.okr.parent || req.body.okr.parent === '') delete req.body.okr.parent;
+                    if (!req.body.okr.userId || req.body.okr.userId === '') delete req.body.okr.userId;
                     var okr = new Okr(req.body.okr);
                     okr.company = user.company;
                     okr.save((err) => {
@@ -88,6 +88,33 @@ module.exports.addChild = (req, res) => {
                         });
                 }
             });
+    }
+}
+
+module.exports.removeChild = (req, res) => {
+    if (!req.payload._id) {
+        res.status(401).json({ 'message': 'UnauthorizedError: User does not seem to be logged in.' })
+    } else if (!req.body.parentId || !req.body.childId) {
+        res.status(400).json('parentId and/or childId not received by the server.')
+    } else {
+        User.findById(req.payload._id)
+            .exec((err, user) => {
+                if(err){
+                    res.status(401).json('User not found')
+                }else{
+                    Okr.findByIdAndUpdate(
+                        mongoose.Types.ObjectId(req.body.parentId),
+                        { $pull: {children: mongoose.Types.ObjectId(req.body.childId)}},
+                        (err, okr) => {
+                            if(err){
+                                res.status(400).json(err)
+                            }else{
+                                res.status(200).json('Removed child from parent')
+                            }
+                        }
+                    )
+                }
+            })
     }
 }
 

@@ -62,7 +62,6 @@ export class OkrComponent implements OnChanges {
     this.okrService.getChildren(this.okr._id)
       .subscribe(children => {
         this.children = children;
-        this.verifyChildrenList();
         this.showChildren = true;
       });
   }
@@ -73,16 +72,6 @@ export class OkrComponent implements OnChanges {
 
   editOkr(okr: Okr){
     this.okrToEdit.emit(okr);
-  }
-
-  //TODO: This method should not be necessary and should be removed
-  verifyChildrenList(): void {
-    for (let child in this.children) {
-      if (!this.okr.children.includes(this.children[child]._id)) {
-        this.okrService.addChild(this.okr._id, this.children[child]._id)
-          .subscribe(() => console.log('Added childId to parent children array'));
-      }
-    }
   }
 
   hideChildren(): void {

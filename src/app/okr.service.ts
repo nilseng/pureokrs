@@ -99,14 +99,14 @@ export class OkrService {
 
   /**POST: add a new OKR to the server */
   createOkr(okr: Okr): Observable<Okr> {
-    return this.http.post(this.okrsUrl, {'okr': okr},
+    return this.http.post(this.okrsUrl, { 'okr': okr },
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`,
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap((okr: Okr) => {}),
+        tap((okr: Okr) => { }),
         catchError(this.handleError<Okr>('createOkr'))
       );
   }
@@ -132,7 +132,7 @@ export class OkrService {
   updateOkr(okr: Okr): Observable<any> {
     const id = typeof okr === 'string' ? okr : okr._id;
 
-    return this.http.put(this.okrsUrl, {okr}, {
+    return this.http.put(this.okrsUrl, { okr }, {
       headers: {
         Authorization: `Bearer ${this.auth.getToken()}`,
         'Content-Type': 'application/json'
@@ -153,9 +153,22 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap(),
         catchError(this.handleError('addChild'))
       );
+  }
+
+  /**PUT: Remove child OKR from parent OKR */
+  removeChild(parentId: string, childId: string) {
+    return this.http.put(`${this.okrsUrl}/removeChild`,
+      { 'parentId': parentId, 'childId': childId },
+      {
+        headers: {
+          Authorization: `Bearer ${this.auth.getToken()}`,
+          'Content-Type': 'application/json'
+        }
+      }).pipe(
+      catchError(this.handleError('addChild'))
+    )
   }
 
   /**

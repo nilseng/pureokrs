@@ -23,6 +23,7 @@ router.get('/okr/company/all', auth, ctrlOkr.getOkrs);
 router.get('/okr/children/:id', auth, ctrlOkr.getChildren);
 router.get('/okr/objective/:term', auth, ctrlOkr.getOkrsByObjective);
 router.put('/okr/child', auth, ctrlOkr.addChild);
+router.put('/okr/removeChild', auth, ctrlOkr.removeChild);
 router.delete('/okr/:id', auth, ctrlOkr.deleteOkr);
 router.put('/okr', auth, ctrlOkr.updateOkr);
 
