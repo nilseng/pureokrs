@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { RegisterComponent } from './register/register.component';
 import { LoginComponent } from './login/login.component';
-import { CompanyComponent } from './company/company.component';
+import { OkrListComponent } from './okr-list/okr-list.component';
 import { AuthenticationService } from './authentication.service';
 import { AuthGuardService } from './auth-guard.service';
 import { OkrComponent } from './okr/okr.component';
@@ -45,7 +45,7 @@ import {UsersResolver} from './users/users-resolver.service';
     AppComponent,
     RegisterComponent,
     LoginComponent,
-    CompanyComponent,
+    OkrListComponent,
     OkrComponent,
     NewOkrComponent,
     EditOkrComponent,

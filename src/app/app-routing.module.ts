@@ -5,7 +5,7 @@ import { AuthGuardService } from './auth-guard.service';
 
 import {LoginComponent} from './login/login.component';
 import {RegisterComponent} from './register/register.component';
-import {CompanyComponent} from './company/company.component';
+import {OkrListComponent} from './okr-list/okr-list.component';
 import { UsersComponent } from './users/users.component';
 import {ResetpasswordComponent} from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
@@ -16,7 +16,7 @@ import { OkrResolver} from './okr/okr-resolver.service';
 import { UsersResolver } from './users/users-resolver.service';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', component: CompanyComponent, canActivate: [AuthGuardService], resolve: {okrs: Level0OkrResolver}},
+  {path: '', pathMatch: 'full', component: OkrListComponent, canActivate: [AuthGuardService], resolve: {okrs: Level0OkrResolver}},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'okr-tree', component: OkrTreeComponent, canActivate: [AuthGuardService], resolve: {okrs: OkrResolver}},

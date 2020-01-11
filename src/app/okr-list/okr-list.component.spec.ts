@@ -1,6 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CompanyComponent } from './company.component';
+import { OkrListComponent } from './okr-list.component';
 import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -8,8 +8,8 @@ import { AuthenticationService } from '../authentication.service';
 import { of } from 'rxjs';
 
 describe('CompanyComponent', () => {
-  let component: CompanyComponent;
-  let fixture: ComponentFixture<CompanyComponent>;
+  let component: OkrListComponent;
+  let fixture: ComponentFixture<OkrListComponent>;
   let authenticationService: jasmine.SpyObj<AuthenticationService>;
 
   beforeEach(async(() => {
@@ -20,7 +20,7 @@ describe('CompanyComponent', () => {
         HttpClientTestingModule,
         RouterTestingModule
       ],
-      declarations: [ CompanyComponent ],
+      declarations: [ OkrListComponent ],
       providers: [{provide: AuthenticationService, useValue: authSpy}],
       schemas: [NO_ERRORS_SCHEMA]
     })
@@ -30,7 +30,7 @@ describe('CompanyComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CompanyComponent);
+    fixture = TestBed.createComponent(OkrListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -7,10 +7,9 @@ import { Okr } from '../okr/okr';
 
 @Component({
   selector: 'app-company',
-  templateUrl: './company.component.html',
-  styleUrls: ['./company.component.css']
+  templateUrl: './okr-list.component.html'
 })
-export class CompanyComponent implements OnInit {
+export class OkrListComponent implements OnInit {
 
   okrs: Okr[];
   newOKR: boolean;
