@@ -95,8 +95,12 @@ export class EditOkrComponent implements OnInit {
     } else {
       this.okrService.updateOkr(this.okr)
         .subscribe((okr: Okr) => {
+          if (okr.parent) {
+            this.addToParentOnSave(okr);
+          } else {
+            this.savedOkr.emit(okr);
+          }
           this.clearForm();
-          this.savedOkr.emit(okr);
         });
     }
   }
