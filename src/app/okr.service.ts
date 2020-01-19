@@ -32,7 +32,6 @@ export class OkrService {
       }
     )
       .pipe(
-        tap(),
         catchError(this.handleError<Okr[]>('getOkrs'))
       );
   }
@@ -45,7 +44,6 @@ export class OkrService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap(),
         catchError(this.handleError<Okr[]>('getCompanyOKRs'))
       );
   }
@@ -60,7 +58,6 @@ export class OkrService {
         }
       }
     ).pipe(
-      tap(),
       catchError(this.handleError<Okr>(`getOkr id=${id}`))
     );
   }
@@ -78,27 +75,25 @@ export class OkrService {
         }
       }
     ).pipe(
-      tap(),
       catchError(this.handleError<Okr[]>('searchOkrs', []))
     );
   }
 
   /**GET the child OKRs of parent OKR */
-  getChildren(id: string): Observable<{}> {
-    return this.http.get<{}>(`${this.okrsUrl}/children/${id}`,
+  getChildren(id: string): Observable<Okr[]> {
+    return this.http.get<Okr[]>(`${this.okrsUrl}/children/${id}`,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }
     ).pipe(
-      tap(),
-      catchError(this.handleError<{}>('getChildren', {}))
+      catchError(this.handleError<Okr[]>('getChildren', []))
     );
   }
 
   /**POST: add a new OKR to the server */
-  createOkr(okr: Okr): Observable<Okr> {
+  createOkr(okr: Okr): Observable<Okr | Object> {
     return this.http.post(this.okrsUrl, { 'okr': okr },
       {
         headers: {
@@ -106,9 +101,8 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap((okr: Okr) => { }),
         catchError(this.handleError<Okr>('createOkr'))
-      );
+      )
   }
 
   /**DELETE: delete the OKR from the server */
@@ -123,7 +117,6 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-        tap(),
         catchError(this.handleError<{}>('deleteOkr'))
       );
   }
@@ -138,7 +131,6 @@ export class OkrService {
         'Content-Type': 'application/json'
       }
     }).pipe(
-      tap(),
       catchError(this.handleError<any>('updateOkr'))
     );
   }
@@ -167,8 +159,8 @@ export class OkrService {
           'Content-Type': 'application/json'
         }
       }).pipe(
-      catchError(this.handleError('addChild'))
-    )
+        catchError(this.handleError('addChild'))
+      )
   }
 
   /**

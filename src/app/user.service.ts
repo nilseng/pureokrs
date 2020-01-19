@@ -26,7 +26,6 @@ export class UserService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap(),
         catchError(this.handleError<UserDetails>(`getUser id=${id}`))
       );
   }
@@ -40,25 +39,23 @@ export class UserService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        tap(),
         catchError(this.handleError<{User}>(`getUsers company=${company}`))
       );
   }
 
-  searchUsers(term: string): Observable<{}> {
+  searchUsers(term: string): Observable<UserDetails[]> {
     if (!term.trim()) {
       //if not search term, return empty user array
       return of([]);
     }
-    return this.http.get<{}>(`${this.userUrl}/search/${term}`,
+    return this.http.get<UserDetails[]>(`${this.userUrl}/search/${term}`,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }
     ).pipe(
-      tap(),
-      catchError(this.handleError<{}>('searchUsers', {}))
+      catchError(this.handleError<UserDetails[]>('searchUsers', []))
     );
   }
 
@@ -70,7 +67,6 @@ export class UserService {
         }
       }
     ).pipe(
-      tap(),
       catchError(this.handleError<{}>('deleteUser', {}))
     );
   }

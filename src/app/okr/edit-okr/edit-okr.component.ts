@@ -1,45 +1,44 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Router } from '@angular/router';
-import { Location } from '@angular/common';
-import { Observable, Subject } from 'rxjs';
+import { Component, OnInit, Input, OnChanges, Output, EventEmitter } from '@angular/core'
+import { Router } from '@angular/router'
+import { Observable, Subject } from 'rxjs'
 import {
-  debounceTime, distinctUntilChanged, switchMap
-} from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
-import {faPlusCircle, faTrashAlt} from '@fortawesome/free-solid-svg-icons';
+  debounceTime, distinctUntilChanged, switchMap, map
+} from 'rxjs/operators'
+import { ActivatedRoute } from '@angular/router'
+import { faPlusCircle, faTrashAlt } from '@fortawesome/free-solid-svg-icons'
 
-import { Okr, KeyResult } from '../okr';
-import { OkrService } from '../../okr.service';
-import { AuthenticationService, UserDetails } from '../../authentication.service';
-import { UserService } from '../../user.service';
+import { Okr, KeyResult } from '../okr'
+import { OkrService } from '../../okr.service'
+import { AuthenticationService, UserDetails } from '../../authentication.service'
+import { UserService } from '../../user.service'
+import { HierarchyNode } from 'd3'
+import { OkrNode } from 'src/app/okr-list/okr-node/okr-node'
 
 @Component({
   selector: 'app-edit-okr',
   templateUrl: './edit-okr.component.html',
   styleUrls: ['./edit-okr.component.css']
 })
-export class EditOkrComponent implements OnInit {
+export class EditOkrComponent implements OnChanges {
 
-  faPlusCircle = faPlusCircle;
-  faTrashAlt = faTrashAlt;
+  faPlusCircle = faPlusCircle
+  faTrashAlt = faTrashAlt
 
-  @Input() okr: Okr;
-  @Output() savedOkr = new EventEmitter<Okr>();
-  @Output() clearP = new EventEmitter();
+  @Input() okrHierarchyNode: HierarchyNode<OkrNode>
+  @Output() savedOkr = new EventEmitter<Okr>()
 
-  krCount: number;
-  noObjective: boolean;
-  oldParentId: string;
+  noObjective: boolean
 
   //Variables for searching for OKR owner
-  users$: Observable<{}>;
-  private ownerSearchTerms = new Subject<string>();
-  owner: UserDetails;
+  users$: Observable<UserDetails[]>
+  private ownerSearchTerms = new Subject<string>()
+  owner: UserDetails
 
   //Variables for searching for OKR parent
-  parents$: Observable<{}>;
-  private parentSearchTerms = new Subject<string>();
-  parent: Okr;
+  parents$: Observable<Okr[]>
+  private parentSearchTerms = new Subject<string>()
+  parent: Okr
+  descendants: string[]
 
   constructor(
     private okrService: OkrService,
@@ -51,118 +50,100 @@ export class EditOkrComponent implements OnInit {
 
   // Push a owner search term into the observable stream.
   ownerSearch(term: string): void {
-    this.ownerSearchTerms.next(term);
+    this.ownerSearchTerms.next(term)
   }
 
   // Push a parent OKR search term into the observable stream.
   parentSearch(term: string): void {
-    this.parentSearchTerms.next(term);
-  }
-
-  ngOnInit() {
-
-    this.noObjective = false;
-
-    this.users$ = this.ownerSearchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.userService.searchUsers(term)),
-    );
-
-    this.parents$ = this.parentSearchTerms.pipe(
-      // wait 300ms after each keystroke before considering the term
-      debounceTime(300),
-      // ignore new term if same as previous term
-      distinctUntilChanged(),
-      // switch to new search observable each time the term changes
-      switchMap((term: string) => this.okrService.searchOkrs(term)),
-    );
+    this.parentSearchTerms.next(term)
   }
 
   ngOnChanges() {
-    this.oldParentId = this.okr.parent;
-    this.userService.getUser(this.okr.userId)
-      .subscribe(owner => this.owner = owner);
-    this.getParent();
+    this.userService.getUser(this.okrHierarchyNode.data.okr.userId)
+      .subscribe(owner => this.owner = owner)
+    this.parent = this.okrHierarchyNode.parent.data.okr
+    this.noObjective = false
+    this.descendants = this.okrHierarchyNode.descendants().map(okr => okr.data.okr._id)
+
+    this.users$ = this.ownerSearchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.userService.searchUsers(term))
+    )
+
+    this.parents$ = this.parentSearchTerms.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      switchMap((term: string) => this.okrService.searchOkrs(term)),
+      map(parents => parents.filter(parent => !this.descendants.includes(parent._id) && parent._id !== this.okrHierarchyNode.data.okr.parent))
+    )
   }
 
   save(): void {
-    if (!this.okr.objective.trim()) {
-      this.noObjective = true;
-      return;
+    if (!this.okrHierarchyNode.data.okr.objective.trim()) {
+      this.noObjective = true
+      return
     } else {
-      this.okrService.updateOkr(this.okr)
+      this.okrService.updateOkr(this.okrHierarchyNode.data.okr)
         .subscribe((okr: Okr) => {
-          if (okr.parent && okr.parent !== this.oldParentId) {
+          if (okr.parent && okr.parent !== this.okrHierarchyNode.parent.data.okr._id) {
             this.changeParent(okr)
           } else {
-            this.savedOkr.emit(okr);
+            this.clearForm()
+            this.savedOkr.emit(okr)
           }
-          this.clearForm();
-        });
-    }
-  }
-
-  getParent() {
-    if (this.okr.parent) {
-      this.okrService.getOkr(this.okr.parent)
-        .subscribe((okr: Okr) => {
-          this.parent = okr;
-          this.okr.parent = okr._id;
-        });
+        })
     }
   }
 
   clearParent() {
-    this.parent = undefined;
-    this.clearP.emit();
+    this.parent = undefined
   }
 
   addKeyResult(): void {
-    this.okr.keyResults.push(new KeyResult(''));
+    this.okrHierarchyNode.data.okr.keyResults.push(new KeyResult(''))
   }
 
   removeKeyResult(index: number): void {
-    this.okr.keyResults.splice(index, 1);
+    this.okrHierarchyNode.data.okr.keyResults.splice(index, 1)
   }
 
-  changeParent(child: Okr){
-    this.okrService.removeChild(this.oldParentId, child._id)
-      .subscribe(() => {
-        this.addChildToParent(child)
-      });
-  }  
+  changeParent(okr: Okr) {
+    this.okrHierarchyNode.parent.data.children
+        .splice(this.okrHierarchyNode.parent.data.children.indexOf(this.okrHierarchyNode.data), 1)
+    if (this.okrHierarchyNode.parent.depth === 0) {
+      this.addChildToParent(okr)
+    } else {
+      this.okrService.removeChild(this.okrHierarchyNode.parent.data.okr._id, okr._id)
+        .subscribe(() => {
+          this.addChildToParent(okr)
+        })
+    }
+  }
 
-  addChildToParent(okr: Okr) {
-    this.okrService.addChild(okr.parent, okr._id)
+  addChildToParent(child: Okr) {
+    this.okrService.addChild(child.parent, child._id)
       .subscribe(() => {
-        this.savedOkr.emit(okr);
-      });
+        this.clearForm()
+        this.savedOkr.emit(child)
+      })
   }
 
   assign(owner: UserDetails): void {
-    this.okr.userId = owner._id;
-    this.owner = owner;
-    this.ownerSearch('');
+    this.okrHierarchyNode.data.okr.userId = owner._id
+    this.owner = owner
+    this.ownerSearch('')
   }
 
   link(parent: Okr): void {
-    this.okr.parent = parent._id;
-    this.parent = parent;
-    this.parentSearch('');
+    this.okrHierarchyNode.data.okr.parent = parent._id
+    this.parent = parent
+    this.parentSearch('')
   }
 
   clearForm() {
-    this.okr = new Okr('');
-    this.okr.objective = '';
-    this.okr.keyResults = []
-    this.okr.keyResults.push(new KeyResult(''));
-    this.okr.userId = this.auth.getUserDetails()._id;
-    this.owner = this.auth.getUserDetails();
-    this.parent = undefined;
-    this.noObjective = false;
+    this.owner = this.auth.getUserDetails()
+    this.parent = undefined
+    this.noObjective = false
   }
 }

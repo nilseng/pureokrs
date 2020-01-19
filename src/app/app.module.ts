@@ -10,7 +10,7 @@ import { LoginComponent } from './login/login.component';
 import { OkrListComponent } from './okr-list/okr-list.component';
 import { AuthenticationService } from './authentication.service';
 import { AuthGuardService } from './auth-guard.service';
-import { OkrComponent } from './okr/okr.component';
+import { OkrNodeComponent } from './okr-list/okr-node/okr-node.component';
 import { NewOkrComponent } from './okr/new-okr/new-okr.component';
 import { EditOkrComponent } from './okr/edit-okr/edit-okr.component';
 import { UsersComponent } from './users/users.component';
@@ -27,7 +27,6 @@ import { OcticonDirective } from './shared/octicon-directive.directive';
 import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
 import { OkrService } from './okr.service';
 import { OkrResolver } from './okr/okr-resolver.service';
-import { Level0OkrResolver} from './okr/level0-okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {UsersResolver} from './users/users-resolver.service';
@@ -46,7 +45,7 @@ import {UsersResolver} from './users/users-resolver.service';
     RegisterComponent,
     LoginComponent,
     OkrListComponent,
-    OkrComponent,
+    OkrNodeComponent,
     NewOkrComponent,
     EditOkrComponent,
     UsersComponent,
@@ -67,7 +66,6 @@ import {UsersResolver} from './users/users-resolver.service';
     AuthGuardService, 
     D3Service,
     OkrService,
-    Level0OkrResolver,
     OkrResolver,
     UsersResolver
   ],

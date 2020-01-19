@@ -1,64 +1,91 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { Component, OnInit } from '@angular/core'
+import { ActivatedRoute } from '@angular/router'
+import * as d3 from 'd3'
+import { HierarchyNode, hierarchy } from 'd3-hierarchy'
 
-import { AuthenticationService, UserDetails } from '../authentication.service';
-import { OkrService } from '../okr.service';
-import { Okr } from '../okr/okr';
+import { AuthenticationService, UserDetails } from '../authentication.service'
+import { OkrService } from '../okr.service'
+import { Okr } from '../okr/okr'
+import { OkrNode } from './okr-node/okr-node'
+import { Observable, of } from 'rxjs'
+import { map } from 'rxjs/operators'
+import { OkrTreeService } from '../okr-tree.service'
 
 @Component({
-  selector: 'app-company',
   templateUrl: './okr-list.component.html'
 })
 export class OkrListComponent implements OnInit {
 
-  okrs: Okr[];
-  newOKR: boolean;
-  user: UserDetails;
+  rootOkr: OkrNode
+  root: HierarchyNode<OkrNode>
 
-  parentId: string;
-  okrToEdit: Okr;
+  newOKR: boolean
+  user: UserDetails
+
+  parentId: string
+  okrNodeToEdit: Okr
 
   constructor(
     private auth: AuthenticationService,
-    private okrService: OkrService,
-    private route: ActivatedRoute) { }
+    private okrTreeService: OkrTreeService) { }
 
   ngOnInit() {
-    this.okrs = this.route.snapshot.data['okrs'];
-    this.newOKR = false;
-    this.getUserDetails();
-    this.parentId = '';
+    this.getRootOkr()
+    this.newOKR = false
+    this.getUserDetails()
+    this.parentId = ''
+  }
+
+  getRootOkr() {
+    this.okrTreeService.getOkrTree().subscribe(rootOkr => {
+      this.rootOkr = rootOkr
+      this.createHierarchy()
+    })
+  }
+
+  createHierarchy() {
+    this.root = hierarchy<OkrNode>(this.rootOkr)
   }
 
   getUserDetails(): void {
-    this.user = this.auth.getUserDetails();
+    this.user = this.auth.getUserDetails()
   }
 
-  hideOkr(okrId: string) {
-    this.getOkrs();
+  hideDeletedNode(okrHierarchyNode: HierarchyNode<OkrNode>) {
+    if (okrHierarchyNode.children && okrHierarchyNode.children.length > 0) {
+      this.rootOkr.children.push(...okrHierarchyNode.data.children)
+    }
+    okrHierarchyNode.parent.data.children.splice(okrHierarchyNode.parent.data.children.indexOf(okrHierarchyNode.data), 1)
+    this.createHierarchy()
   }
 
   savedOkr(okr: Okr) {
-    this.parentId = undefined;
-    this.getOkrs();
-  }
-
-  getOkrs() {
-    this.okrService.getCompanyOkrs()
-      .subscribe(okrs => {
-        this.okrs = okrs;
-      });
+    this.parentId = undefined
+    if (okr.parent) {
+      this.root.each((node) => {
+        if (node.data.okr._id === okr.parent) {
+          if (!node.children) node.children = []
+          if (node.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
+            node.data.children.push(new OkrNode(okr))
+          }
+        }
+      })
+    } else {
+      if (!this.rootOkr.children) this.rootOkr.children = []
+      this.rootOkr.children.push(new OkrNode(okr))
+    }
+    this.createHierarchy()
   }
 
   addChild(parentId: string) {
-    this.parentId = parentId;
+    this.parentId = parentId
   }
 
-  editOkr(okr: Okr) {
-    this.okrToEdit = okr;
+  editOkrNode(okr: Okr) {
+    this.okrNodeToEdit = okr
   }
 
   clearParent() {
-    this.parentId = undefined;
+    this.parentId = undefined
   }
 }

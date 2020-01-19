@@ -1,10 +1,9 @@
-import { Component, OnInit, HostListener, AfterViewInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, HostListener, ViewChild, ElementRef } from '@angular/core';
 import * as d3 from 'd3';
-import { HierarchyPointNode, TreeLayout, HierarchyPointLink } from 'd3-hierarchy';
+import { HierarchyPointNode, TreeLayout } from 'd3-hierarchy';
 import { Okr } from '../okr/okr';
 import { OkrService } from '../okr.service';
 import { Node } from './node/node';
-import { Edge } from './edge/edge';
 import { AuthenticationService, UserDetails } from '../authentication.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -13,7 +12,7 @@ import { ActivatedRoute } from '@angular/router';
   templateUrl: './okr-tree.component.html',
   styleUrls: ['./okr-tree.component.css']
 })
-export class OkrTreeComponent implements OnInit, AfterViewInit {
+export class OkrTreeComponent implements OnInit {
   @ViewChild('svg') svgEl: ElementRef;
   @ViewChild('container') containerEl: ElementRef;
   @ViewChild('modal') modal: ElementRef;
@@ -31,8 +30,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   okrs: Okr[];
   rootNode: Node;
-  edges: HierarchyPointLink<Node>[];
-  nodes: HierarchyPointNode<Node>[];
 
   _width: number;
   _height: number;
@@ -47,8 +44,7 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     private okrService: OkrService,
     private authService: AuthenticationService,
     private route: ActivatedRoute
-  ) {
-  }
+  ) { }
 
   ngOnInit() {
     this._width = window.innerWidth * 0.9;
@@ -58,10 +54,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
     this.getUserDetails();
     this.okrs = this.route.snapshot.data['okrs'];
     this.initOkrTree();
-  }
-
-  ngAfterViewInit() {
-    
   }
 
   getUserDetails() {
@@ -79,8 +71,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
   }
 
   private draw(root: Node) {
-    this.edges = [];
-    this.nodes = [];
     this.root = undefined;
 
     let width = this._width;
@@ -97,8 +87,6 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
       }
     );
     this.root = this.tree(d3.hierarchy<Node>(this.rootNode));
-    this.nodes = this.root.descendants();
-    this.edges = this.root.links()
   }
 
   initOkrTree() {
@@ -110,7 +98,10 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
       this._nodeHeight / 2
     );
     let level0 = [];
-    level0 = this.okrs.filter(okr => !okr.parent || okr.parent === null || okr.parent == '');
+    let okrIds = this.okrs.map(okr => okr._id)
+    level0 = this.okrs.filter(okr => 
+      !okr.parent || okr.parent === null || okr.parent === '' || !okrIds.includes(okr.parent)
+    );
     let node: Node;
     for (let okr of level0) {
       node = new Node(
@@ -148,15 +139,15 @@ export class OkrTreeComponent implements OnInit, AfterViewInit {
 
   savedOkr(okr: Okr) {
     this.okrs.push(okr)
-    if(!!okr.parent){
+    if (!!okr.parent) {
       let parent = this.okrs.find(parent => parent._id === okr.parent)
       parent.children.push(okr._id)
-      let parentNode = this.nodes.find(node => node.data.okr._id === okr.parent)
-      if(parentNode.children && parentNode.children.length > 0){
+      let parentNode = this.root.descendants().find(node => node.data.okr._id === okr.parent)
+      if (parentNode.children && parentNode.children.length > 0) {
         parentNode.data.children = []
         this.pushChildren(parentNode)
       }
-    }else{
+    } else {
       let childNode = new Node(
         okr,
         this._nodeWidth,

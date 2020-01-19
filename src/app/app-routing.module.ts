@@ -11,12 +11,12 @@ import {ResetpasswordComponent} from './login/resetpassword/resetpassword.compon
 import { NewPasswordComponent } from './login/new-password/new-password.component';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { FaqComponent } from './faq/faq.component';
-import { Level0OkrResolver } from './okr/level0-okr-resolver.service';
 import { OkrResolver} from './okr/okr-resolver.service';
 import { UsersResolver } from './users/users-resolver.service';
+import { OkrTreeService } from './okr-tree.service';
 
 const routes: Routes = [
-  {path: '', pathMatch: 'full', component: OkrListComponent, canActivate: [AuthGuardService], resolve: {okrs: Level0OkrResolver}},
+  {path: '', pathMatch: 'full', component: OkrListComponent, canActivate: [AuthGuardService], resolve: {okrs: OkrResolver}},
   {path: 'login', component: LoginComponent},
   {path: 'register', component: RegisterComponent},
   {path: 'okr-tree', component: OkrTreeComponent, canActivate: [AuthGuardService], resolve: {okrs: OkrResolver}},

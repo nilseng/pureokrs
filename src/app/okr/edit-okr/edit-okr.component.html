@@ -10,9 +10,10 @@
       </div>
       <div class="modal-body">
 
-        <input class="form-control input-lg p-1 mb-2" [(ngModel)]="okr.objective" placeholder="Objective" />
+        <input class="form-control input-lg p-1 mb-2" [(ngModel)]="okrHierarchyNode.data.okr.objective" placeholder="Objective" />
         <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
-        <div class="form-row bg-light rounded p-0 mx-0 my-1" *ngFor="let kr of okr.keyResults;index as i">
+        <div class="form-row bg-light rounded p-0 mx-0 my-1" 
+          *ngFor="let kr of okrHierarchyNode.data.okr.keyResults;index as i">
           <div *ngIf="kr" class="form-group col-md-8">
             <label class="badge m-0" for="keyResult">Key Result</label>
             <input class="form-control input-sm m-1" [(ngModel)]="kr.keyResult" placeholder="Key Result"
@@ -56,7 +57,7 @@
             placeholder="Search for parent OKR" />
           <ul *ngIf="parents$" class="list-group px-1 py-0">
             <li *ngFor="let parent of parents$ | async" class="list-group-item py-0 my-0">
-              <a class="btn" [ngClass]="{'bg-light text-primary': parent._id===okr.parent}"
+              <a class="btn" [ngClass]="{'bg-light text-primary': parent._id===okrHierarchyNode.data.okr.parent}"
                 (click)="link(parent);parentSearchBox.value=''">
                 {{parent.objective}}
               </a>
@@ -65,7 +66,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button class="btn btn-success mr-1" [disabled]="!okr.objective" (click)="save()"
+        <button class="btn btn-success mr-1" [disabled]="!okrHierarchyNode.data.okr.objective" (click)="save()"
           data-dismiss="modal">Save</button>
       </div>
     </div>

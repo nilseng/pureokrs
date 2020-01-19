@@ -6,11 +6,11 @@
         <span octicon="kebab-horizontal" width="15px"></span>
       </a>
       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a class="dropdown-item" (click)="addChild(okr._id)" data-toggle="modal" data-target="#newOkrModal">
+        <a class="dropdown-item" (click)="addChild(okrHierarchyNode.data.okr._id)" data-toggle="modal" data-target="#newOkrModal">
           <fa-icon [icon]="faPlusCircle"></fa-icon>
           Add child OKR
         </a>
-        <a class="dropdown-item" (click)="editOkr(okr)" data-toggle="modal" data-target="#editOkrModal" >
+        <a class="dropdown-item" (click)="editOkrNode(okrHierarchyNode)" data-toggle="modal" data-target="#editOkrModal" >
           <fa-icon [icon]="faPen"></fa-icon>
           Edit
         </a>
@@ -42,12 +42,12 @@
     </p>
   </span>
   <h5 class="card-title">
-    <span>{{okr.objective}}</span>
+    <span>{{okrHierarchyNode.data.okr.objective}}</span>
   </h5>
-  <div class="card-body pt-0 pr-0 m-0">
+  <div class="card-body py-0 pr-0 m-0">
     <div class="row">
-      <ul *ngIf="okr.keyResults" class="list-group">
-        <li *ngFor="let kr of okr.keyResults"
+      <ul *ngIf="okrHierarchyNode.data.okr.keyResults" class="list-group">
+        <li *ngFor="let kr of okrHierarchyNode.data.okr.keyResults"
           class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2">
           {{kr?.keyResult}}
           <span *ngIf="!kr.progress && kr.progress!=0" class="badge badge-secondary">
@@ -69,16 +69,17 @@
         </li>
       </ul>
     </div>
-    <div *ngIf="!showChildren && (childrenCount > 0)" class="btn btn-link p-0 mt-2" (click)="getChildren()">
+    <div *ngIf="!okrHierarchyNode.data.isChildrenVisible && okrHierarchyNode.children?.length > 0" class="btn btn-link p-0 m-0" (click)="showChildren()">
       <fa-icon [icon]="faChevronDown"></fa-icon>
-      {{childrenCount}}
+      {{okrHierarchyNode.children.length}}
     </div>
-    <div *ngIf="showChildren && (childrenCount > 0)" class="btn btn-link p-0 mt-2" (click)="hideChildren()">
+    <div *ngIf="okrHierarchyNode.data.isChildrenVisible && okrHierarchyNode.children?.length > 0" class="btn btn-link p-0 m-0" (click)="hideChildren()">
       <fa-icon [icon]="faChevronUp"></fa-icon>
     </div>
   </div>
 </div>
-<div *ngIf="showChildren" class="ml-4 mt-1">
-  <app-okr *ngFor="let child of children" [okr]="child" (hideOkrId)=hideChild($event) (okrToEdit)="editOkr($event)" (parentId)="addChild($event)">
-  </app-okr>
+<div *ngIf="okrHierarchyNode.data.isChildrenVisible" class="ml-4 mt-1">
+  <app-okr-node *ngFor="let child of okrHierarchyNode.children" [okrHierarchyNode]="child" 
+  (deletedNode)=hideDeletedNode($event) (okrNodeToEdit)="editOkrNode($event)" (parentId)="addChild($event)">
+  </app-okr-node>
 </div>

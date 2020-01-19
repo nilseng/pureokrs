@@ -2,8 +2,8 @@
   <svg:rect #rect
     [attr.x]="X" 
     [attr.y]="Y"
-    [attr.width]="node.data.width" 
-    [attr.height]="node.data.height"
+    [attr.width]="okrTreeNode.data.width" 
+    [attr.height]="okrTreeNode.data.height"
     [attr.rx]="2"
     [attr.ry]="2" 
     style="fill:rgb(249,249,249);stroke-width:1;stroke:#428bca">
@@ -15,25 +15,25 @@
     dominant-baseline="middle"
     text-anchor="middle"
     style="font-weight: bold;">
-    {{node.data.okr.objective}}
+    {{okrTreeNode.data.okr.objective}}
   </svg:text>
   <svg:a #showChildrenLink
     style="text-decoration: none;"
     (click)="showChildren()">
-    <svg:circle *ngIf="node.parent!=null"
+    <svg:circle *ngIf="okrTreeNode.parent!=null"
       [attr.cx]="cx"
       [attr.cy]="cy"
       [attr.r]="10"
       style="fill:#428bca">
     </svg:circle>
-    <svg:text *ngIf="node.data.okr.children && node.data.okr.children.length>0 && node.parent"
+    <svg:text *ngIf="okrTreeNode.data.okr.children && okrTreeNode.data.okr.children.length>0 && okrTreeNode.parent"
       [attr.x]="cx"
       [attr.y]="cy"
       [attr.font-size]="10"
       dominant-baseline="middle"
       text-anchor="middle"
       style="fill:rgb(249,249,249);font-weight: bold;">
-      {{node.data.okr.children.length}}
+      {{okrTreeNode.data.okr.children.length}}
     </svg:text>
     <svg:path #progress
       style="fill:none;stroke-width:2;stroke:#5cb85c;"/>

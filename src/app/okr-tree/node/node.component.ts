@@ -7,14 +7,14 @@ import { HierarchyPointNode } from 'd3';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
-  selector: '[node]',
+  selector: '[okrTreeNode]',
   templateUrl: './node.component.html',
   styleUrls: ['./node.component.css']
 })
 export class NodeComponent implements OnInit, AfterViewInit {
   faPen = faPen;
 
-  @Input() node: HierarchyPointNode<Node>;
+  @Input() okrTreeNode: HierarchyPointNode<Node>;
   @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
   @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
 
@@ -47,11 +47,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngOnInit() {
     this.maxLines = 3;
-    this.X = this.node.x + this.node.data.offsetX;
-    this.Y = this.node.y + this.node.data.offsetY;
-    this.cx = this.X + this.node.data.width / 2;
-    this.cy = this.Y + this.node.data.height;
-    this.texty = this.Y + this.node.data.height / 2;
+    this.X = this.okrTreeNode.x + this.okrTreeNode.data.offsetX;
+    this.Y = this.okrTreeNode.y + this.okrTreeNode.data.offsetY;
+    this.cx = this.X + this.okrTreeNode.data.width / 2;
+    this.cy = this.Y + this.okrTreeNode.data.height;
+    this.texty = this.Y + this.okrTreeNode.data.height / 2;
 
     this.childrenVisible = false;
 
@@ -64,25 +64,25 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   showChildrenLink() {
-    if (this.node.data.okr.children && this.node.data.okr.children.length > 0) {
+    if (this.okrTreeNode.data.okr.children && this.okrTreeNode.data.okr.children.length > 0) {
       d3.select(this.childrenLink.nativeElement).style('cursor', 'pointer');
     }
   }
 
   showChildren() {
-    if (this.node.children && this.node.children.length > 0) {
-      this.nodeHide.emit(this.node);
+    if (this.okrTreeNode.children && this.okrTreeNode.children.length > 0) {
+      this.nodeHide.emit(this.okrTreeNode);
     } else {
-      this.nodeShow.emit(this.node);
+      this.nodeShow.emit(this.okrTreeNode);
     }
   }
 
   wrapTextinNode() {
     //Get the full text from the svg text element
-    this.text = this.node.data.okr.objective;
+    this.text = this.okrTreeNode.data.okr.objective;
 
     //Calculate number of chars per line
-    let lineChars = Math.floor(this.node.data.width / 6);//Math.floor(chars / this.lineNum) - 1;
+    let lineChars = Math.floor(this.okrTreeNode.data.width / 6);//Math.floor(chars / this.lineNum) - 1;
 
     //Clear the svg text element and initialize variables
     this.textEl.nativeElement.innerHTML = '';
@@ -155,10 +155,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
   }
 
   getProgress(): void {
-    if (this.node.data.okr._id) {
+    if (this.okrTreeNode.data.okr._id) {
       let sum = 0;
       let count = 0;
-      this.node.data.okr.keyResults
+      this.okrTreeNode.data.okr.keyResults
         .forEach(kr => {
           if (kr.progress) {
             sum += kr.progress;

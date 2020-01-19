@@ -1,6 +1,7 @@
 .okr{
     width: 500px;
     max-width: 500px;
+    border-radius: 1px;
 }
 
 .dropdown-item:hover {cursor: pointer}
