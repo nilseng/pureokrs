@@ -42,7 +42,7 @@ export class NewPasswordComponent implements OnInit {
       .subscribe(()=>{
         this.router.navigateByUrl('');
       }, (err) => {
-        this.message = 'Wrong username or password'
+        this.message = 'Somethin went wrong. Please get in touch at contact@pureokrs.com'
       });
   }
 }
