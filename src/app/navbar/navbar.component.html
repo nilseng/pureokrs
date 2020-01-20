@@ -13,6 +13,12 @@
           <a routerLink="/register" class="nav-link">Register</a>
         </li>
         <li *ngIf="auth.isLoggedIn()" class="nav-item">
+          <a routerLink="" class="nav-link">
+            <fa-icon [icon]="faStream"></fa-icon>
+            List view
+          </a>
+        </li>
+        <li *ngIf="auth.isLoggedIn()" class="nav-item">
           <a routerLink="/okr-tree" class="nav-link">
             <fa-icon [icon]="faSitemap"></fa-icon>
             Tree view

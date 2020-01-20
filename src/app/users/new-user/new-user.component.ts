@@ -3,8 +3,7 @@ import { AuthenticationService, TokenPayload } from '../../authentication.servic
 
 @Component({
   selector: 'app-new-user',
-  templateUrl: './new-user.component.html',
-  styleUrls: ['./new-user.component.css']
+  templateUrl: './new-user.component.html'
 })
 export class NewUserComponent implements OnInit {
 

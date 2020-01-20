@@ -1,12 +1,12 @@
 <h2 class="text-light m-1">
   {{user.company}}'s users.
 </h2>
-<button *ngIf="!userForm" class="btn btn-primary my-4 mx-1" (click)="showUserForm()">
+<button *ngIf="!userForm" class="btn btn-primary my-4" (click)="showUserForm()">
   <fa-icon [icon]="faPlusCircle"></fa-icon>
   Add User
 </button>
 <app-new-user *ngIf="userForm" (hide)="hideUserForm($event)"></app-new-user>
-<div class="table-responsive-sm bg-light py-2 rounded mx-1 mb-4">
+<div class="table-responsive-sm bg-light py-2 rounded mb-4">
   <table class="table table-striped bg-light my-1">
     <thead>
       <tr style="border-top: 0">
