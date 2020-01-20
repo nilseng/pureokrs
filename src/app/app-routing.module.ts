@@ -23,7 +23,7 @@ const routes: Routes = [
   {path: 'users', component: UsersComponent, canActivate: [AuthGuardService], resolve: {users: UsersResolver}},
   {path: 'resetpassword', component: ResetpasswordComponent},
   {path: 'resetpassword/:email/:token', component: NewPasswordComponent},
-  {path: 'faq', component: FaqComponent}
+  {path: 'about', component: FaqComponent}
 ];
 
 @NgModule({
