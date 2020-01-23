@@ -22,7 +22,7 @@ import { D3Service} from './d3/d3.service';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
-import { FaqComponent } from './faq/faq.component';
+import { AboutComponent } from './about/about.component';
 import { OcticonDirective } from './shared/octicon-directive.directive';
 import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
 import { OkrService } from './okr.service';
@@ -30,6 +30,7 @@ import { OkrResolver } from './okr/okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {UsersResolver} from './users/users-resolver.service';
+import { PrivacyComponent } from './privacy/privacy.component';
 
 @NgModule({
   imports: [
@@ -56,10 +57,11 @@ import {UsersResolver} from './users/users-resolver.service';
     OkrTreeComponent,
     NodeComponent,
     EdgeComponent,
-    FaqComponent,
+    AboutComponent,
     OcticonDirective,
     FooterComponent,
-    NavbarComponent
+    NavbarComponent,
+    PrivacyComponent
   ],
   providers: [
     AuthenticationService, 

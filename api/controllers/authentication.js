@@ -3,6 +3,7 @@ var mongoose = require('mongoose');
 var User = mongoose.model('User');
 var crypto = require('crypto');
 var email = require('./email.js');
+var Okr = mongoose.model('Okr')
 
 module.exports.register = (req, res) => {
     if (!req.body.name || !req.body.email || !req.body.password || !req.body.company) {
@@ -150,13 +151,28 @@ checkIfCompanyExists = (company, cb) => {
     }).exec((err, users) => {
         if (err) {
             registered = true;
+            cb(registered);
         } else {
             if (users.length > 0) {
                 registered = true;
+                cb(registered);
             } else {
-                registered = false;
+                Okr.find({
+                    company: company
+                }).exec((err, okrs) => {
+                    if(err){
+                        registered = true
+                    }else{
+                        if(okrs.length > 0){
+                            registered = true
+                        }else {
+                            registered = false
+                        }
+                    }
+                    cb(registered)
+                })
             }
         }
-        cb(registered);
+        
     });
 }
