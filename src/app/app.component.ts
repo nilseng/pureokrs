@@ -31,6 +31,7 @@ export class AppComponent implements OnInit {
     if(window.navigator.userAgent.indexOf('msie') > 0){
       this.router.navigateByUrl('/thefutureishere')
     }
+    console.log(window.navigator.userAgent)
   }
 
 }
