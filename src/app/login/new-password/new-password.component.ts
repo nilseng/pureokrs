@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router} from '@angular/router';
-import {AuthenticationService} from '../../authentication.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { AuthenticationService } from '../../authentication.service';
 
 @Component({
   selector: 'app-new-password',
@@ -29,20 +29,24 @@ export class NewPasswordComponent implements OnInit {
     this.message = '';
   }
 
-  getEmail(){
+  getEmail() {
     this.email = this.route.snapshot.paramMap.get('email');
   }
 
-  getToken(){
+  getToken() {
     this.token = this.route.snapshot.paramMap.get('token');
   }
 
-  newPassword(){
-    this.auth.newPassword(this.email, this.token, this.password)
-      .subscribe(()=>{
-        this.router.navigateByUrl('');
-      }, (err) => {
-        this.message = 'Somethin went wrong. Please get in touch at contact@pureokrs.com'
-      });
+  newPassword() {
+    if (this.password.length < 6) {
+      this.message = 'The password must contain at least 6 characters.'
+    } else {
+      this.auth.newPassword(this.email, this.token, this.password)
+        .subscribe(() => {
+          this.router.navigateByUrl('');
+        }, (err) => {
+          this.message = 'Something went wrong. Please get in touch at contact@pureokrs.com'
+        });
+    }
   }
 }

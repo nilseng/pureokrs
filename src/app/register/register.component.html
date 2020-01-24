@@ -1,47 +1,43 @@
 <div class="row">
   <div class="col-sm">
     <div class="text-light rounded p-4">
-      <form (submit)="register()">
+      <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
         <div class="form-group">
           <label for="company">Company</label>
-          <input type="text" class="form-control" name="company" placeholder="Enter company"
-            [(ngModel)]="credentials.company">
+          <em *ngIf="company.touched && company.invalid">Required</em>
+          <input id="company" type="text" class="form-control" placeholder="Enter company" 
+          formControlName="company" required>
         </div>
         <div class="form-group">
           <label for="name">Full name</label>
-          <input type="text" class="form-control" name="name" placeholder="Enter your name"
-            [(ngModel)]="credentials.name">
+          <em *ngIf="name.touched && name.invalid">Required</em>
+          <input id="name" type="text" class="form-control" placeholder="Enter your name"
+            formControlName="name" required>
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" class="form-control" required placeholder="Enter email"
-            [(ngModel)]="credentials.email" #email="ngModel">
-          <div *ngIf="email.invalid && (email.dirty || email.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="email.errors.required">
-              Email is missing or invalid
-            </div>
-          </div>
+          <em *ngIf="email.touched && email.value.length === 0">Required</em>
+          <em *ngIf="email.touched && email.value.length > 0 && email.invalid">Invalid email</em>
+          <input id="email" name="email" type="email" class="form-control" formControlName="email" required
+            placeholder="Enter email">
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <input id="password" type="password" class="form-control" name="password" placeholder="Password"
-            [(ngModel)]="credentials.password" required #password="ngModel">
-          <div *ngIf="password.invalid && (password.dirty || password.touched)" class=" alert alert-warning mx-1 my-0">
-            <div *ngIf="password.errors.required">
-              Password is missing or invalid
-            </div>
-          </div>
+          <em *ngIf="password.touched && password.value.length === 0">Required</em>
+          <em *ngIf="password.touched && password.value.length > 0 && password.invalid">At least 6 characters</em>
+          <input id="password" type="password" class="form-control" formControlName="password" name="password"
+            placeholder="Password" minlength="6" required>
         </div>
         <div class="form-group">
           <label for="terms">
-            <input id="terms" type="checkbox" name="terms" [(ngModel)]="terms">
+            <input id="terms" type="checkbox" name="terms" formControlName="terms" required>
             <small class="ml-1">
               I accept that PureOKRs will process data as described <a routerLink="/privacy" target="_blank">here</a>.
             </small>
           </label>
         </div>
         <div *ngIf="message" class=" alert alert-warning mx-1 my-0">{{message}}</div>
-        <button type="submit" class="btn btn-success m-2" [disabled]="!terms">Register</button>
+        <button type="submit" class="btn btn-success m-2" [disabled]="!registerForm.valid">Register</button>
         <br>
         <button type="button" class="btn btn-link btn-sm" [routerLink]="['/login']">Already have a user? Log in
           here.</button>
@@ -50,11 +46,11 @@
   </div>
   <div class="col-sm pt-4">
     <section class="text-light rounded p-4">
-        <h5>Welcome!</h5>
-        <p>
-          Register your company and get started with creating your first objectives and key results.
-          It's simple and powerful.
-        </p>
+      <h5>Welcome!</h5>
+      <p>
+        Register your company and get started with creating your first objectives and key results.
+        It's simple and powerful.
+      </p>
       <h5>Why Objectives and Key Results?</h5>
       <ul>
         <li>
