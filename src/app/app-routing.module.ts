@@ -15,6 +15,7 @@ import { OkrResolver} from './okr/okr-resolver.service';
 import { UsersResolver } from './users/users-resolver.service';
 import { OkrTreeService } from './okr-tree.service';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { IeNotSupportedComponent } from './error-pages/ie-not-supported.component';
 
 const routes: Routes = [
   {path: '', pathMatch: 'full', component: OkrListComponent, canActivate: [AuthGuardService], resolve: {okrs: OkrResolver}},
@@ -25,7 +26,8 @@ const routes: Routes = [
   {path: 'resetpassword', component: ResetpasswordComponent},
   {path: 'resetpassword/:email/:token', component: NewPasswordComponent},
   {path: 'about', component: AboutComponent},
-  {path: 'privacy', component: PrivacyComponent}
+  {path: 'privacy', component: PrivacyComponent},
+  {path: 'thefutureishere', component: IeNotSupportedComponent}
 ];
 
 @NgModule({

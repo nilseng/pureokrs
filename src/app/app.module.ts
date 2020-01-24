@@ -31,6 +31,7 @@ import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import {UsersResolver} from './users/users-resolver.service';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { IeNotSupportedComponent } from './error-pages/ie-not-supported.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { PrivacyComponent } from './privacy/privacy.component';
     OcticonDirective,
     FooterComponent,
     NavbarComponent,
-    PrivacyComponent
+    PrivacyComponent,
+    IeNotSupportedComponent
   ],
   providers: [
     AuthenticationService, 
