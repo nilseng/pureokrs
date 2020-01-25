@@ -24,8 +24,8 @@ export class NewOkrComponent implements OnInit, OnChanges {
   @Output() savedOkr = new EventEmitter<Okr>()
   @Output() clearParent = new EventEmitter()
 
-  @ViewChild('parentSearchBox') parentSearchEl: ElementRef
-  @ViewChild('ownerSearchBox') ownerSearchEl: ElementRef
+  @ViewChild('parentSearchBox', {static: false}) parentSearchEl: ElementRef
+  @ViewChild('ownerSearchBox', {static: false}) ownerSearchEl: ElementRef
 
   okr: Okr
   krCount: number

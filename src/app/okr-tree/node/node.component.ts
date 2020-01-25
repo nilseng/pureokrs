@@ -18,11 +18,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
   @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
 
-  @ViewChild('nodeVisual') nodeVisual: ElementRef;
-  @ViewChild('text') textEl: ElementRef;
-  @ViewChild('rect') rectEl: ElementRef;
-  @ViewChild('progress') progressEl: ElementRef;
-  @ViewChild('showChildrenLink') childrenLink: ElementRef;
+  @ViewChild('nodeVisual', {static: false}) nodeVisual: ElementRef;
+  @ViewChild('text', {static: false}) textEl: ElementRef;
+  @ViewChild('rect', {static: false}) rectEl: ElementRef;
+  @ViewChild('progress', {static: false}) progressEl: ElementRef;
+  @ViewChild('showChildrenLink', {static: false}) childrenLink: ElementRef;
 
   keyResults: {};
   progress: number;

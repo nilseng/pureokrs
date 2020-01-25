@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RegisterComponent } from './register.component';
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/compiler/src/core';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('RegisterComponent', () => {
   let component: RegisterComponent;
