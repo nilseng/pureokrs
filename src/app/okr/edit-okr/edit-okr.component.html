@@ -14,7 +14,7 @@
         <p *ngIf="noObjective" class=" alert alert-warning m-0 p-1">An objective is required to save an OKR</p>
         <div class="form-row bg-light rounded p-0 mx-0 my-1" 
           *ngFor="let kr of okrHierarchyNode.data.okr.keyResults;index as i">
-          <div *ngIf="kr" class="form-group col-md-8">
+          <div *ngIf="kr" class="form-group col-auto">
             <label class="badge m-0" for="keyResult">Key Result</label>
             <input class="form-control input-sm m-1" [(ngModel)]="kr.keyResult" placeholder="Key Result"
               id="keyResult" />

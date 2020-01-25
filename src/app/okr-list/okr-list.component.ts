@@ -72,7 +72,9 @@ export class OkrListComponent implements OnInit {
       })
     } else {
       if (!this.rootOkr.children) this.rootOkr.children = []
-      this.rootOkr.children.push(new OkrNode(okr))
+      if (this.rootOkr.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
+        this.rootOkr.children.push(new OkrNode(okr))
+      }
     }
     this.createHierarchy()
   }
