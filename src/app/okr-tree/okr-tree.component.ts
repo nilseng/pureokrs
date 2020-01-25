@@ -13,9 +13,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./okr-tree.component.css']
 })
 export class OkrTreeComponent implements OnInit {
-  @ViewChild('svg', {static: false}) svgEl: ElementRef;
-  @ViewChild('container', {static: false}) containerEl: ElementRef;
-  @ViewChild('modal', {static: false}) modal: ElementRef;
+  @ViewChild('svg', {static: true}) svgEl: ElementRef;
+  @ViewChild('container', {static: true}) containerEl: ElementRef;
+  @ViewChild('modal', {static: true}) modal: ElementRef;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
