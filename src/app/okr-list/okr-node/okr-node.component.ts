@@ -1,5 +1,4 @@
 import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core'
-import { Router } from '@angular/router'
 import {
   faPlusCircle, faPen, faTrashAlt, faUserNinja,
   faBatteryEmpty, faAdjust, faCheckCircle,
@@ -10,7 +9,6 @@ import {
 import { OkrService } from '../../okr.service'
 import { AuthenticationService, UserDetails } from '../../authentication.service'
 import { UserService } from '../../user.service'
-import { Okr, KeyResult } from '../../okr/okr'
 import { OkrNode } from './okr-node'
 import { HierarchyNode } from 'd3'
 

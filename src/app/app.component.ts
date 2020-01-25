@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Title } from '@angular/platform-browser';
 import { Location } from '@angular/common';
 import { environment } from '../environments/environment';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -11,15 +9,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements OnInit {
 
-  title = "PureOKRs";
-
   location: Location;
-
-  constructor(
-      private router: Router
-    ) {
-
-  }
 
   ngOnInit() {
     if (environment.production) {
