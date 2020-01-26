@@ -5,6 +5,7 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AuthenticationService } from 'src/app/authentication.service';
+import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 
 describe('NewOkrComponent', () => {
   let component: NewOkrComponent;
@@ -25,7 +26,8 @@ describe('NewOkrComponent', () => {
       declarations: [ NewOkrComponent ],
       providers: [
         {provide: AuthenticationService, useValue: mockAuthService}
-      ]
+      ],
+      schemas: [CUSTOM_ELEMENTS_SCHEMA]
     })
     .compileComponents();
   }));

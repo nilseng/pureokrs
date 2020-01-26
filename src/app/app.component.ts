@@ -9,7 +9,7 @@ import { environment } from '../environments/environment';
 })
 export class AppComponent implements OnInit {
 
-  location: Location;
+  location: Location
 
   ngOnInit() {
     if (environment.production) {
@@ -18,5 +18,4 @@ export class AppComponent implements OnInit {
       }
     }
   }
-
 }
