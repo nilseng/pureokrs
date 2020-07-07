@@ -48,6 +48,7 @@
     "rxjs": "~6.5.4",
     "sendgrid": "^4.2.0",
     "serialize-javascript": "^2.1.2",
+    "tslib": "^1.13.0",
     "zone.js": "~0.9.1"
   },
   "devDependencies": {
