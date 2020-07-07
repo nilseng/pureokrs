@@ -1,12 +1,15 @@
-var express = require("express");
-var cookieParser = require("cookie-parser");
-var bodyParser = require("body-parser");
-var passport = require("passport");
+const express = require('express')
+const cookieParser = require('cookie-parser')
+const bodyParser = require('body-parser')
+const passport = require('passport')
+const dotenv = require('dotenv')
 
 require("./api/models/db");
 require("./api/config/passport");
 
-var routesApi = require("./api/routes/index");
+dotenv.config()
+
+var routesApi = require('./api/routes/index')
 
 var app = express();
 

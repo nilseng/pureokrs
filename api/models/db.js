@@ -1,17 +1,15 @@
-const mongoose = require("mongoose");
-const dotenv = require("dotenv");
-dotenv.config();
-const dbURI = process.env.MONGODB_URI;
+const mongoose = require('mongoose');
+const dotenv = require('dotenv')
 
-mongoose.connect(dbURI, {
-  useNewUrlParser: true,
-  useFindAndModify: false,
-  useUnifiedTopology: true,
-});
+dotenv.config()
+
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/pureokrs'
+
+mongoose.connect(dbURI, { useNewUrlParser: true, useFindAndModify: false });
 
 //Connection events
-mongoose.connection.on("connected", () => {
-  console.log("Mongoose connected to " + dbURI);
+mongoose.connection.on('connected', () => {
+    console.log('Mongoose connected to ' + dbURI);
 });
 mongoose.connection.on("error", (err) => {
   console.log("Mongoose connection error: " + err);
@@ -23,10 +21,10 @@ mongoose.connection.on("disconnected", () => {
 //Capture app termination/restart events
 //To be called when process is restarted or terminated
 const gracefulShutdown = (msg, callback) => {
-  mongoose.connection.close(() => {
-    console.log("Mongoose disconnected through " + msg);
-    callback();
-  });
+    mongoose.connection.close(() => {
+        console.log('Mongoose disconnected through ' + msg);
+        callback();
+    });
 };
 //For app termination
 process.on("SIGINT", () => {
