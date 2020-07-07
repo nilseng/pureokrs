@@ -12,18 +12,6 @@
   },
   "private": true,
   "dependencies": {
-<<<<<<< HEAD
-    "@angular-devkit/build-angular": "^0.803.25",
-    "@angular/animations": "~8.2.14",
-    "@angular/common": "~8.2.14",
-    "@angular/compiler": "~8.2.14",
-    "@angular/core": "~8.2.14",
-    "@angular/forms": "~8.2.14",
-    "@angular/http": "^7.0.4",
-    "@angular/platform-browser": "~8.2.14",
-    "@angular/platform-browser-dynamic": "~8.2.14",
-    "@angular/router": "~8.2.14",
-=======
     "@angular-devkit/build-angular": "^0.901.10",
     "@angular/animations": "~9.1.11",
     "@angular/common": "~9.1.11",
@@ -34,7 +22,6 @@
     "@angular/platform-browser": "~9.1.11",
     "@angular/platform-browser-dynamic": "~9.1.11",
     "@angular/router": "~9.1.11",
->>>>>>> b79a16c06084e656c4915bb3f0eaf70e993f9f99
     "@fortawesome/angular-fontawesome": "^0.3.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
@@ -61,15 +48,6 @@
     "rxjs": "~6.5.4",
     "sendgrid": "^4.2.0",
     "serialize-javascript": "^2.1.2",
-<<<<<<< HEAD
-    "tslib": "^2.0.0",
-    "zone.js": "~0.9.1"
-  },
-  "devDependencies": {
-    "@angular/cli": "~8.3.28",
-    "@angular/compiler-cli": "^8.2.14",
-    "@angular/language-service": "~8.2.14",
-=======
     "tslib": "^1.13.0",
     "zone.js": "~0.10.3"
   },
@@ -77,7 +55,6 @@
     "@angular/cli": "~9.1.10",
     "@angular/compiler-cli": "^10.0.2",
     "@angular/language-service": "~9.1.11",
->>>>>>> b79a16c06084e656c4915bb3f0eaf70e993f9f99
     "@types/d3": "^5.7.2",
     "@types/jasmine": "~2.8.8",
     "@types/jasminewd2": "^2.0.8",
