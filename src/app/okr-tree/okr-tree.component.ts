@@ -13,9 +13,9 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./okr-tree.component.css']
 })
 export class OkrTreeComponent implements OnInit {
-  @ViewChild('svg', {static: true}) svgEl: ElementRef;
-  @ViewChild('container', {static: true}) containerEl: ElementRef;
-  @ViewChild('modal', {static: true}) modal: ElementRef;
+  @ViewChild('svg', { static: true }) svgEl: ElementRef;
+  @ViewChild('container', { static: true }) containerEl: ElementRef;
+  @ViewChild('modal', { static: true }) modal: ElementRef;
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
@@ -99,7 +99,7 @@ export class OkrTreeComponent implements OnInit {
     );
     let level0 = [];
     let okrIds = this.okrs.map(okr => okr._id)
-    level0 = this.okrs.filter(okr => 
+    level0 = this.okrs.filter(okr =>
       !okr.parent || okr.parent === null || okr.parent === '' || !okrIds.includes(okr.parent)
     );
     let node: Node;

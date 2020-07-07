@@ -18,11 +18,11 @@ export class NodeComponent implements OnInit, AfterViewInit {
   @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
   @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
 
-  @ViewChild('nodeVisual', {static: true}) nodeVisual: ElementRef;
-  @ViewChild('text', {static: true}) textEl: ElementRef;
-  @ViewChild('rect', {static: true}) rectEl: ElementRef;
-  @ViewChild('progress', {static: true}) progressEl: ElementRef;
-  @ViewChild('showChildrenLink', {static: true}) childrenLink: ElementRef;
+  @ViewChild('nodeVisual', { static: true }) nodeVisual: ElementRef;
+  @ViewChild('text', { static: true }) textEl: ElementRef;
+  @ViewChild('rect', { static: true }) rectEl: ElementRef;
+  @ViewChild('progress', { static: true }) progressEl: ElementRef;
+  @ViewChild('showChildrenLink', { static: true }) childrenLink: ElementRef;
 
   keyResults: {};
   progress: number;
@@ -165,7 +165,7 @@ export class NodeComponent implements OnInit, AfterViewInit {
           }
           count += 1;
         });
-      this.progress = Math.round(sum / count)/100;
+      this.progress = Math.round(sum / count) / 100;
       if (this.progress && this.progress > 0) {
         this.calculateProgressCircle();
       }
