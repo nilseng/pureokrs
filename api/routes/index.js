@@ -7,6 +7,7 @@ dotenv.config();
 var auth = jwt({
   secret: process.env.SECRET_KEY,
   userProperty: "payload",
+  algorithms: ["RS256"],
 });
 
 var ctrlCompany = require("../controllers/company");
