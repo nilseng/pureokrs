@@ -1,16 +1,16 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { AuthenticationService } from './authentication.service';
+import { AuthenticationService } from './authentication.service'
 
 describe('AuthenticationService', () => {
   let authenticationService: AuthenticationService,
-  mockRouter, mockHttp;
+  mockRouter, mockHttp
 
   beforeEach(() => {
-    authenticationService = new AuthenticationService(mockHttp, mockRouter);
-  });
+    authenticationService = new AuthenticationService(mockHttp, mockRouter)
+  })
 
   it('should be created', () => {
-    expect(authenticationService).toBeTruthy();
-  });
-});
+    expect(authenticationService).toBeTruthy()
+  })
+})
