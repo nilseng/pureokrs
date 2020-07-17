@@ -1,45 +1,64 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
-    <a class="navbar-brand" [routerLink]="['']">Pure Objectives and Key Results</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav mr-auto">
-        <li *ngIf="!auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/login" class="nav-link">Log in</a>
-        </li>
-        <li *ngIf="!auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/register" class="nav-link">Register</a>
-        </li>
-        <li *ngIf="auth.isLoggedIn()" class="nav-item">
-          <a routerLink="" class="nav-link">
-            <fa-icon [icon]="faStream"></fa-icon>
-            List view
-          </a>
-        </li>
-        <li *ngIf="auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/okr-tree" class="nav-link">
-            <fa-icon [icon]="faSitemap"></fa-icon>
-            Tree view
-          </a>
-        </li>
-        <li *ngIf="auth.isLoggedIn()" class="nav-item">
-          <a routerLink="/users" class="nav-link">
-            <fa-icon [icon]="faUsers"></fa-icon>
-            Users
-          </a>
-        </li>
-        <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
-          <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
-            <fa-icon [icon]="faUserNinja"></fa-icon>
-            {{auth.getUserDetails()?.name}}
-          </a>
-          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-            <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
-          </div>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <a class="navbar-brand" [routerLink]="['']"
+    ><img src="assets/logo.svg" /> Objectives and Key Results</a
+  >
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li *ngIf="!auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/login" class="nav-link">Log in</a>
+      </li>
+      <li *ngIf="!auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/register" class="nav-link">Register</a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="" class="nav-link">
+          <fa-icon [icon]="faStream"></fa-icon>
+          List view
+        </a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/okr-tree" class="nav-link">
+          <fa-icon [icon]="faSitemap"></fa-icon>
+          Tree view
+        </a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/users" class="nav-link">
+          <fa-icon [icon]="faUsers"></fa-icon>
+          Users
+        </a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item dropdown">
+        <a
+          class="nav-link dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          <fa-icon [icon]="faUserNinja"></fa-icon>
+          {{ auth.getUserDetails()?.name }}
+        </a>
+        <div
+          class="dropdown-menu dropdown-menu-right"
+          aria-labelledby="navbarDropdown"
+        >
+          <a class="dropdown-item" href="/" (click)="auth.logout()">Logout</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
