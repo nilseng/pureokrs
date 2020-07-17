@@ -19,10 +19,13 @@ export class OkrTreeComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this._width = window.innerWidth > 768 ? window.innerWidth - 160 : window.innerWidth;
-    this._height = window.innerHeight * 0.6;
-    this._nodeWidth = Math.max(this._width / 6, 100);
-    this._nodeHeight = this._nodeWidth / 2.5;
+    this.setTreeSize();
+    this.initOkrTree();
+  }
+
+  @HostListener('window:orientationchange', ['$event'])
+  onOrientationChange(event) {
+    this.setTreeSize();
     this.initOkrTree();
   }
 
@@ -47,14 +50,18 @@ export class OkrTreeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.setTreeSize();
+    this.getUserDetails();
+    this.okrs = this.route.snapshot.data['okrs'];
+    this.initOkrTree();
+  }
+
+  setTreeSize() {
     // Adjusting for padding in main element in case of wide screen, otherwise 100% width
     this._width = window.innerWidth > 768 ? window.innerWidth - 160 : window.innerWidth;
     this._height = window.innerHeight * 0.6;
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
-    this.getUserDetails();
-    this.okrs = this.route.snapshot.data['okrs'];
-    this.initOkrTree();
   }
 
   getUserDetails() {
@@ -73,15 +80,9 @@ export class OkrTreeComponent implements OnInit {
 
   private draw(root: Node) {
     this.root = undefined;
-
-    let width = this._width;
-    let height = this._height;
-    let nodeWidth = this._nodeWidth;
-    let nodeHeight = this._nodeHeight;
-
     this.tree = d3.tree<Node>();
-    this.tree.size([width, height]);
-    this.tree.nodeSize([nodeWidth, nodeHeight * 1.5]);
+    this.tree.size([this._width, this._height]);
+    this.tree.nodeSize([this._nodeWidth, this._nodeHeight * 1.5]);
     this.tree.separation(
       function separation(a, b) {
         return a.parent == b.parent ? 1.2 : 1.4;
