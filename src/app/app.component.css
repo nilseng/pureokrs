@@ -1,17 +1,6 @@
-@media screen and (max-width: 1280px) {
-  main {
-    min-height: 70vh;
-  }
-}
-
-@media screen and (min-width: 1281px) {
-  main {
-    min-height: 80vh;
-  }
-}
-
 @media screen and (min-width: 768px) {
   main {
     padding: 0 80px;
+    min-height: calc(100vh - 267px);
   }
 }
