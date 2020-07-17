@@ -1,15 +1,26 @@
 <div class="mb-4">
-    <app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
-    <svg #svg [attr.height]="_height" [attr.width]="_width" style="margin:auto;display: block;">
-        <rect [attr.height]="_height" [attr.width]="_width" rx="2" ry="2" fill="#f9f9f9"></rect>
-        <g id="container" [zoomableOf]="svg" #container>
-            <g [edge]="edge" *ngFor="let edge of root.links()">
-            </g>
-            <g *ngIf="root" [okrTreeNode]="root">
-            </g>
-            <g *ngFor="let node of root.descendants()" [okrTreeNode]="node" (nodeShow)="pushChildren($event)"
-                (nodeHide)="hideChildren($event)">
-            </g>
-        </g>
-    </svg>
+  <app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
+  <svg
+    #svg
+    [attr.height]="_height"
+    [attr.width]="_width"
+    style="margin: auto; display: block;"
+  >
+    <rect
+      [attr.height]="_height"
+      [attr.width]="_width"
+      rx="2"
+      ry="2"
+      fill="#f9f9f9"
+    ></rect>
+    <g id="container" [zoomableOf]="svg" #container>
+      <g [edge]="edge" *ngFor="let edge of root.links()"></g>
+      <g
+        *ngFor="let node of root.descendants()"
+        [okrTreeNode]="node"
+        (nodeShow)="pushChildren($event)"
+        (nodeHide)="hideChildren($event)"
+      ></g>
+    </g>
+  </svg>
 </div>

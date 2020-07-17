@@ -19,11 +19,11 @@ export class OkrTreeComponent implements OnInit {
 
   @HostListener('window:resize', ['$event'])
   onResize(event) {
-    this._width = window.innerWidth * 0.9;
+    this._width = window.innerWidth > 768 ? window.innerWidth - 160 : window.innerWidth;
     this._height = window.innerHeight * 0.6;
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
-    this.draw(this.rootNode);
+    this.initOkrTree();
   }
 
   user: UserDetails;
@@ -31,7 +31,7 @@ export class OkrTreeComponent implements OnInit {
   okrs: Okr[];
   rootNode: Node;
 
-  _width: number;
+  _width: any;
   _height: number;
   _nodeWidth: number;
   _nodeHeight: number;
@@ -47,7 +47,8 @@ export class OkrTreeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this._width = window.innerWidth * 0.9;
+    // Adjusting for padding in main element in case of wide screen, otherwise 100% width
+    this._width = window.innerWidth > 768 ? window.innerWidth - 160 : window.innerWidth;
     this._height = window.innerHeight * 0.6;
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
@@ -90,6 +91,7 @@ export class OkrTreeComponent implements OnInit {
   }
 
   initOkrTree() {
+    if (this.root) this.root = undefined;
     this.rootNode = new Node(
       new Okr(this.user.company + "'s Objectives & Key Results"),
       this._nodeWidth,

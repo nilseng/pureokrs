@@ -1,29 +1,60 @@
 <div class="row">
   <div class="col-sm pt-4">
     <div class="text-light rounded p-4">
-      <form [formGroup]="loginForm" (ngSubmit)="login(loginForm.value)" novalidate>
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="login(loginForm.value)"
+        novalidate
+      >
         <div class="form-group">
           <label for="email">Email</label>
           <em *ngIf="email.touched && email.invalid">
             Required
           </em>
-          <input id="email" type="email" class="form-control" placeholder="Enter email" formControlName="email"
-            required>
+          <input
+            id="email"
+            type="email"
+            class="form-control"
+            placeholder="Enter email"
+            formControlName="email"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="password">Password</label>
           <em *ngIf="password.touched && password.invalid">
             Required
           </em>
-          <input id="password" type="password" class="form-control" formControlName="password" placeholder="Password"
-            required>
+          <input
+            id="password"
+            type="password"
+            class="form-control"
+            formControlName="password"
+            placeholder="Password"
+            required
+          />
         </div>
-        <div *ngIf="loginMessage" class=" alert alert-warning mx-1 my-0">{{loginMessage}}</div>
-        <button type="submit" [disabled]="loginForm.invalid && loginForm.touched" class="btn btn-primary m-2">Log
-          in</button>
-        <button type="button" routerLink="/register" class="btn btn-success m-2">Register</button>
+        <div *ngIf="loginMessage" class="alert alert-warning mx-1 my-0">
+          {{ loginMessage }}
+        </div>
+        <button
+          type="submit"
+          [disabled]="loginForm.invalid && loginForm.touched"
+          class="btn btn-primary m-2"
+        >
+          Log in
+        </button>
+        <button
+          type="button"
+          routerLink="/register"
+          class="btn btn-success m-2"
+        >
+          Register
+        </button>
       </form>
-      <button class="btn btn-sm btn-link" routerLink="/resetpassword">Forgot your password?</button>
+      <button class="btn btn-sm btn-link" routerLink="/resetpassword">
+        Forgot your password?
+      </button>
     </div>
   </div>
   <div class="col-sm pt-4">
@@ -40,16 +71,16 @@
           Focus on what matters
         </li>
       </ul>
-      <h5>PureOKRs Features</h5>
+      <h5>Pure OKRs Features</h5>
       <ul>
         <li>
-          Easy to use
+          OKR tree view
         </li>
         <li>
-          Fully cloud based
+          OKR list view
         </li>
         <li>
-          Free for the first 25 users
+          Invite colleagues or team mates by email
         </li>
       </ul>
     </section>
