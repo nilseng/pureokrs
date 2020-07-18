@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit, HostListener, EventEmitter, Inject } from '@angular/core';
-import { Node } from './node';
+import { OkrNode } from '../../okr/okr-node';
 import { OkrService } from '../../okr.service';
-import { KeyResult } from '../../okr/okr';
+import { KeyResult, Okr } from '../../okr/okr';
 import * as d3 from 'd3';
 import { HierarchyPointNode } from 'd3';
 import { faPen } from '@fortawesome/free-solid-svg-icons';
@@ -14,9 +14,10 @@ import { faPen } from '@fortawesome/free-solid-svg-icons';
 export class NodeComponent implements OnInit, AfterViewInit {
   faPen = faPen;
 
-  @Input() okrTreeNode: HierarchyPointNode<Node>;
-  @Output() nodeShow = new EventEmitter<HierarchyPointNode<Node>>();
-  @Output() nodeHide = new EventEmitter<HierarchyPointNode<Node>>();
+  @Input() okrTreeNode: HierarchyPointNode<OkrNode>;
+  @Output() nodeShow = new EventEmitter<HierarchyPointNode<OkrNode>>();
+  @Output() nodeHide = new EventEmitter<HierarchyPointNode<OkrNode>>();
+  @Output() okrNodeToEdit = new EventEmitter<HierarchyPointNode<OkrNode>>();
 
   @ViewChild('nodeVisual', { static: true }) nodeVisual: ElementRef;
   @ViewChild('text', { static: true }) textEl: ElementRef;
@@ -61,6 +62,10 @@ export class NodeComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     this.wrapTextinNode();
+  }
+
+  editOkr() {
+    this.okrNodeToEdit.emit(this.okrTreeNode);
   }
 
   showChildrenLink() {

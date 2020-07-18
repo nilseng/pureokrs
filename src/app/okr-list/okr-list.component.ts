@@ -6,7 +6,7 @@ import { HierarchyNode, hierarchy } from 'd3-hierarchy'
 import { AuthenticationService, UserDetails } from '../authentication.service'
 import { OkrService } from '../okr.service'
 import { Okr } from '../okr/okr'
-import { OkrNode } from './okr-node/okr-node'
+import { OkrNode } from '../okr/okr-node'
 import { Observable, of } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { OkrTreeService } from '../okr-tree.service'
@@ -23,7 +23,7 @@ export class OkrListComponent implements OnInit {
   user: UserDetails
 
   parentId: string
-  okrNodeToEdit: Okr
+  okrNodeToEdit: OkrNode
 
   constructor(
     private auth: AuthenticationService,
@@ -83,7 +83,7 @@ export class OkrListComponent implements OnInit {
     this.parentId = parentId
   }
 
-  editOkrNode(okr: Okr) {
+  editOkrNode(okr: OkrNode) {
     this.okrNodeToEdit = okr
   }
 

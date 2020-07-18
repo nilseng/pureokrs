@@ -3,7 +3,7 @@ import { OkrService } from './okr.service';
 import { hierarchy, HierarchyNode } from 'd3';
 import { Observable, of } from 'rxjs';
 import { Okr } from './okr/okr';
-import { OkrNode } from './okr-list/okr-node/okr-node';
+import { OkrNode } from './okr/okr-node';
 import { map } from 'rxjs/operators';
 
 @Injectable({

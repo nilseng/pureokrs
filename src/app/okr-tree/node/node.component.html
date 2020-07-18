@@ -1,41 +1,59 @@
 <svg:g #nodeVisual>
-  <svg:rect #rect
-    [attr.x]="X" 
-    [attr.y]="Y"
-    [attr.width]="okrTreeNode.data.width" 
-    [attr.height]="okrTreeNode.data.height"
-    [attr.rx]="2"
-    [attr.ry]="2" 
-    style="fill:rgb(249,249,249);stroke-width:1;stroke:#428bca">
-  </svg:rect>
-  <svg:text #text
-    [attr.x]="cx" 
-    [attr.y]="texty"
-    [attr.font-size]="10"
-    dominant-baseline="middle"
-    text-anchor="middle"
-    style="font-weight: bold;">
-    {{okrTreeNode.data.okr.objective}}
-  </svg:text>
-  <svg:a #showChildrenLink
+  <svg:g
+    (click)="editOkr()"
+    data-toggle="modal"
+    data-target="#editOkrModal"
+    style="cursor: pointer;"
+  >
+    <svg:rect
+      #rect
+      [attr.x]="X"
+      [attr.y]="Y"
+      [attr.width]="okrTreeNode.data.width"
+      [attr.height]="okrTreeNode.data.height"
+      [attr.rx]="2"
+      [attr.ry]="2"
+      style="fill: rgb(249, 249, 249); stroke-width: 1; stroke: #428bca;"
+    ></svg:rect>
+    <svg:text
+      #text
+      [attr.x]="cx"
+      [attr.y]="texty"
+      [attr.font-size]="10"
+      dominant-baseline="middle"
+      text-anchor="middle"
+      style="font-weight: bold;"
+    >
+      {{ okrTreeNode.data.okr.objective }}
+    </svg:text>
+  </svg:g>
+  <svg:a
+    #showChildrenLink
     style="text-decoration: none;"
-    (click)="showChildren()">
-    <svg:circle *ngIf="okrTreeNode.parent!=null"
+    (click)="showChildren()"
+  >
+    <svg:circle
+      *ngIf="okrTreeNode.parent != null"
       [attr.cx]="cx"
       [attr.cy]="cy"
       [attr.r]="10"
-      style="fill:#428bca">
-    </svg:circle>
-    <svg:text *ngIf="okrTreeNode.data.okr.children && okrTreeNode.data.okr.children.length>0 && okrTreeNode.parent"
+      style="fill: #428bca;"
+    ></svg:circle>
+    <svg:text
+      *ngIf="
+        okrTreeNode.data.okr.children &&
+        okrTreeNode.data.okr.children.length > 0 &&
+        okrTreeNode.parent
+      "
       [attr.x]="cx"
       [attr.y]="cy"
       [attr.font-size]="10"
       dominant-baseline="middle"
       text-anchor="middle"
-      style="fill:rgb(249,249,249);font-weight: bold;">
-      {{okrTreeNode.data.okr.children.length}}
+      style="fill: rgb(249, 249, 249); font-weight: bold;"
+    >
+      {{ okrTreeNode.data.okr.children.length }}
     </svg:text>
-    <svg:path #progress
-      style="fill:none;stroke-width:2;stroke:#5cb85c;"/>
+    <svg:path #progress style="fill: none; stroke-width: 2; stroke: #5cb85c;" />
   </svg:a>
 </svg:g>

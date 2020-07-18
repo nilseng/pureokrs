@@ -1,5 +1,10 @@
 <div class="mb-4">
   <app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
+  <app-edit-okr
+    *ngIf="okrNodeToEdit && okrNodeToEdit.parent"
+    [okrHierarchyNode]="okrNodeToEdit"
+    (savedOkr)="savedOkr($event)"
+  ></app-edit-okr>
   <svg
     #svg
     [attr.height]="_height"
@@ -20,6 +25,7 @@
         [okrTreeNode]="node"
         (nodeShow)="pushChildren($event)"
         (nodeHide)="hideChildren($event)"
+        (okrNodeToEdit)="editOkrNode($event)"
       ></g>
     </g>
   </svg>

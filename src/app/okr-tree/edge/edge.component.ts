@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { HierarchyPointLink } from 'd3';
-import {Node} from '../node/node';
+import { OkrNode } from '../../okr/okr-node';
 
 @Component({
   selector: '[edge]',
@@ -9,11 +9,11 @@ import {Node} from '../node/node';
 })
 export class EdgeComponent implements OnInit {
 
-  @Input() edge: HierarchyPointLink<Node>;
+  @Input() edge: HierarchyPointLink<OkrNode>;
 
   constructor() { }
 
   ngOnInit() {
   }
-  
+
 }

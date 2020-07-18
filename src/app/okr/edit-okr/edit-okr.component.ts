@@ -12,7 +12,7 @@ import { OkrService } from '../../okr.service'
 import { AuthenticationService, UserDetails } from '../../authentication.service'
 import { UserService } from '../../user.service'
 import { HierarchyNode } from 'd3'
-import { OkrNode } from 'src/app/okr-list/okr-node/okr-node'
+import { OkrNode } from '../okr-node'
 
 @Component({
   selector: 'app-edit-okr',
@@ -110,7 +110,7 @@ export class EditOkrComponent implements OnChanges {
 
   changeParent(okr: Okr) {
     this.okrHierarchyNode.parent.data.children
-        .splice(this.okrHierarchyNode.parent.data.children.indexOf(this.okrHierarchyNode.data), 1)
+      .splice(this.okrHierarchyNode.parent.data.children.indexOf(this.okrHierarchyNode.data), 1)
     if (this.okrHierarchyNode.parent.depth === 0) {
       this.addChildToParent(okr)
     } else {

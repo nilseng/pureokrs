@@ -9,7 +9,7 @@ import {
 import { OkrService } from '../../okr.service'
 import { AuthenticationService, UserDetails } from '../../authentication.service'
 import { UserService } from '../../user.service'
-import { OkrNode } from './okr-node'
+import { OkrNode } from '../../okr/okr-node'
 import { HierarchyNode } from 'd3'
 
 @Component({
@@ -57,11 +57,11 @@ export class OkrNodeComponent implements OnChanges {
     this.parentId.emit(parentId)
   }
 
-  editOkrNode(okrNode: HierarchyNode<OkrNode>){
+  editOkrNode(okrNode: HierarchyNode<OkrNode>) {
     this.okrNodeToEdit.emit(okrNode)
   }
 
-  showChildren(){
+  showChildren() {
     this.okrHierarchyNode.data.isChildrenVisible = true
   }
 
@@ -96,7 +96,7 @@ export class OkrNodeComponent implements OnChanges {
       .subscribe(() => this.hideDeletedNode(this.okrHierarchyNode))
   }
 
-  hideDeletedNode(okrHierarchyNode: HierarchyNode<OkrNode>){
+  hideDeletedNode(okrHierarchyNode: HierarchyNode<OkrNode>) {
     this.deletedNode.emit(okrHierarchyNode)
   }
 }

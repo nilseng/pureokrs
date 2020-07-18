@@ -3,7 +3,7 @@ import * as d3 from 'd3';
 import { HierarchyPointNode, TreeLayout } from 'd3-hierarchy';
 import { Okr } from '../okr/okr';
 import { OkrService } from '../okr.service';
-import { Node } from './node/node';
+import { OkrNode } from '../okr/okr-node';
 import { AuthenticationService, UserDetails } from '../authentication.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -32,16 +32,19 @@ export class OkrTreeComponent implements OnInit {
   user: UserDetails;
 
   okrs: Okr[];
-  rootNode: Node;
+  rootNode: OkrNode;
 
   _width: any;
   _height: number;
   _nodeWidth: number;
   _nodeHeight: number;
-  root: HierarchyPointNode<Node>;
-  tree: TreeLayout<Node>;
+  root: HierarchyPointNode<OkrNode>;
+  tree: TreeLayout<OkrNode>;
   svg: any;
   diagonal: any;
+
+  okrNodeToEdit: OkrNode
+
 
   constructor(
     private okrService: OkrService,
@@ -78,9 +81,9 @@ export class OkrTreeComponent implements OnInit {
       });
   }
 
-  private draw(root: Node) {
+  private draw(root: OkrNode) {
     this.root = undefined;
-    this.tree = d3.tree<Node>();
+    this.tree = d3.tree<OkrNode>();
     this.tree.size([this._width, this._height]);
     this.tree.nodeSize([this._nodeWidth, this._nodeHeight * 1.5]);
     this.tree.separation(
@@ -88,13 +91,14 @@ export class OkrTreeComponent implements OnInit {
         return a.parent == b.parent ? 1.2 : 1.4;
       }
     );
-    this.root = this.tree(d3.hierarchy<Node>(this.rootNode));
+    this.root = this.tree(d3.hierarchy<OkrNode>(this.rootNode));
   }
 
   initOkrTree() {
     if (this.root) this.root = undefined;
-    this.rootNode = new Node(
+    this.rootNode = new OkrNode(
       new Okr(this.user.company + "'s Objectives & Key Results"),
+      [],
       this._nodeWidth,
       this._nodeHeight,
       this._width / 2 - this._nodeWidth / 2,
@@ -105,10 +109,11 @@ export class OkrTreeComponent implements OnInit {
     level0 = this.okrs.filter(okr =>
       !okr.parent || okr.parent === null || okr.parent === '' || !okrIds.includes(okr.parent)
     );
-    let node: Node;
+    let node: OkrNode;
     for (let okr of level0) {
-      node = new Node(
+      node = new OkrNode(
         okr,
+        [],
         this._nodeWidth,
         this._nodeHeight,
         this._width / 2 - this._nodeWidth / 2,
@@ -119,12 +124,13 @@ export class OkrTreeComponent implements OnInit {
     this.draw(this.rootNode);
   }
 
-  pushChildren(node: HierarchyPointNode<Node>) {
+  pushChildren(node: HierarchyPointNode<OkrNode>) {
     let children = this.okrs.filter(okr => okr.parent === node.data.okr._id);
-    let childNode: Node;
+    let childNode: OkrNode;
     for (let child of children) {
-      childNode = new Node(
+      childNode = new OkrNode(
         child,
+        [],
         this._nodeWidth,
         this._nodeHeight,
         this._width / 2 - this._nodeWidth / 2,
@@ -135,13 +141,12 @@ export class OkrTreeComponent implements OnInit {
     this.draw(this.rootNode);
   }
 
-  hideChildren(node: HierarchyPointNode<Node>) {
+  hideChildren(node: HierarchyPointNode<OkrNode>) {
     node.data.children = [];
     this.draw(this.rootNode);
   }
 
   savedOkr(okr: Okr) {
-    this.okrs.push(okr)
     if (!!okr.parent) {
       let parent = this.okrs.find(parent => parent._id === okr.parent)
       parent.children.push(okr._id)
@@ -151,16 +156,22 @@ export class OkrTreeComponent implements OnInit {
         this.pushChildren(parentNode)
       }
     } else {
-      let childNode = new Node(
-        okr,
-        this._nodeWidth,
-        this._nodeHeight,
-        this._width / 2 - this._nodeWidth / 2,
-        this._nodeHeight / 2
-      );
-      this.rootNode.children.push(childNode);
-      this.draw(this.rootNode);
+      if (this.root.children.map(child => child.data.okr._id).indexOf(okr._id) === -1) {
+        let childNode = new OkrNode(
+          okr,
+          [],
+          this._nodeWidth,
+          this._nodeHeight,
+          this._width / 2 - this._nodeWidth / 2,
+          this._nodeHeight / 2
+        );
+        this.rootNode.children.push(childNode);
+        this.draw(this.rootNode);
+      }
     }
   }
 
+  editOkrNode(okrNode: OkrNode) {
+    this.okrNodeToEdit = okrNode
+  }
 }

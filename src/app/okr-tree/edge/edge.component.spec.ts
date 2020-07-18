@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EdgeComponent } from './edge.component';
 import { HierarchyPointNode } from 'd3';
-import { Node } from '../node/node';
+import { OkrNode } from '../../okr/okr-node';
 
 describe('EdgeComponent', () => {
   let component: EdgeComponent;
@@ -24,7 +24,7 @@ describe('EdgeComponent', () => {
         y: 0
       },
       target: <HierarchyPointNode<Node>>{
-        x:0,
+        x: 0,
         y: 0
       }
     }
