@@ -17,11 +17,11 @@ export class OkrTreeComponent implements OnInit {
   @ViewChild('container', { static: true }) containerEl: ElementRef;
   @ViewChild('modal', { static: true }) modal: ElementRef;
 
-  @HostListener('window:resize', ['$event'])
+  /* @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.setTreeSize();
     this.initOkrTree();
-  }
+  } */
 
   @HostListener('window:orientationchange', ['$event'])
   onOrientationChange(event) {

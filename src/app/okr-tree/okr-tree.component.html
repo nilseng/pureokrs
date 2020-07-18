@@ -1,7 +1,7 @@
 <div class="mb-4">
   <app-new-okr (savedOkr)="savedOkr($event)"></app-new-okr>
   <app-edit-okr
-    *ngIf="okrNodeToEdit && okrNodeToEdit.parent"
+    *ngIf="okrNodeToEdit"
     [okrHierarchyNode]="okrNodeToEdit"
     (savedOkr)="savedOkr($event)"
   ></app-edit-okr>

@@ -12,7 +12,6 @@ import { map } from 'rxjs/operators';
 export class OkrTreeService {
 
     rootNode: OkrNode
-    rootHierarchyNode: HierarchyNode<OkrNode>
     okrs: Okr[]
 
     constructor(private okrService: OkrService) {
