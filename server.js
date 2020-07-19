@@ -34,7 +34,7 @@ app.use((req, res, next) => {
 app.use("/api", routesApi);
 
 //Create link to Angular build directory
-var distDir = __dirname + "/dist/";
+const distDir = __dirname + "/dist/";
 console.log(distDir);
 
 app.use(express.static(distDir));
@@ -51,5 +51,7 @@ app.use("*", express.static(distDir));
 app.use((err, req, res, next) => {
   if (err.name === "UnauthorizedError") {
     res.status(401).json({ message: err.name + ": " + err.message });
+  } else {
+    res.status(500).json(err);
   }
 });
