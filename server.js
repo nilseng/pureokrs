@@ -1,17 +1,17 @@
-const express = require('express')
-const cookieParser = require('cookie-parser')
-const bodyParser = require('body-parser')
-const passport = require('passport')
-const dotenv = require('dotenv')
+const express = require("express");
+const cookieParser = require("cookie-parser");
+const bodyParser = require("body-parser");
+const passport = require("passport");
+const dotenv = require("dotenv");
 
 require("./api/models/db");
 require("./api/config/passport");
 
-dotenv.config()
+dotenv.config();
 
-var routesApi = require('./api/routes/index')
+const routesApi = require("./api/routes/index");
 
-var app = express();
+const app = express();
 
 app.use(
   bodyParser.urlencoded({
@@ -40,7 +40,7 @@ console.log(distDir);
 
 app.use(express.static(distDir));
 
-var server = app.listen(process.env.PORT || 5000, () => {
+const server = app.listen(process.env.PORT || 5000, () => {
   var port = server.address().port;
   console.log("App now running on port", port);
 });
