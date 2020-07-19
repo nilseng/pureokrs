@@ -1,19 +1,19 @@
-var express = require("express");
-var router = express.Router();
-var jwt = require("express-jwt");
+const express = require("express");
+const router = express.Router();
+const jwt = require("express-jwt");
 const dotenv = require("dotenv");
 dotenv.config();
 
-var auth = jwt({
+const auth = jwt({
   secret: process.env.SECRET_KEY,
   userProperty: "payload",
   algorithms: ["HS256"],
 });
 
-var ctrlCompany = require("../controllers/company");
-var ctrlAuth = require("../controllers/authentication");
-var ctrlOkr = require("../controllers/okr");
-var ctrlUser = require("../controllers/user");
+const ctrlCompany = require("../controllers/company");
+const ctrlAuth = require("../controllers/authentication");
+const ctrlOkr = require("../controllers/okr");
+const ctrlUser = require("../controllers/user");
 
 //Company
 router.get("/company", auth, ctrlCompany.companyRead);

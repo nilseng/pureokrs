@@ -1,16 +1,16 @@
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
+const mongoose = require("mongoose");
+const User = mongoose.model("User");
 
-var okrSchema = new mongoose.Schema({
-    objective: {
-        type: String,
-        required: true
-    },
-    keyResults: [],
-    parent: {type: mongoose.Schema.ObjectId, ref: 'Okr'},
-    children: [{type: mongoose.Schema.ObjectId, ref: 'Okr'}],
-    userId: {type: mongoose.Schema.ObjectId, ref: 'User'},
-    company: String
+const okrSchema = new mongoose.Schema({
+  objective: {
+    type: String,
+    required: true,
+  },
+  keyResults: [],
+  parent: { type: mongoose.Schema.ObjectId, ref: "Okr" },
+  children: [{ type: mongoose.Schema.ObjectId, ref: "Okr" }],
+  userId: { type: mongoose.Schema.ObjectId, ref: "User" },
+  company: String,
 });
 
-mongoose.model('Okr', okrSchema);
+mongoose.model("Okr", okrSchema);
