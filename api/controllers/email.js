@@ -1,23 +1,24 @@
-var express = require('express');
-const sgMail = require('@sendgrid/mail');
+const sgMail = require("@sendgrid/mail");
 
 const msg = {
-  from: 'contact@pureokrs.com',
-  text: 'Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.',
-  html: '<strong>Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.</strong>',
+  from: "contact@pureokrs.com",
+  text:
+    "Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.",
+  html:
+    "<strong>Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.</strong>",
 };
 
 module.exports.sendEmail = (email, companyName) => {
-  msg.subject = companyName + ' is registered. Welcome!';
+  msg.subject = companyName + " is registered. Welcome!";
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => { });
+  sgMail.send(msg, (err, doc) => {});
   return;
-}
+};
 
 module.exports.sendNewUserEmail = (email, companyName, token) => {
   let msg = {
-    from: 'contact@pureokrs.com',
+    from: "contact@pureokrs.com",
     text: `
             Click the following link or paste it in your browser to set a password and activate your user. 
             https://www.pureokrs.com/resetpassword/${email}/${token}
@@ -60,17 +61,20 @@ module.exports.sendNewUserEmail = (email, companyName, token) => {
             </body>
     `,
   };
-  msg.subject = 'You now have a user at PureOKRs. Welcome!';
+  msg.subject = "You now have a user at PureOKRs. Welcome!";
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => { });
-  return;
-}
+  sgMail.send(msg, (err, doc) => {});
+};
 
 module.exports.sendResetEmail = (email, token) => {
   let msg = {
-    from: 'contact@pureokrs.com',
-    text: 'Click the following link or paste it in your browser to reset your password. https://www.pureokrs.com/resetpassword/' + email + '/' + token,
+    from: "contact@pureokrs.com",
+    text:
+      "Click the following link or paste it in your browser to reset your password. https://www.pureokrs.com/resetpassword/" +
+      email +
+      "/" +
+      token,
     html: `
     <body style="min-height: 70vh;">
       <div 
@@ -109,9 +113,8 @@ module.exports.sendResetEmail = (email, token) => {
     </body>
 `,
   };
-  msg.subject = 'You can now reset your password at pureOKRs.';
+  msg.subject = "You can now reset your password at pureOKRs.";
   msg.to = email;
   sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => { });
-  return;
-}
+  sgMail.send(msg, (err, doc) => {});
+};
