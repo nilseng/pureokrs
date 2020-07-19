@@ -1,22 +1,36 @@
-<h2 class="text-light">
-  {{user?.company}}'s objectives and key results.
-</h2>
-<app-new-okr [parentId]="parentId" (savedOkr)="savedOkr($event)" (clearParent)="clearParent()"></app-new-okr>
-<app-edit-okr *ngIf="okrNodeToEdit" [okrHierarchyNode]="okrNodeToEdit" (savedOkr)="savedOkr($event)"></app-edit-okr>
+<h5>{{ user?.company }}'s objectives and key results.</h5>
+<app-new-okr
+  [parentId]="parentId"
+  (savedOkr)="savedOkr($event)"
+  (clearParent)="clearParent()"
+></app-new-okr>
+<app-edit-okr
+  *ngIf="okrNodeToEdit"
+  [okrHierarchyNode]="okrNodeToEdit"
+  (savedOkr)="savedOkr($event)"
+></app-edit-okr>
 <div *ngIf="root" class="pb-4">
-  <app-okr-node *ngFor="let node of root.children" [okrHierarchyNode]="node" 
-    (deletedNode)="hideDeletedNode($event)" (okrNodeToEdit)="editOkrNode($event)"
-    (parentId)="addChild($event)">
+  <app-okr-node
+    *ngFor="let node of root.children"
+    [okrHierarchyNode]="node"
+    (deletedNode)="hideDeletedNode($event)"
+    (okrNodeToEdit)="editOkrNode($event)"
+    (parentId)="addChild($event)"
+  >
   </app-okr-node>
 </div>
 <div *ngIf="root && !root.children">
   <div class="card mb-4">
     <div class="card-body">
-      <h5 class="card-title">It seems like you have no OKRs yet, but no worries! 
-        Just select the New OKR button to create your first.</h5>
+      <h5 class="card-title">
+        It seems like you have no OKRs yet, but no worries! Just select the New
+        OKR button to create your first.
+      </h5>
       <p class="card-text">
-        If you don't know what an OKR is, check out <a routerLink="/about">this short description</a>, try a quick google search or feel free to
-        send us an <a href="mailto:contact@pureokrs.com">email</a>.
+        If you don't know what an OKR is, check out
+        <a routerLink="/about">this short description</a>, try a quick google
+        search or feel free to send us an
+        <a href="mailto:contact@pureokrs.com">email</a>.
       </p>
     </div>
   </div>

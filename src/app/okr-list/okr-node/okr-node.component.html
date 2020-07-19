@@ -1,8 +1,8 @@
-<div class="okr card rounded bg-light border-0 p-2 my-1">
+<div class="okr card rounded border-0 p-2 my-1">
   <span>
     <span class="dropdown">
       <a
-        class="btn btn-sm bg-light p-0 m-0"
+        class="btn btn-sm p-0 m-0"
         id="dropdownMenuButton"
         data-toggle="dropdown"
         aria-haspopup="true"
@@ -35,7 +35,7 @@
         </a>
       </div>
     </span>
-    <p *ngIf="owner" class="badge badge-primary float-right m-1">
+    <p *ngIf="owner" class="badge badge-info float-right m-1">
       <fa-icon [icon]="faUserNinja"></fa-icon>
       {{ owner.name }}
     </p>
@@ -75,7 +75,7 @@
     <ul *ngIf="okrHierarchyNode.data.okr.keyResults" class="list-group">
       <li
         *ngFor="let kr of okrHierarchyNode.data.okr.keyResults"
-        class="list-group-item bg-white border border-primary rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2"
+        class="list-group-item bg-light border border-info rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2"
       >
         {{ kr?.keyResult }}
         <span

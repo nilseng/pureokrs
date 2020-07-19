@@ -20,8 +20,7 @@
             "tsConfig": "src/tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "src/styles.css",
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "src/styles.scss",
               "node_modules/@primer/octicons/build/build.css",
               "node_modules/font-awesome/css/font-awesome.css"
             ],

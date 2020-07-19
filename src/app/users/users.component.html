@@ -1,15 +1,17 @@
-<h2 class="text-light m-1">
-  {{user.company}}'s users.
-</h2>
-<button *ngIf="!userForm" class="btn btn-primary my-4" (click)="showUserForm()">
+<h5 class="m-1">{{ user.company }}'s users.</h5>
+<button
+  *ngIf="!userForm"
+  class="btn btn-sm btn-info my-4"
+  (click)="showUserForm()"
+>
   <fa-icon [icon]="faPlusCircle"></fa-icon>
   Add User
 </button>
 <app-new-user *ngIf="userForm" (hide)="hideUserForm($event)"></app-new-user>
-<div class="table-responsive-sm bg-light py-2 rounded mb-4">
-  <table class="table table-striped bg-light my-1">
+<div class="user-table table-responsive-sm bg-white py-2 rounded mb-4">
+  <table class="table table-striped my-1">
     <thead>
-      <tr style="border-top: 0">
+      <tr style="border-top: 0;">
         <th scope="col">
           Name
         </th>
@@ -20,18 +22,23 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let user of users;let i = index">
+      <tr *ngFor="let user of users; let i = index">
         <td>
           <fa-icon [icon]="faUserNinja"></fa-icon>
-          {{user.name}}
+          {{ user.name }}
         </td>
         <td>
           <fa-icon [icon]="faEnvelope"></fa-icon>
-          {{user.email}}
+          {{ user.email }}
         </td>
         <td>
-          <button type="button" class="btn btn-sm btn-danger float-right table-button mx-1" data-toggle="modal"
-            data-target="#deleteModal" (click)="initDelete(user)">
+          <button
+            type="button"
+            class="btn btn-sm btn-danger float-right table-button mx-1"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            (click)="initDelete(user)"
+          >
             <fa-icon [icon]="faTrashAlt"></fa-icon>
             Delete
           </button>
@@ -41,22 +48,38 @@
   </table>
 </div>
 
-<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
-  aria-hidden="true">
+<div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="deleteModalLabel">Are you sure?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div *ngIf="initDeleteUser" class="modal-body">
-        Do you want to delete {{initDeleteUser.name}} from PureOKRs?
-        It is not possible to recover the user after it is deleted.
+        Do you want to delete {{ initDeleteUser.name }} from PureOKRs? It is not
+        possible to recover the user after it is deleted.
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-danger" data-dismiss="modal" (click)="confirmDelete()">
+        <button
+          type="button"
+          class="btn btn-danger"
+          data-dismiss="modal"
+          (click)="confirmDelete()"
+        >
           Yes, delete
         </button>
       </div>
