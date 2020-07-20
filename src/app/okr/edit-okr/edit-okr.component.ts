@@ -59,7 +59,6 @@ export class EditOkrComponent implements OnChanges {
   }
 
   ngOnChanges() {
-    console.log(this.okrHierarchyNode)
     this.userService.getUser(this.okrHierarchyNode.data.okr.userId)
       .subscribe(owner => this.owner = owner)
     this.parent = this.okrHierarchyNode.parent.data.okr

@@ -168,7 +168,7 @@ export class OkrTreeComponent implements OnInit {
           this._nodeWidth,
           this._nodeHeight,
           this._width / 2 - this._nodeWidth / 2,
-          this._nodeHeight / 2
+          this.offsetY
         );
         this.rootNode.children.push(childNode);
         this.draw(this.rootNode);
