@@ -38,6 +38,10 @@ export class OkrTreeComponent implements OnInit {
   _height: number;
   _nodeWidth: number;
   _nodeHeight: number;
+
+  // Used to move all nodes vertically
+  offsetY: number;
+
   root: HierarchyPointNode<OkrNode>;
   tree: TreeLayout<OkrNode>;
   svg: any;
@@ -65,6 +69,7 @@ export class OkrTreeComponent implements OnInit {
     this._height = window.innerHeight * 0.6;
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
+    this.offsetY = - this._nodeHeight;
   }
 
   getUserDetails() {
@@ -117,7 +122,7 @@ export class OkrTreeComponent implements OnInit {
         this._nodeWidth,
         this._nodeHeight,
         this._width / 2 - this._nodeWidth / 2,
-        this._nodeHeight / 2
+        this.offsetY
       );
       this.rootNode.children.push(node);
     }
@@ -134,7 +139,7 @@ export class OkrTreeComponent implements OnInit {
         this._nodeWidth,
         this._nodeHeight,
         this._width / 2 - this._nodeWidth / 2,
-        this._nodeHeight / 2
+        this.offsetY
       );
       node.data.children.push(childNode);
     }
