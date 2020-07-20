@@ -17,19 +17,18 @@ import { UsersComponent } from './users/users.component';
 import { NewUserComponent } from './users/new-user/new-user.component';
 import { ResetpasswordComponent } from './login/resetpassword/resetpassword.component';
 import { NewPasswordComponent } from './login/new-password/new-password.component';
-import { D3_DIRECTIVES} from './d3';
-import { D3Service} from './d3/d3.service';
+import { D3_DIRECTIVES } from './d3';
+import { D3Service } from './d3/d3.service';
 import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { NodeComponent } from './okr-tree/node/node.component';
 import { EdgeComponent } from './okr-tree/edge/edge.component';
 import { AboutComponent } from './about/about.component';
-import { OcticonDirective } from './shared/octicon-directive.directive';
-import {FontAwesomeModule} from 'node_modules/@fortawesome/angular-fontawesome';
+import { FontAwesomeModule } from 'node_modules/@fortawesome/angular-fontawesome';
 import { OkrService } from './okr.service';
 import { OkrResolver } from './okr/okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
-import {UsersResolver} from './users/users-resolver.service';
+import { UsersResolver } from './users/users-resolver.service';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { IeNotSupportedComponent } from './error-pages/ie-not-supported.component';
 
@@ -59,15 +58,14 @@ import { IeNotSupportedComponent } from './error-pages/ie-not-supported.componen
     NodeComponent,
     EdgeComponent,
     AboutComponent,
-    OcticonDirective,
     FooterComponent,
     NavbarComponent,
     PrivacyComponent,
     IeNotSupportedComponent
   ],
   providers: [
-    AuthenticationService, 
-    AuthGuardService, 
+    AuthenticationService,
+    AuthGuardService,
     D3Service,
     OkrService,
     OkrResolver,

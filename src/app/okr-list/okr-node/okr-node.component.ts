@@ -2,7 +2,7 @@ import { Component, OnChanges, Input, Output, EventEmitter } from '@angular/core
 import {
   faPlusCircle, faPen, faTrashAlt, faUserNinja,
   faBatteryEmpty, faAdjust, faCheckCircle,
-  faChevronUp, faChevronDown
+  faChevronUp, faChevronDown, faEllipsisH
 }
   from '@fortawesome/free-solid-svg-icons'
 
@@ -29,6 +29,7 @@ export class OkrNodeComponent implements OnChanges {
   faCheckCircle = faCheckCircle
   faChevronUp = faChevronUp
   faChevronDown = faChevronDown
+  faEllipsisH = faEllipsisH
 
   @Input() okrHierarchyNode: HierarchyNode<OkrNode>
   @Output() deletedNode = new EventEmitter<HierarchyNode<OkrNode>>()
