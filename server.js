@@ -2,6 +2,8 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const dotenv = require("dotenv");
+const debug = require("debug")("server");
+const chalk = require("chalk");
 
 require("./api/models/db");
 require("./api/config/passport");
@@ -35,13 +37,12 @@ app.use("/api", routesApi);
 
 //Create link to Angular build directory
 const distDir = __dirname + "/dist/";
-console.log(distDir);
 
 app.use(express.static(distDir));
 
 const server = app.listen(process.env.PORT || 5000, () => {
   var port = server.address().port;
-  console.log("App now running on port", port);
+  debug(`server now running on port ${chalk.green(port)}`);
 });
 
 app.use("/*", express.static(distDir));
