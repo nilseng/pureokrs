@@ -142,7 +142,9 @@ export class EditOkrComponent implements OnChanges {
   }
 
   clearForm() {
-    this.owner = this.auth.getUserDetails()
+    this.auth.getUserDetails().subscribe(
+      u => this.owner = u
+    )
     this.parent = undefined
     this.noObjective = false
   }

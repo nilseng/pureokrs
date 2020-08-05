@@ -1,4 +1,6 @@
-<h5>{{ user?.company }}'s objectives and key results.</h5>
+<h5 *ngIf="user$ | async as user">
+  {{ user.company }}'s objectives and key results.
+</h5>
 <app-new-okr
   [parentId]="parentId"
   (savedOkr)="savedOkr($event)"

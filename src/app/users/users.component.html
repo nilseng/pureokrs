@@ -1,4 +1,4 @@
-<h5 class="m-1">{{ user.company }}'s users.</h5>
+<h5 *ngIf="user$ | async as user" class="m-1">{{ user.company }}'s users.</h5>
 <button
   *ngIf="!userForm"
   class="btn btn-sm btn-info my-4"

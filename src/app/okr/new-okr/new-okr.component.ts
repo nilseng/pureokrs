@@ -24,8 +24,8 @@ export class NewOkrComponent implements OnInit, OnChanges {
   @Output() savedOkr = new EventEmitter<Okr>()
   @Output() clearParent = new EventEmitter()
 
-  @ViewChild('parentSearchBox', {static: false}) parentSearchEl: ElementRef
-  @ViewChild('ownerSearchBox', {static: false}) ownerSearchEl: ElementRef
+  @ViewChild('parentSearchBox', { static: false }) parentSearchEl: ElementRef
+  @ViewChild('ownerSearchBox', { static: false }) ownerSearchEl: ElementRef
 
   okr: Okr
   krCount: number
@@ -53,8 +53,13 @@ export class NewOkrComponent implements OnInit, OnChanges {
   ngOnInit() {
     this.okr = new Okr('')
     this.okr.keyResults.push(new KeyResult(''))
-    this.okr.userId = this.auth.getUserDetails()._id
-    this.owner = this.auth.getUserDetails()
+    this.auth.getUserDetails().subscribe(
+      u => {
+        this.owner = u
+        this.okr.userId = u._id
+      }
+    )
+
     this.getParent()
 
     this.noObjective = false
@@ -77,8 +82,12 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.okr.objective = ''
     this.okr.keyResults = []
     this.okr.keyResults.push(new KeyResult(''))
-    this.okr.userId = this.auth.getUserDetails()._id
-    this.owner = this.auth.getUserDetails()
+    this.auth.getUserDetails().subscribe(
+      u => {
+        this.owner = u
+        this.okr.userId = u._id
+      }
+    )
     this.noObjective = false
     this.getParent()
   }
@@ -152,8 +161,12 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.okr.objective = ''
     this.okr.keyResults = []
     this.okr.keyResults.push(new KeyResult(''))
-    this.okr.userId = this.auth.getUserDetails()._id
-    this.owner = this.auth.getUserDetails()
+    this.auth.getUserDetails().subscribe(
+      u => {
+        this.owner = u
+        this.okr.userId = u._id
+      }
+    )
     this.parent = undefined
     this.clearParent.emit()
     this.noObjective = false

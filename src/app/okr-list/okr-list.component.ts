@@ -20,7 +20,7 @@ export class OkrListComponent implements OnInit {
   root: HierarchyNode<OkrNode>
 
   newOKR: boolean
-  user: UserDetails
+  user$ = this.auth.getUserDetails()
 
   parentId: string
   okrNodeToEdit: OkrNode
@@ -32,7 +32,6 @@ export class OkrListComponent implements OnInit {
   ngOnInit() {
     this.getRootOkr()
     this.newOKR = false
-    this.getUserDetails()
     this.parentId = ''
   }
 
@@ -45,10 +44,6 @@ export class OkrListComponent implements OnInit {
 
   createHierarchy() {
     this.root = hierarchy<OkrNode>(this.rootOkr)
-  }
-
-  getUserDetails(): void {
-    this.user = this.auth.getUserDetails()
   }
 
   hideDeletedNode(okrHierarchyNode: HierarchyNode<OkrNode>) {

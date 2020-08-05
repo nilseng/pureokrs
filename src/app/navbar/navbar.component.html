@@ -50,7 +50,7 @@
           aria-expanded="false"
         >
           <fa-icon [icon]="faUserNinja"></fa-icon>
-          {{ auth.getUserDetails()?.name }}
+          {{ auth.getUserDetailsSync().name }}
         </a>
         <div
           class="dropdown-menu dropdown-menu-right"

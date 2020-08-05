@@ -1,5 +1,5 @@
-import { Component, OnInit, Output, EventEmitter} from '@angular/core';
-import { AuthenticationService, TokenPayload } from '../../authentication.service';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { AuthenticationService, TokenPayload, UserDetails } from '../../authentication.service';
 
 @Component({
   selector: 'app-new-user',
@@ -11,18 +11,25 @@ export class NewUserComponent implements OnInit {
   @Output() hide = new EventEmitter<boolean>();
 
   credentials: TokenPayload;
+  user: UserDetails;
 
   constructor(
     private auth: AuthenticationService
   ) { }
 
   ngOnInit() {
-    this.credentials = {
-      company: this.auth.getUserDetails().company,
-      email: '',
-      password: '',
-      name: ''
-    }
+    this.auth.getUserDetails().subscribe(
+      u => {
+        this.user = u
+        this.credentials = {
+          company: this.user.company,
+          email: '',
+          password: '',
+          name: ''
+        }
+      }
+    )
+
   }
 
   addUser(): void {
@@ -32,7 +39,7 @@ export class NewUserComponent implements OnInit {
       this.randomPwd(() => {
         if (this.credentials.password.length >= 16) {
           this.auth.addUser(this.credentials)
-            .subscribe(()=>{
+            .subscribe(() => {
               this.hideNew();
             });
         } else {

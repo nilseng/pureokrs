@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { map, catchError, tap } from 'rxjs/operators';
+import { Observable, of, EMPTY } from 'rxjs';
+import { map, catchError, tap, last } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
 export interface UserDetails {
@@ -50,7 +50,23 @@ export class AuthenticationService {
     this.router.navigateByUrl('/');
   }
 
-  public getUserDetails(): UserDetails {
+  public getUserDetails(): Observable<UserDetails> {
+    const token = this.getToken();
+    let payload;
+    if (token) {
+      payload = token.split('.')[1];
+      payload = window.atob(payload);
+      payload = JSON.parse(payload);
+      payload.name = decodeURIComponent(payload.name);
+      payload.email = decodeURIComponent(payload.email);
+      payload.company = decodeURIComponent(payload.company);
+      return of(payload);
+    } else {
+      return EMPTY;
+    }
+  }
+
+  public getUserDetailsSync(): UserDetails {
     const token = this.getToken();
     let payload;
     if (token) {
@@ -66,8 +82,8 @@ export class AuthenticationService {
     }
   }
 
-  public isLoggedIn(): boolean {
-    const user = this.getUserDetails();
+  public isLoggedIn() {
+    const user = this.getUserDetailsSync()
     if (user) {
       return user.exp > Date.now() / 1000;
     } else {
@@ -127,8 +143,8 @@ export class AuthenticationService {
       );
   }
 
-  public sendResetEmail(email: string): Observable<any>{
-    return this.http.post('/api/sendresetemail', {'email': email},
+  public sendResetEmail(email: string): Observable<any> {
+    return this.http.post('/api/sendresetemail', { 'email': email },
       {
         headers: {
           'Content-Type': 'application/json'
@@ -139,11 +155,11 @@ export class AuthenticationService {
       );
   }
 
-  public newPassword(email: string, token: string, password: string): Observable<any>{
-    return this.http.post('/api/newpassword', 
-      {'email':email, 'token':token, 'password':password},
+  public newPassword(email: string, token: string, password: string): Observable<any> {
+    return this.http.post('/api/newpassword',
+      { 'email': email, 'token': token, 'password': password },
       {
-        headers: {'Content-Type': 'application/json'}
+        headers: { 'Content-Type': 'application/json' }
       })
       .pipe(
         map((data: TokenResponse) => {

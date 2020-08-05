@@ -6,6 +6,8 @@ import { OkrService } from '../okr.service';
 import { OkrNode } from '../okr/okr-node';
 import { AuthenticationService, UserDetails } from '../authentication.service';
 import { ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs';
+import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-okr-tree',
@@ -29,7 +31,7 @@ export class OkrTreeComponent implements OnInit {
     this.initOkrTree();
   }
 
-  user: UserDetails;
+  user$ = this.authService.getUserDetails();
 
   okrs: Okr[];
   rootNode: OkrNode;
@@ -58,7 +60,6 @@ export class OkrTreeComponent implements OnInit {
 
   ngOnInit() {
     this.setTreeSize();
-    this.getUserDetails();
     this.okrs = this.route.snapshot.data['okrs'];
     this.initOkrTree();
   }
@@ -70,10 +71,6 @@ export class OkrTreeComponent implements OnInit {
     this._nodeWidth = Math.max(this._width / 6, 100);
     this._nodeHeight = this._nodeWidth / 2.5;
     this.offsetY = - this._nodeHeight;
-  }
-
-  getUserDetails() {
-    this.user = this.authService.getUserDetails();
   }
 
   //Getting the list of OKRs and transforming it to a tree structure
@@ -102,7 +99,7 @@ export class OkrTreeComponent implements OnInit {
   initOkrTree() {
     if (this.root) this.root = undefined;
     this.rootNode = new OkrNode(
-      new Okr(this.user.company + "'s Objectives & Key Results"),
+      new Okr(""),
       [],
       this._nodeWidth,
       this._nodeHeight,
