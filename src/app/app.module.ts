@@ -31,6 +31,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { UsersResolver } from './users/users-resolver.service';
 import { PrivacyComponent } from './privacy/privacy.component';
 import { IeNotSupportedComponent } from './error-pages/ie-not-supported.component';
+import { LoadingComponent } from './loading/loading.component';
 
 @NgModule({
   imports: [
@@ -61,7 +62,8 @@ import { IeNotSupportedComponent } from './error-pages/ie-not-supported.componen
     FooterComponent,
     NavbarComponent,
     PrivacyComponent,
-    IeNotSupportedComponent
+    IeNotSupportedComponent,
+    LoadingComponent
   ],
   providers: [
     AuthenticationService,
