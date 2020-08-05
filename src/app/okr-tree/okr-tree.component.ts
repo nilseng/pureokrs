@@ -4,10 +4,8 @@ import { HierarchyPointNode, TreeLayout } from 'd3-hierarchy';
 import { Okr } from '../okr/okr';
 import { OkrService } from '../okr.service';
 import { OkrNode } from '../okr/okr-node';
-import { AuthenticationService, UserDetails } from '../authentication.service';
+import { AuthenticationService } from '../authentication.service';
 import { ActivatedRoute } from '@angular/router';
-import { Observable } from 'rxjs';
-import { ThrowStmt } from '@angular/compiler';
 
 @Component({
   selector: 'app-okr-tree',
