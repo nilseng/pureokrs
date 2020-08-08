@@ -1,7 +1,6 @@
-import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit, HostListener, EventEmitter, Inject } from '@angular/core';
+import { Component, OnInit, Input, Output, ViewChild, ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
 import { OkrNode } from '../../okr/okr-node';
 import { OkrService } from '../../okr.service';
-import { KeyResult, Okr } from '../../okr/okr';
 import * as d3 from 'd3';
 import { HierarchyPointNode } from 'd3';
 import { faPen } from '@fortawesome/free-solid-svg-icons';

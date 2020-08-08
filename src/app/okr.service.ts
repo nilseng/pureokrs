@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
-import { catchError, map, tap } from 'rxjs/operators';
+import { catchError } from 'rxjs/operators';
 
 import { AuthenticationService } from './authentication.service';
-import { Okr, KeyResult } from './okr/okr';
+import { Okr } from './okr/okr';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -33,18 +33,6 @@ export class OkrService {
     )
       .pipe(
         catchError(this.handleError<Okr[]>('getOkrs'))
-      );
-  }
-
-  /**GET all OKRs at level 0 */
-  getCompanyOkrs(): Observable<Okr[]> {
-    return this.http.get<Okr[]>(`${this.okrsUrl}/company/level0`,
-      {
-        headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }).pipe(
-        catchError(this.handleError<Okr[]>('getCompanyOKRs'))
       );
   }
 
