@@ -11,7 +11,7 @@
   [okrHierarchyNode]="okrNodeToEdit"
   (savedOkr)="savedOkr($event)"
 ></app-edit-okr>
-<div *ngIf="okrTree$ | async as root">
+<div *ngIf="okrHierarchy$ | async as root">
   <div class="pb-4">
     <app-okr-node
       *ngFor="let node of root.children"
@@ -39,6 +39,6 @@
     </div>
   </div>
 </div>
-<div *ngIf="okrTreeIsLoading$ | async as isLoading">
+<div *ngIf="okrHierarchyIsLoading$ | async as isLoading">
   <app-loading *ngIf="isLoading"></app-loading>
 </div>

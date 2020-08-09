@@ -1,59 +1,47 @@
 <svg:g #nodeVisual>
   <svg:g
+    class="OKRG"
     (click)="editOkr()"
     data-toggle="modal"
     data-target="#editOkrModal"
-    style="cursor: pointer;"
   >
     <svg:rect
       #rect
-      [attr.x]="X"
-      [attr.y]="Y"
+      class="OKRRect"
+      [attr.x]="okrTreeNode.x + okrTreeNode.data.offsetX"
+      [attr.y]="okrTreeNode.y + okrTreeNode.data.offsetY"
       [attr.width]="okrTreeNode.data.width"
       [attr.height]="okrTreeNode.data.height"
       [attr.rx]="2"
       [attr.ry]="2"
-      style="fill: rgb(249, 249, 249); stroke-width: 1; stroke: #1c2e3f;"
     ></svg:rect>
-    <svg:text
+    <svg:foreignObject
       #text
-      [attr.x]="cx"
-      [attr.y]="texty"
-      [attr.font-size]="10"
-      dominant-baseline="middle"
-      text-anchor="middle"
-      style="font-weight: bold;"
+      [attr.x]="okrTreeNode.x + okrTreeNode.data.offsetX"
+      [attr.y]="okrTreeNode.y + okrTreeNode.data.offsetY"
+      [attr.width]="okrTreeNode.data.width"
+      [attr.height]="okrTreeNode.data.height"
     >
-      {{ okrTreeNode.data.okr.objective }}
-    </svg:text>
-  </svg:g>
-  <svg:a
-    #showChildrenLink
-    style="text-decoration: none;"
-    (click)="showChildren()"
-  >
-    <svg:circle
-      *ngIf="okrTreeNode.parent != null"
-      [attr.cx]="cx"
-      [attr.cy]="cy"
-      [attr.r]="10"
-      style="fill: #17a2b8;"
-    ></svg:circle>
-    <svg:text
-      *ngIf="
-        okrTreeNode.data.okr.children &&
-        okrTreeNode.data.okr.children.length > 0 &&
-        okrTreeNode.parent
+      <xhtml:div class="objective">
+        <p>
+          {{ okrTreeNode.data.okr.objective }}
+        </p>
+      </xhtml:div>
+    </svg:foreignObject>
+    <svg:rect
+      *ngIf="progress"
+      [attr.x]="
+        okrTreeNode.x + okrTreeNode.data.offsetX + okrTreeNode.data.width - 8
       "
-      [attr.x]="cx"
-      [attr.y]="cy"
-      [attr.font-size]="10"
-      dominant-baseline="middle"
-      text-anchor="middle"
-      style="fill: rgb(249, 249, 249); font-weight: bold;"
-    >
-      {{ okrTreeNode.data.okr.children.length }}
-    </svg:text>
-    <svg:path #progress style="fill: none; stroke-width: 2; stroke: #5cb85c;" />
-  </svg:a>
+      [attr.width]="8"
+      [attr.y]="
+        okrTreeNode.y +
+        okrTreeNode.data.offsetY +
+        okrTreeNode.data.height -
+        okrTreeNode.data.height * progress
+      "
+      [attr.height]="okrTreeNode.data.height * progress"
+      fill="#28a745"
+    ></svg:rect>
+  </svg:g>
 </svg:g>

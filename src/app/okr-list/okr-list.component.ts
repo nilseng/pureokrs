@@ -11,8 +11,8 @@ import { OkrNode } from '../okr/okr-node'
 })
 export class OkrListComponent implements OnInit {
 
-  okrTree$ = this.okrService.okrTreeWithActions$
-  okrTreeIsLoading$ = this.okrService.okrTreeIsLoading$
+  okrHierarchy$ = this.okrService.okrHierarchyWithActions$
+  okrHierarchyIsLoading$ = this.okrService.okrHierarchyIsLoading$
 
   newOKR: boolean
   user$ = this.auth.getUserDetails()
