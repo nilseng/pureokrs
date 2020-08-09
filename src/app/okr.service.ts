@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
-import { catchError, map, isEmpty, tap, shareReplay } from 'rxjs/operators';
+import { catchError, map, tap, shareReplay } from 'rxjs/operators';
 import { hierarchy, HierarchyNode } from 'd3-hierarchy'
 import * as d3 from "d3"
 

@@ -25,7 +25,6 @@ import { EdgeComponent } from './okr-tree/edge/edge.component';
 import { AboutComponent } from './about/about.component';
 import { FontAwesomeModule } from 'node_modules/@fortawesome/angular-fontawesome';
 import { OkrService } from './okr.service';
-import { OkrResolver } from './okr/okr-resolver.service';
 import { FooterComponent } from './footer/footer.component';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UsersResolver } from './users/users-resolver.service';
@@ -70,7 +69,6 @@ import { LoadingComponent } from './loading/loading.component';
     AuthGuardService,
     D3Service,
     OkrService,
-    OkrResolver,
     UsersResolver
   ],
   bootstrap: [AppComponent]
