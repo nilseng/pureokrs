@@ -33,29 +33,30 @@ module.exports.create = (req, res) => {
 };
 
 module.exports.updateOkr = (req, res) => {
+  const updatedOkr = req.body;
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
     });
-  } else if (!req.body.okr || !req.body.okr._id || !req.body.okr.objective) {
+  } else if (!updatedOkr._id || !updatedOkr.objective) {
     res.status(400).json("No valid OKR received by the server.");
   } else {
     User.findById(req.payload._id).exec((err, user) => {
       if (err) {
         res.status(401).json("User not found");
       } else {
-        Okr.findById(req.body.okr._id, (err, okr) => {
+        Okr.findById(updatedOkr._id, (err, okr) => {
           if (err) {
             res.status(400).json("Could not find OKR");
           } else {
-            okr.objective = req.body.okr.objective;
-            if (req.body.okr.keyResults) {
-              okr.keyResults = req.body.okr.keyResults;
+            okr.objective = updatedOkr.objective;
+            if (updatedOkr.keyResults) {
+              okr.keyResults = updatedOkr.keyResults;
             }
-            if (req.body.okr.parent) okr.parent = req.body.okr.parent;
-            if (req.body.okr.children) okr.children = req.body.okr.children;
-            if (req.body.okr.userId) {
-              okr.userId = mongoose.Types.ObjectId(req.body.okr.userId);
+            if (updatedOkr.parent) okr.parent = updatedOkr.parent;
+            if (updatedOkr.children) okr.children = updatedOkr.children;
+            if (updatedOkr.userId) {
+              okr.userId = mongoose.Types.ObjectId(updatedOkr.userId);
             }
             okr.company = user.company;
             okr.save((err) => {
