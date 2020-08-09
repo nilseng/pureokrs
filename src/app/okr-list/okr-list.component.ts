@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { ActivatedRoute } from '@angular/router'
-import * as d3 from 'd3'
-import { HierarchyNode, hierarchy } from 'd3-hierarchy'
+import { HierarchyNode } from 'd3-hierarchy'
 
 import { AuthenticationService } from '../authentication.service'
 import { OkrService } from '../okr.service'

@@ -53,14 +53,13 @@ export class OkrService {
         if (okr.parent) {
           root.each((node) => {
             if (node.data.okr._id === okr.parent) {
-              if (!node.children) node.children = []
+              if (!node.data.children) node.data.children = []
               if (node.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
                 node.data.children.push(new OkrNode(okr))
               }
             }
           })
         } else {
-          if (!root.data.children) root.data.children = []
           if (root.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
             root.data.children.push(new OkrNode(okr))
           }
@@ -85,7 +84,9 @@ export class OkrService {
       catchError(this.handleError('okrTreeWithActions$'))
     )
 
-  okrTreeWithActions$ = merge(this.okrTree$, this.okrTreeWithDelete$, this.okrTreeWithSave$)
+  okrTreeWithActions$ = merge(this.okrTree$, this.okrTreeWithDelete$, this.okrTreeWithSave$).pipe(
+    tap(okrTree => console.log(okrTree))
+  )
 
   /** Recursive function for adding child OKRs to parent OKRs */
   private createTreeStructure(okrs: Okr[], okrNode?: OkrNode): OkrNode {
@@ -192,16 +193,14 @@ export class OkrService {
   }
 
   /**PUT: update the OKR on the server */
-  updateOkr(okr: Okr): Observable<any> {
-    const id = typeof okr === 'string' ? okr : okr._id;
-
-    return this.http.put(this.okrsUrl, { okr }, {
+  updateOkr(okr: Okr): Observable<Okr> {
+    return this.http.put<Okr>(this.okrsUrl, okr, {
       headers: {
         Authorization: `Bearer ${this.auth.getToken()}`,
         'Content-Type': 'application/json'
       }
     }).pipe(
-      catchError(this.handleError<any>('updateOkr'))
+      catchError(this.handleError<Okr>('updateOkr'))
     );
   }
 

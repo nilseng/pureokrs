@@ -104,11 +104,12 @@ export class EditOkrComponent implements OnChanges {
   }
 
   changeParent(okr: Okr) {
+    // Removing the okr node from the old parent's children array
     this.okrHierarchyNode.parent.data.children
       .splice(this.okrHierarchyNode.parent.data.children.indexOf(this.okrHierarchyNode.data), 1)
     if (this.okrHierarchyNode.parent.depth === 0) {
       this.addChildToParent(okr)
-    } else {
+    } else { // If the old parent is not the root node, the okr needs to be removed from the parent's children array on the server also
       this.okrService.removeChild(this.okrHierarchyNode.parent.data.okr._id, okr._id)
         .subscribe(() => {
           this.addChildToParent(okr)
