@@ -27,7 +27,7 @@ export class OkrService {
   private deletedOkrSubject = new Subject<HierarchyNode<OkrNode>>()
   deletedOkr$ = this.deletedOkrSubject.asObservable()
 
-  private savedOkrSubject = new Subject<Okr>()
+  private savedOkrSubject = new Subject<OkrNode>()
   savedOkr$ = this.savedOkrSubject.asObservable()
 
   private okrTreeIsLoadingSubject = new BehaviorSubject<boolean>(true)
@@ -43,25 +43,25 @@ export class OkrService {
     shareReplay(1)
   )
 
-  okrSaved(savedOkr: Okr) {
-    this.savedOkrSubject.next(savedOkr)
+  okrSaved(savedOkrNode: OkrNode) {
+    this.savedOkrSubject.next(savedOkrNode)
   }
 
   okrTreeWithSave$ = combineLatest([this.okrTree$, this.savedOkr$])
     .pipe(
-      map(([root, okr]) => {
-        if (okr.parent) {
+      map(([root, okrNode]) => {
+        if (okrNode.okr.parent) {
           root.each((node) => {
-            if (node.data.okr._id === okr.parent) {
+            if (node.data.okr._id === okrNode.okr.parent) {
               if (!node.data.children) node.data.children = []
-              if (node.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
-                node.data.children.push(new OkrNode(okr))
+              if (node.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
+                node.data.children.push(okrNode)
               }
             }
           })
         } else {
-          if (root.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
-            root.data.children.push(new OkrNode(okr))
+          if (root.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
+            root.data.children.push(okrNode)
           }
         }
         return hierarchy(root.data)

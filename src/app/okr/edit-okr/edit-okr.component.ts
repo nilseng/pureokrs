@@ -25,7 +25,7 @@ export class EditOkrComponent implements OnChanges {
   faTrashAlt = faTrashAlt
 
   @Input() okrHierarchyNode: HierarchyNode<OkrNode>
-  @Output() savedOkr = new EventEmitter<Okr>()
+  @Output() savedOkr = new EventEmitter<OkrNode>()
 
   noObjective: boolean
 
@@ -83,10 +83,11 @@ export class EditOkrComponent implements OnChanges {
     this.okrService.updateOkr(this.okrHierarchyNode.data.okr)
       .subscribe((okr: Okr) => {
         if (okr.parent && okr.parent !== this.okrHierarchyNode.parent.data.okr._id) {
-          this.changeParent(okr)
+          this.okrHierarchyNode.data.okr = okr
+          this.changeParent(this.okrHierarchyNode.data)
         } else {
           this.clearForm()
-          this.savedOkr.emit(okr)
+          this.savedOkr.emit(this.okrHierarchyNode.data)
         }
       })
   }
@@ -103,22 +104,22 @@ export class EditOkrComponent implements OnChanges {
     this.okrHierarchyNode.data.okr.keyResults.splice(index, 1)
   }
 
-  changeParent(okr: Okr) {
+  changeParent(okrNode: OkrNode) {
     // Removing the okr node from the old parent's children array
     this.okrHierarchyNode.parent.data.children
       .splice(this.okrHierarchyNode.parent.data.children.indexOf(this.okrHierarchyNode.data), 1)
     if (this.okrHierarchyNode.parent.depth === 0) {
-      this.addChildToParent(okr)
+      this.addChildToParent(okrNode)
     } else { // If the old parent is not the root node, the okr needs to be removed from the parent's children array on the server also
-      this.okrService.removeChild(this.okrHierarchyNode.parent.data.okr._id, okr._id)
+      this.okrService.removeChild(this.okrHierarchyNode.parent.data.okr._id, okrNode.okr._id)
         .subscribe(() => {
-          this.addChildToParent(okr)
+          this.addChildToParent(okrNode)
         })
     }
   }
 
-  addChildToParent(child: Okr) {
-    this.okrService.addChild(child.parent, child._id)
+  addChildToParent(child: OkrNode) {
+    this.okrService.addChild(child.okr.parent, child.okr._id)
       .subscribe(() => {
         this.clearForm()
         this.savedOkr.emit(child)

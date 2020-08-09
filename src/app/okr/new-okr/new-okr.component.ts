@@ -10,6 +10,7 @@ import { Okr, KeyResult } from '../okr'
 import { OkrService } from '../../okr.service'
 import { AuthenticationService, UserDetails } from '../../authentication.service'
 import { UserService } from '../../user.service'
+import { OkrNode } from '../okr-node'
 
 @Component({
   selector: 'app-new-okr',
@@ -21,7 +22,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
   faTrashAlt = faTrashAlt
 
   @Input() parentId: string
-  @Output() savedOkr = new EventEmitter<Okr>()
+  @Output() savedOkr = new EventEmitter<OkrNode>()
   @Output() clearParent = new EventEmitter()
 
   @ViewChild('parentSearchBox', { static: false }) parentSearchEl: ElementRef
@@ -112,7 +113,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
           if (okr.parent) {
             this.addToParentOnSave(okr)
           } else {
-            this.savedOkr.emit(okr)
+            this.savedOkr.emit(new OkrNode(okr))
           }
           this.clearForm()
         })
@@ -140,7 +141,7 @@ export class NewOkrComponent implements OnInit, OnChanges {
   addToParentOnSave(okr: Okr) {
     this.okrService.addChild(okr.parent, okr._id)
       .subscribe(() => {
-        this.savedOkr.emit(okr)
+        this.savedOkr.emit(new OkrNode(okr))
       })
   }
 

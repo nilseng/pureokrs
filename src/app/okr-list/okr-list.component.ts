@@ -33,8 +33,8 @@ export class OkrListComponent implements OnInit {
     this.okrService.okrDeleted(deletedOkr)
   }
 
-  savedOkr(okr: Okr) {
-    this.okrService.okrSaved(okr)
+  savedOkr(okrNode: OkrNode) {
+    this.okrService.okrSaved(okrNode)
     this.clearParent()
   }
 
