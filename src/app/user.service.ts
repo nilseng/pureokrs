@@ -31,15 +31,15 @@ export class UserService {
   }
 
   /**GET users by company. Will return 404 when not found */
-  getUsers(company: string): Observable<{User}> {
+  getUsers(company: string): Observable<{ User }> {
     const url = `${this.userUrl}/company/users`;
-    return this.http.get<{User}>(url,
+    return this.http.get<{ User }>(url,
       {
         headers: {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        catchError(this.handleError<{User}>(`getUsers company=${company}`))
+        catchError(this.handleError<{ User }>(`getUsers company=${company}`))
       );
   }
 
@@ -59,7 +59,7 @@ export class UserService {
     );
   }
 
-  deleteUser(user: UserDetails): Observable<{}>{
+  deleteUser(user: UserDetails): Observable<{}> {
     return this.http.delete<{}>(`${this.userUrl}/delete/${user._id}`,
       {
         headers: {

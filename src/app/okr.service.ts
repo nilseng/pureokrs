@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of } from 'rxjs';
-import { catchError } from 'rxjs/operators';
+import { Observable, of, BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
+import { catchError, map, isEmpty, tap, shareReplay } from 'rxjs/operators';
+import { hierarchy, HierarchyNode } from 'd3-hierarchy'
 
 import { AuthenticationService } from './authentication.service';
 import { Okr } from './okr/okr';
+import { OkrNode } from './okr/okr-node';
 
 const httpOptions = {
   headers: new HttpHeaders({ 'Content-Type': 'application/json' })
@@ -21,6 +23,86 @@ export class OkrService {
     private http: HttpClient,
     private auth: AuthenticationService
   ) { }
+
+  private deletedOkrSubject = new Subject<HierarchyNode<OkrNode>>()
+  deletedOkr$ = this.deletedOkrSubject.asObservable()
+
+  private savedOkrSubject = new Subject<Okr>()
+  savedOkr$ = this.savedOkrSubject.asObservable()
+
+  private okrTreeIsLoadingSubject = new BehaviorSubject<boolean>(true)
+  okrTreeIsLoading$ = this.okrTreeIsLoadingSubject.asObservable()
+
+  okrs$ = this.getOkrs()
+
+  okrTree$ = this.okrs$.pipe(
+    map((okrs: Okr[]) => {
+      return hierarchy(this.createTreeStructure(okrs))
+    }),
+    tap(_ => this.okrTreeIsLoadingSubject.next(false)),
+    shareReplay(1)
+  )
+
+  okrSaved(savedOkr: Okr) {
+    this.savedOkrSubject.next(savedOkr)
+  }
+
+  okrTreeWithSave$ = combineLatest([this.okrTree$, this.savedOkr$])
+    .pipe(
+      map(([root, okr]) => {
+        if (okr.parent) {
+          root.each((node) => {
+            if (node.data.okr._id === okr.parent) {
+              if (!node.children) node.children = []
+              if (node.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
+                node.data.children.push(new OkrNode(okr))
+              }
+            }
+          })
+        } else {
+          if (!root.data.children) root.data.children = []
+          if (root.data.children.map(child => child.okr._id).indexOf(okr._id) === -1) {
+            root.data.children.push(new OkrNode(okr))
+          }
+        }
+        return hierarchy(root.data)
+      })
+    )
+
+  okrDeleted(deletedOkr: HierarchyNode<OkrNode>) {
+    this.deletedOkrSubject.next(deletedOkr)
+  }
+
+  okrTreeWithDelete$ = combineLatest([this.okrTree$, this.deletedOkr$])
+    .pipe(
+      map(([root, deletedOkr]) => {
+        if (deletedOkr.children && deletedOkr.children.length > 0) {
+          root.data.children.push(...deletedOkr.data.children)
+        }
+        deletedOkr.parent.data.children.splice(deletedOkr.parent.data.children.indexOf(deletedOkr.data), 1)
+        return hierarchy(root.data)
+      }),
+      catchError(this.handleError('okrTreeWithActions$'))
+    )
+
+  okrTreeWithActions$ = merge(this.okrTree$, this.okrTreeWithDelete$, this.okrTreeWithSave$)
+
+  /** Recursive function for adding child OKRs to parent OKRs */
+  private createTreeStructure(okrs: Okr[], okrNode?: OkrNode): OkrNode {
+    if (!okrNode) {
+      // Create the invisible root OKR node
+      okrNode = new OkrNode(new Okr(''))
+      // Creating an OKR Node for every OKR without a parent OKR and adding each to the root node children array
+      okrNode.children = okrs.filter(okr => !okr.parent).map(okr => new OkrNode(okr))
+    } else {
+      // Creating an OKR Node for every child OKR and adding each to the parent OKR Node children array
+      okrNode.children = okrs.filter(okr => okr.parent === okrNode.okr._id)
+        .map(okr => new OkrNode(okr))
+    }
+    // Adding all OKR children recursively to their parents
+    okrNode.children.map(node => this.createTreeStructure(okrs, node))
+    return okrNode;
+  }
 
   /**GET OKRs from the server */
   getOkrs(): Observable<Okr[]> {

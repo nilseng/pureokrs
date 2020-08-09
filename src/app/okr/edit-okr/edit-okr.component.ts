@@ -80,20 +80,15 @@ export class EditOkrComponent implements OnChanges {
   }
 
   save(): void {
-    if (!this.okrHierarchyNode.data.okr.objective.trim()) {
-      this.noObjective = true
-      return
-    } else {
-      this.okrService.updateOkr(this.okrHierarchyNode.data.okr)
-        .subscribe((okr: Okr) => {
-          if (okr.parent && okr.parent !== this.okrHierarchyNode.parent.data.okr._id) {
-            this.changeParent(okr)
-          } else {
-            this.clearForm()
-            this.savedOkr.emit(okr)
-          }
-        })
-    }
+    this.okrService.updateOkr(this.okrHierarchyNode.data.okr)
+      .subscribe((okr: Okr) => {
+        if (okr.parent && okr.parent !== this.okrHierarchyNode.parent.data.okr._id) {
+          this.changeParent(okr)
+        } else {
+          this.clearForm()
+          this.savedOkr.emit(okr)
+        }
+      })
   }
 
   clearParent() {
