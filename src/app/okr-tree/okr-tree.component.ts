@@ -58,11 +58,11 @@ export class OkrTreeComponent implements OnInit {
     const width = window.innerWidth > 768 ? window.innerWidth - 160 : window.innerWidth
     const treeConfig = {
       width: width,
-      height: window.innerHeight * 0.6,
-      nodeWidth: Math.max(width / 6, 150),
-      nodeHeight: Math.max(width / 15, 60),
-      offsetX: width / 2 - Math.max(width / 6, 150) / 2,
-      offsetY: - width / 15
+      height: Math.max(window.innerHeight * 0.6, 500),
+      nodeWidth: 160,
+      nodeHeight: 70,
+      offsetX: width / 2 - 160 / 2,
+      offsetY: - 70
     }
     this.okrService.treeConfigSubject.next(treeConfig)
   }
