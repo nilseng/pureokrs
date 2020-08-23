@@ -5,6 +5,7 @@
     "ng": "ng",
     "start": "node server.js",
     "start:dev": "nodemon server.js",
+    "start:client": "ng serve -o",
     "build": "ng build --prod --output-path dist",
     "test": "ng test",
     "lint": "ng lint",
