@@ -50,7 +50,7 @@
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
     "sendgrid": "^4.2.0",
-    "serialize-javascript": "^2.1.2",
+    "serialize-javascript": ">=3.1.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.10.3"
   },
