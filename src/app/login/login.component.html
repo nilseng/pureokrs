@@ -1,4 +1,7 @@
 <div class="row m-0">
+  <div class="col-sm col-md-6">
+    <app-welcome></app-welcome>
+  </div>
   <div class="col-sm pt-4">
     <div class="rounded p-1 p-sm-4">
       <form
@@ -8,9 +11,7 @@
       >
         <div class="form-group">
           <label for="email">Email</label>
-          <em *ngIf="email.touched && email.invalid">
-            Required
-          </em>
+          <em *ngIf="email.touched && email.invalid"> Required </em>
           <input
             id="email"
             type="email"
@@ -22,9 +23,7 @@
         </div>
         <div class="form-group">
           <label for="password">Password</label>
-          <em *ngIf="password.touched && password.invalid">
-            Required
-          </em>
+          <em *ngIf="password.touched && password.invalid"> Required </em>
           <input
             id="password"
             type="password"
@@ -52,37 +51,9 @@
           Register
         </button>
       </form>
-      <button class="btn btn-sm btn-link" routerLink="/resetpassword">
+      <button class="btn btn-sm btn-link mb-4" routerLink="/resetpassword">
         Forgot your password?
       </button>
     </div>
-  </div>
-  <div class="col-sm pt-4">
-    <section class="rounded p-4">
-      <h5>Why Objectives and Key Results?</h5>
-      <ul>
-        <li>
-          Improve collaboration
-        </li>
-        <li>
-          Align your organization
-        </li>
-        <li>
-          Focus on what matters
-        </li>
-      </ul>
-      <h5>Pure OKRs Features</h5>
-      <ul>
-        <li>
-          OKR tree view
-        </li>
-        <li>
-          OKR list view
-        </li>
-        <li>
-          Invite colleagues or team mates by email
-        </li>
-      </ul>
-    </section>
   </div>
 </div>

@@ -1,33 +1,36 @@
 <div class="row m-0">
-  <div class="col-sm">
-    <div class="rounded p-1 p-sm-4">
+  <div class="col-sm col-md-6">
+    <app-welcome></app-welcome>
+  </div>
+  <div class="col-sm col-md-4">
+    <div class="p-1 p-sm-4">
       <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
         <div class="form-group">
-          <label for="company">Company</label>
+          <label for="company" class="small">Company</label>
           <em *ngIf="company.touched && company.invalid">Required</em>
           <input
             id="company"
             type="text"
-            class="form-control"
-            placeholder="Enter company"
+            class="form-control form-control-sm"
+            placeholder="Enter company name"
             formControlName="company"
             required
           />
         </div>
         <div class="form-group">
-          <label for="name">Full name</label>
+          <label for="name" class="small">Full name</label>
           <em *ngIf="name.touched && name.invalid">Required</em>
           <input
             id="name"
             type="text"
-            class="form-control"
+            class="form-control form-control-sm"
             placeholder="Enter your name"
             formControlName="name"
             required
           />
         </div>
         <div class="form-group">
-          <label for="email">Email</label>
+          <label for="email" class="small">Email</label>
           <em *ngIf="email.touched && email.value.length === 0">Required</em>
           <em *ngIf="email.touched && email.value.length > 0 && email.invalid"
             >Invalid email</em
@@ -36,14 +39,14 @@
             id="email"
             name="email"
             type="email"
-            class="form-control"
+            class="form-control form-control-sm"
             formControlName="email"
             required
             placeholder="Enter email"
           />
         </div>
         <div class="form-group">
-          <label for="password">Password</label>
+          <label for="password" class="small">Password</label>
           <em *ngIf="password.touched && password.value.length === 0"
             >Required</em
           >
@@ -56,7 +59,7 @@
           <input
             id="password"
             type="password"
-            class="form-control"
+            class="form-control form-control-sm"
             formControlName="password"
             name="password"
             placeholder="Password"
@@ -84,7 +87,7 @@
         </div>
         <button
           type="submit"
-          class="btn btn-success m-2"
+          class="btn btn-success btn-sm"
           [disabled]="!registerForm.valid"
         >
           Register
@@ -92,45 +95,12 @@
         <br />
         <button
           type="button"
-          class="btn btn-link btn-sm"
+          class="btn btn-link btn-sm px-0 my-2"
           [routerLink]="['/login']"
         >
           Already have a user? Log in here.
         </button>
       </form>
     </div>
-  </div>
-  <div class="col-sm pt-4">
-    <section class="rounded p-4">
-      <h5>Welcome!</h5>
-      <p>
-        Register your company and get started with creating your first
-        objectives and key results. It's simple and powerful.
-      </p>
-      <h5>Why Objectives and Key Results?</h5>
-      <ul>
-        <li>
-          Improve collaboration
-        </li>
-        <li>
-          Align your organization
-        </li>
-        <li>
-          Focus on what matters
-        </li>
-      </ul>
-      <h5>Pure OKRs Features</h5>
-      <ul>
-        <li>
-          OKR tree view
-        </li>
-        <li>
-          OKR list view
-        </li>
-        <li>
-          Invite colleagues or team mates by email
-        </li>
-      </ul>
-    </section>
   </div>
 </div>
