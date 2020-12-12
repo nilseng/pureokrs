@@ -1,105 +1,62 @@
 <div class="okr card rounded border-0 p-2 my-1">
-  <span>
-    <span class="dropdown">
+  <span class="dropdown">
+    <a
+      class="btn btn-sm p-0 m-0"
+      id="dropdownMenuButton"
+      data-toggle="dropdown"
+      aria-haspopup="true"
+      aria-expanded="false"
+    >
+      <fa-icon [icon]="faEllipsisH"></fa-icon>
+    </a>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
       <a
-        class="btn btn-sm p-0 m-0"
-        id="dropdownMenuButton"
-        data-toggle="dropdown"
-        aria-haspopup="true"
-        aria-expanded="false"
+        class="dropdown-item"
+        (click)="addChild(okrHierarchyNode.data.okr._id)"
+        data-toggle="modal"
+        data-target="#newOkrModal"
       >
-        <fa-icon [icon]="faEllipsisH"></fa-icon>
+        <fa-icon [icon]="faPlusCircle"></fa-icon>
+        Add child OKR
       </a>
-      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-        <a
-          class="dropdown-item"
-          (click)="addChild(okrHierarchyNode.data.okr._id)"
-          data-toggle="modal"
-          data-target="#newOkrModal"
-        >
-          <fa-icon [icon]="faPlusCircle"></fa-icon>
-          Add child OKR
-        </a>
-        <a
-          class="dropdown-item"
-          (click)="editOkrNode(okrHierarchyNode)"
-          data-toggle="modal"
-          data-target="#editOkrModal"
-        >
-          <fa-icon [icon]="faPen"></fa-icon>
-          Edit
-        </a>
-        <a class="dropdown-item" (click)="deleteOKR()">
-          <fa-icon [icon]="faTrashAlt"></fa-icon>
-          Delete
-        </a>
-      </div>
-    </span>
-    <p *ngIf="owner" class="badge badge-info float-right m-1">
+      <a
+        class="dropdown-item"
+        (click)="editOkrNode(okrHierarchyNode)"
+        data-toggle="modal"
+        data-target="#editOkrModal"
+      >
+        <fa-icon [icon]="faPen"></fa-icon>
+        Edit
+      </a>
+      <a class="dropdown-item" (click)="deleteOKR()">
+        <fa-icon [icon]="faTrashAlt"></fa-icon>
+        Delete
+      </a>
+    </div> </span
+  ><span>
+    <span *ngIf="owner" class="text-muted small m-1">
       <fa-icon [icon]="faUserNinja"></fa-icon>
       {{ owner.name }}
-    </p>
-    <p
-      *ngIf="!averageProgress && averageProgress != 0"
-      class="badge badge-secondary float-right m-1"
-    >
-      <fa-icon [icon]="faBatteryEmpty"></fa-icon>
-      0%
-    </p>
-    <p
-      *ngIf="averageProgress < 30"
-      class="badge badge-secondary float-right m-1"
-    >
-      <fa-icon [icon]="faBatteryEmpty"></fa-icon>
-      {{ averageProgress }}%
-    </p>
-    <p
-      *ngIf="averageProgress < 70 && averageProgress >= 30"
-      class="badge badge-primary float-right m-1"
-    >
-      <fa-icon [icon]="faAdjust"></fa-icon>
-      {{ averageProgress }}%
-    </p>
-    <p
-      *ngIf="averageProgress >= 70"
-      class="badge badge-success float-right m-1"
-    >
-      <fa-icon [icon]="faCheckCircle"></fa-icon>
-      {{ averageProgress }}%
-    </p>
+    </span>
+    <app-progress-badge
+      class="float-right mr-2"
+      [progress]="averageProgress"
+    ></app-progress-badge>
   </span>
-  <h5 class="card-title">
+  <p class="font-weight-bold mt-2 mb-1">
     <span>{{ okrHierarchyNode.data.okr.objective }}</span>
-  </h5>
+  </p>
   <div class="card-body py-0 pr-0 m-0">
     <ul *ngIf="okrHierarchyNode.data.okr.keyResults" class="list-group">
       <li
         *ngFor="let kr of okrHierarchyNode.data.okr.keyResults"
-        class="list-group-item bg-light border border-info rounded-0 border-right-0 border-top-0 border-bottom-0 py-1 my-1 mr-2"
+        class="list-group-item small bg-light border border-info rounded-0 border-right-0 border-top-0 border-bottom-0 pt-1 pb-0 my-1 mr-2"
       >
         {{ kr?.keyResult }}
-        <span
-          *ngIf="!kr.progress && kr.progress != 0"
-          class="badge badge-secondary"
-        >
-          <fa-icon [icon]="faBatteryEmpty"></fa-icon>
-          0%
-        </span>
-        <span *ngIf="kr.progress < 30" class="badge badge-secondary">
-          <fa-icon [icon]="faBatteryEmpty"></fa-icon>
-          {{ kr.progress }}%
-        </span>
-        <span
-          *ngIf="kr.progress >= 30 && kr.progress < 70"
-          class="badge badge-primary"
-        >
-          <fa-icon [icon]="faAdjust"></fa-icon>
-          {{ kr.progress }}%
-        </span>
-        <span *ngIf="kr.progress >= 70" class="badge badge-success">
-          <fa-icon [icon]="faCheckCircle"></fa-icon>
-          {{ kr.progress }}%
-        </span>
+        <app-progress-badge
+          class="float-right"
+          [progress]="kr.progress"
+        ></app-progress-badge>
       </li>
     </ul>
     <div
@@ -107,7 +64,7 @@
         !okrHierarchyNode.data.isChildrenVisible &&
         okrHierarchyNode.children?.length > 0
       "
-      class="btn btn-link p-0 m-0"
+      class="btn btn-link btn-sm p-0 m-0"
       (click)="showChildren()"
     >
       <fa-icon [icon]="faChevronDown"></fa-icon>
@@ -118,7 +75,7 @@
         okrHierarchyNode.data.isChildrenVisible &&
         okrHierarchyNode.children?.length > 0
       "
-      class="btn btn-link p-0 m-0"
+      class="btn btn-link btn-sm p-0 m-0"
       (click)="hideChildren()"
     >
       <fa-icon [icon]="faChevronUp"></fa-icon>

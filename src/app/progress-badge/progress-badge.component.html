@@ -1,0 +1,16 @@
+<span *ngIf="!progress && progress !== 0" class="badge badge-secondary">
+  <fa-icon [icon]="faBatteryEmpty"></fa-icon>
+  0%
+</span>
+<span *ngIf="progress < 30" class="badge badge-secondary">
+  <fa-icon [icon]="faBatteryEmpty"></fa-icon>
+  {{ progress }}%
+</span>
+<span *ngIf="progress >= 30 && progress < 70" class="badge badge-primary">
+  <fa-icon [icon]="faAdjust"></fa-icon>
+  {{ progress }}%
+</span>
+<span *ngIf="progress >= 70" class="badge badge-success">
+  <fa-icon [icon]="faCheckCircle"></fa-icon>
+  {{ progress }}%
+</span>
