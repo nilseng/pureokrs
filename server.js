@@ -4,6 +4,7 @@ const passport = require("passport");
 const dotenv = require("dotenv");
 const debug = require("debug")("server");
 const chalk = require("chalk");
+const sslRedirect = require("heroku-ssl-redirect").default;
 
 require("./api/models/db");
 require("./api/config/passport");
@@ -14,6 +15,8 @@ const routesApi = require("./api/routes/index");
 
 const app = express();
 
+app.use(sslRedirect());
+
 app.use(
   bodyParser.urlencoded({
     extended: true,
@@ -22,16 +25,6 @@ app.use(
 app.use(bodyParser.json());
 
 app.use(passport.initialize());
-
-app.use((req, res, next) => {
-  if (
-    !req.secure &&
-    !req.headers.host === `localhost:${process.env.PORT || 5000}`
-  ) {
-    return res.redirect("https://" + req.headers.host + req.path);
-  }
-  next();
-});
 
 app.use("/api", routesApi);
 
