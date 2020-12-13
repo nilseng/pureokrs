@@ -31,7 +31,7 @@ export class UserService {
   }
 
   /**GET users by company. Will return 404 when not found */
-  getUsers(company: string): Observable<{ User }> {
+  getUsers(): Observable<{ User }> {
     const url = `${this.userUrl}/company/users`;
     return this.http.get<{ User }>(url,
       {
@@ -39,7 +39,7 @@ export class UserService {
           Authorization: `Bearer ${this.auth.getToken()}`
         }
       }).pipe(
-        catchError(this.handleError<{ User }>(`getUsers company=${company}`))
+        catchError(this.handleError<{ User }>(`getUsers`))
       );
   }
 

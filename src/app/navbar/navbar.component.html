@@ -34,6 +34,12 @@
         </a>
       </li>
       <li *ngIf="auth.isLoggedIn()" class="nav-item">
+        <a routerLink="/statistics" class="nav-link">
+          <fa-icon [icon]="faChartPie"></fa-icon>
+          Stats
+        </a>
+      </li>
+      <li *ngIf="auth.isLoggedIn()" class="nav-item">
         <a routerLink="/users" class="nav-link">
           <fa-icon [icon]="faUsers"></fa-icon>
           Users

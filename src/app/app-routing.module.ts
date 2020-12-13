@@ -13,6 +13,7 @@ import { OkrTreeComponent } from './okr-tree/okr-tree.component';
 import { AboutComponent } from './about/about.component';
 import { UsersResolver } from './users/users-resolver.service';
 import { PrivacyComponent } from './privacy/privacy.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 const routes: Routes = [
   { path: '', pathMatch: 'full', component: OkrListComponent, canActivate: [AuthGuardService] },
@@ -20,6 +21,7 @@ const routes: Routes = [
   { path: 'register', component: RegisterComponent },
   { path: 'okr-tree', component: OkrTreeComponent, canActivate: [AuthGuardService] },
   { path: 'users', component: UsersComponent, canActivate: [AuthGuardService], resolve: { users: UsersResolver } },
+  { path: 'statistics', component: StatisticsComponent, canActivate: [AuthGuardService] },
   { path: 'resetpassword', component: ResetpasswordComponent },
   { path: 'resetpassword/:email/:token', component: NewPasswordComponent },
   { path: 'about', component: AboutComponent },

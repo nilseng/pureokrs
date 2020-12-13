@@ -1,5 +1,5 @@
 import { Component } from "@angular/core"
-import { faSitemap, faUsers, faUserNinja, faStream } from '@fortawesome/free-solid-svg-icons'
+import { faSitemap, faUsers, faUserNinja, faStream, faChartPie } from '@fortawesome/free-solid-svg-icons'
 import { AuthenticationService } from "../authentication.service"
 
 @Component({
@@ -12,6 +12,7 @@ export class NavbarComponent {
     faSitemap = faSitemap
     faUsers = faUsers
     faUserNinja = faUserNinja
+    faChartPie = faChartPie
 
     constructor(public auth: AuthenticationService) {
 

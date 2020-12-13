@@ -15,6 +15,6 @@ export class UsersResolver implements Resolve<any>{
         this.auth.getUserDetails().subscribe(
             u => user = u
         )
-        return this.userService.getUsers(decodeURIComponent(user.company));
+        return this.userService.getUsers();
     }
 }

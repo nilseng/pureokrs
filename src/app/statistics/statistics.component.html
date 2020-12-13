@@ -1,0 +1,41 @@
+<div *ngIf="vm$ | async as vm">
+  <div class="row">
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.okrs.length }}</h1>
+        <p>All OKRs</p>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.ownOkrs.length }}</h1>
+        <p>Your OKRs</p>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.keyResults.length }}</h1>
+        <p>Key Results</p>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.users.length }}</h1>
+        <p>Users</p>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.avgOkrProgress() }}%</h1>
+        <p>Avg OKR Progress</p>
+      </div>
+    </div>
+    <div class="col-sm-3 mb-4">
+      <div class="card d-flex align-items-center border-0">
+        <h1 class="display-4">{{ vm.avgKRProgress() }}%</h1>
+        <p>Avg Key Result Progress</p>
+      </div>
+    </div>
+  </div>
+</div>
+<app-loading *ngIf="isLoading"></app-loading>

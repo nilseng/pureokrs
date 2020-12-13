@@ -6,7 +6,7 @@ import { hierarchy, HierarchyNode } from 'd3-hierarchy'
 import * as d3 from "d3"
 
 import { AuthenticationService } from './authentication.service';
-import { Okr } from './okr/okr';
+import { KeyResult, Okr } from './okr/okr';
 import { OkrNode } from './okr/okr-node';
 import { ITreeConfig } from './okr-tree/okr-tree.component'
 
@@ -43,10 +43,17 @@ export class OkrService {
 
   okrs$ = this.getOkrs()
 
-  okrHierarchy$ = this.okrs$.pipe(
+  keyResults$ = this.okrs$.pipe(
     map((okrs: Okr[]) => {
-      return hierarchy(this.createOkrHierarchy(okrs))
-    }),
+      let krs: KeyResult[] = [];
+      okrs.forEach(okr => krs = [...krs, ...okr.keyResults])
+      return krs
+    })
+  )
+
+  okrHierarchy$ = this.okrs$.pipe(
+    map((okrs: Okr[]) => hierarchy(this.createOkrHierarchy(okrs))
+    ),
     tap(_ => this.okrHierarchyIsLoadingSubject.next(false)),
     shareReplay(1)
   )

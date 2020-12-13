@@ -33,6 +33,7 @@ import { IeNotSupportedComponent } from './error-pages/ie-not-supported.componen
 import { LoadingComponent } from './loading/loading.component';
 import { WelcomeComponent } from './welcome/welcome.component';
 import { ProgressBadgeComponent } from './progress-badge/progress-badge.component';
+import { StatisticsComponent } from './statistics/statistics.component';
 
 @NgModule({
   imports: [
@@ -66,7 +67,8 @@ import { ProgressBadgeComponent } from './progress-badge/progress-badge.componen
     IeNotSupportedComponent,
     LoadingComponent,
     WelcomeComponent,
-    ProgressBadgeComponent
+    ProgressBadgeComponent,
+    StatisticsComponent
   ],
   providers: [
     AuthenticationService,

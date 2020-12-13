@@ -34,7 +34,7 @@ export class UsersComponent implements OnInit {
   getUsers(): void {
     this.user$.subscribe(u => {
       if (u.company) {
-        this.userService.getUsers(decodeURIComponent(u.company))
+        this.userService.getUsers()
           .subscribe(users => this.users = users);
       }
     });
