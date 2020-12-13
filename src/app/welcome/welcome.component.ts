@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { faSitemap, faUsers, faUserNinja, faStream } from '@fortawesome/free-solid-svg-icons'
+import { faSitemap, faUsers, faUserNinja, faStream, faChartPie } from '@fortawesome/free-solid-svg-icons'
 
 @Component({
     selector: 'app-welcome',
@@ -12,5 +12,6 @@ export class WelcomeComponent {
     faSitemap = faSitemap
     faUsers = faUsers
     faUserNinja = faUserNinja
+    faChartPie = faChartPie
 
 }
