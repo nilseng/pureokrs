@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, BehaviorSubject, combineLatest, merge, Subject } from 'rxjs';
-import { catchError, map, tap, shareReplay } from 'rxjs/operators';
+import { catchError, map, tap, shareReplay, scan } from 'rxjs/operators';
 import { hierarchy, HierarchyNode } from 'd3-hierarchy'
 import * as d3 from "d3"
 
@@ -29,8 +29,8 @@ export class OkrService {
   private deletedOkrSubject = new Subject<HierarchyNode<OkrNode>>()
   deletedOkr$ = this.deletedOkrSubject.asObservable()
 
-  private savedOkrSubject = new Subject<OkrNode>()
-  savedOkr$ = this.savedOkrSubject.asObservable()
+  private savedOkrNodeSubject = new Subject<OkrNode>()
+  savedOkrNode$ = this.savedOkrNodeSubject.asObservable()
 
   private okrHierarchyIsLoadingSubject = new BehaviorSubject<boolean>(true)
   okrHierarchyIsLoading$ = this.okrHierarchyIsLoadingSubject.asObservable()
@@ -59,14 +59,15 @@ export class OkrService {
   )
 
   okrSaved(savedOkrNode: OkrNode) {
-    this.savedOkrSubject.next(savedOkrNode)
+    this.savedOkrNodeSubject.next(savedOkrNode)
   }
 
-  okrHierarchyWithSave$ = combineLatest([this.okrHierarchy$, this.savedOkr$])
+  okrHierarchyWithSave$ = combineLatest([this.okrHierarchy$, this.savedOkrNode$])
     .pipe(
-      map(([root, okrNode]) => {
+      scan((okrHierarchy, [root, okrNode]) => {
+        if (!okrHierarchy) okrHierarchy = root
         if (okrNode.okr.parent) {
-          root.each((node) => {
+          okrHierarchy.each((node) => {
             if (node.data.okr._id === okrNode.okr.parent) {
               if (!node.data.children) node.data.children = []
               if (node.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
@@ -75,12 +76,12 @@ export class OkrService {
             }
           })
         } else {
-          if (root.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
-            root.data.children.push(okrNode)
+          if (okrHierarchy.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
+            okrHierarchy.data.children.push(okrNode)
           }
         }
-        return hierarchy(root.data)
-      })
+        return hierarchy(okrHierarchy.data)
+      }, undefined)
     )
 
   okrDeleted(deletedOkr: HierarchyNode<OkrNode>) {
