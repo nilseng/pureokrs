@@ -41,7 +41,27 @@ export class OkrService {
   treeConfigSubject = new BehaviorSubject<ITreeConfig>(undefined)
   treeConfig$ = this.treeConfigSubject.asObservable()
 
-  okrs$ = this.getOkrs()
+  okrsWithActionsSubject = new BehaviorSubject<Okr[]>(undefined)
+
+  okrHierarchyWithActionsSubject = new BehaviorSubject<HierarchyNode<OkrNode>>(undefined)
+
+  okrs$ = this.getOkrs().pipe(
+    // Update cache whenever okrs are retrieved from the db
+    tap((okrs: Okr[]) => this.okrsWithActionsSubject.next(okrs))
+  )
+
+  okrsCache$ = merge(this.okrs$, this.okrsWithActionsSubject)
+
+  okrHierarchy$ = this.okrs$.pipe(
+    map((okrs: Okr[]) => {
+      if (!okrs) return;
+      return hierarchy(this.createOkrHierarchy(okrs))
+    }),
+    tap((okrHierarchy) => this.okrHierarchyWithActionsSubject.next(okrHierarchy)),
+    tap(_ => this.okrHierarchyIsLoadingSubject.next(false)),
+  )
+
+  okrHierarchyCache$ = merge(this.okrHierarchy$, this.okrHierarchyWithActionsSubject)
 
   keyResults$ = this.okrs$.pipe(
     map((okrs: Okr[]) => {
@@ -51,60 +71,49 @@ export class OkrService {
     })
   )
 
-  okrHierarchy$ = this.okrs$.pipe(
-    map((okrs: Okr[]) => hierarchy(this.createOkrHierarchy(okrs))
-    ),
-    tap(_ => this.okrHierarchyIsLoadingSubject.next(false)),
-    shareReplay(1)
-  )
-
   okrSaved(savedOkrNode: OkrNode) {
     this.savedOkrNodeSubject.next(savedOkrNode)
+    this.okrsWithActionsSubject.next([savedOkrNode.okr, ...this.okrsWithActionsSubject.value])
+    this.addHierarchyNode(savedOkrNode)
   }
 
-  okrHierarchyWithSave$ = combineLatest([this.okrHierarchy$, this.savedOkrNode$])
-    .pipe(
-      scan((okrHierarchy, [root, okrNode]) => {
-        if (!okrHierarchy) okrHierarchy = root
-        if (okrNode.okr.parent) {
-          okrHierarchy.each((node) => {
-            if (node.data.okr._id === okrNode.okr.parent) {
-              if (!node.data.children) node.data.children = []
-              if (node.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
-                node.data.children.push(okrNode)
-              }
-            }
-          })
-        } else {
-          if (okrHierarchy.data.children.map(child => child.okr._id).indexOf(okrNode.okr._id) === -1) {
-            okrHierarchy.data.children.push(okrNode)
-          }
-        }
-        return hierarchy(okrHierarchy.data)
-      }, undefined)
-    )
-
-  okrDeleted(deletedOkr: HierarchyNode<OkrNode>) {
-    this.deletedOkrSubject.next(deletedOkr)
+  addHierarchyNode(okrNode: OkrNode): void {
+    const currentHierarchy = this.okrHierarchyWithActionsSubject.value
+    if (!okrNode || !currentHierarchy) return
+    if (okrNode.okr.parent) {
+      currentHierarchy.each(node => {
+        if (node.data.okr._id === okrNode.okr.parent) node.data.children.push(okrNode)
+      })
+    } else {
+      currentHierarchy.data.children.push(okrNode)
+    }
+    this.okrHierarchyWithActionsSubject.next(hierarchy(currentHierarchy.data))
   }
 
-  okrHierarchyWithDelete$ = combineLatest([this.okrHierarchy$, this.deletedOkr$])
-    .pipe(
-      map(([root, deletedOkr]) => {
-        if (deletedOkr.children && deletedOkr.children.length > 0) {
-          root.data.children.push(...deletedOkr.data.children)
-        }
-        deletedOkr.parent.data.children.splice(deletedOkr.parent.data.children.indexOf(deletedOkr.data), 1)
-        return hierarchy(root.data)
-      }),
-      catchError(this.handleError<HierarchyNode<OkrNode>>('okrHierarchyWithActions$'))
-    )
+  okrDeleted(deletedOkrNode: HierarchyNode<OkrNode>) {
+    this.deletedOkrSubject.next(deletedOkrNode)
+    this.okrsWithActionsSubject.next(this.okrsWithActionsSubject.value.filter(okr => okr._id !== deletedOkrNode.data.okr._id))
+    this.deleteHierarchyNode(deletedOkrNode.data)
+  }
 
-  okrHierarchyWithActions$ = merge(this.okrHierarchy$, this.okrHierarchyWithDelete$, this.okrHierarchyWithSave$)
+  deleteHierarchyNode(okrNode: OkrNode): void {
+    const currentHierarchy = this.okrHierarchyWithActionsSubject.value
+    if (!okrNode || !currentHierarchy) return
+    if (okrNode.okr.parent) {
+      currentHierarchy.each(node => {
+        if (node.data.okr._id === okrNode.okr.parent) node.data.children = node.data.children.filter(child => child.okr._id !== okrNode.okr._id)
+      })
+    } else {
+      currentHierarchy.data.children = currentHierarchy.data.children.filter(child => child.okr._id !== okrNode.okr._id)
+    }
+    if (okrNode.children?.length > 0) currentHierarchy.data.children.push(...okrNode.children.map(child => ({ ...child, okr: { ...child.okr, parent: undefined } })))
+    this.okrHierarchyWithActionsSubject.next(hierarchy(currentHierarchy.data))
+  }
 
-  okrTreeWithActions$ = combineLatest([this.okrHierarchyWithActions$, this.treeConfig$])
+  okrTreeWithActions$ = combineLatest([this.okrHierarchyCache$, this.treeConfig$])
     .pipe(
       map(([hierarchy, treeConfig]) => {
+        if (!hierarchy) return
         hierarchy.each(node => {
           node.data.width = treeConfig.nodeWidth
           node.data.height = treeConfig.nodeHeight
@@ -125,6 +134,7 @@ export class OkrService {
 
   /** Recursive function for adding child OKRs to parent OKRs */
   private createOkrHierarchy(okrs: Okr[], okrNode?: OkrNode): OkrNode {
+    if (!okrs) return undefined;
     if (!okrNode) {
       // Create the invisible root OKR node
       okrNode = new OkrNode(new Okr(''))

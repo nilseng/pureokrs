@@ -3,7 +3,6 @@ import { HierarchyNode } from 'd3-hierarchy'
 
 import { AuthenticationService } from '../authentication.service'
 import { OkrService } from '../okr.service'
-import { Okr } from '../okr/okr'
 import { OkrNode } from '../okr/okr-node'
 
 @Component({
@@ -11,7 +10,7 @@ import { OkrNode } from '../okr/okr-node'
 })
 export class OkrListComponent implements OnInit {
 
-  okrHierarchy$ = this.okrService.okrHierarchyWithActions$
+  okrHierarchy$ = this.okrService.okrHierarchyCache$
   okrHierarchyIsLoading$ = this.okrService.okrHierarchyIsLoading$
 
   newOKR: boolean
