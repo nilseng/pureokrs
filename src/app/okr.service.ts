@@ -77,15 +77,15 @@ export class OkrService {
     this.addHierarchyNode(savedOkrNode)
   }
 
-  addHierarchyNode(okrNode: OkrNode): void {
+  private addHierarchyNode(okrNode: OkrNode): void {
     const currentHierarchy = this.okrHierarchyWithActionsSubject.value
     if (!okrNode || !currentHierarchy) return
     if (okrNode.okr.parent) {
       currentHierarchy.each(node => {
-        if (node.data.okr._id === okrNode.okr.parent) node.data.children.push(okrNode)
+        if (node.data.okr._id === okrNode.okr.parent && !node.data.children.map(child => child.okr._id).includes(okrNode.okr._id)) node.data.children.push(okrNode)
       })
     } else {
-      currentHierarchy.data.children.push(okrNode)
+      if (!currentHierarchy.data.children.map(child => child.okr._id).includes(okrNode.okr._id)) currentHierarchy.data.children.push(okrNode)
     }
     this.okrHierarchyWithActionsSubject.next(hierarchy(currentHierarchy.data))
   }
@@ -96,7 +96,7 @@ export class OkrService {
     this.deleteHierarchyNode(deletedOkrNode.data)
   }
 
-  deleteHierarchyNode(okrNode: OkrNode): void {
+  private deleteHierarchyNode(okrNode: OkrNode): void {
     const currentHierarchy = this.okrHierarchyWithActionsSubject.value
     if (!okrNode || !currentHierarchy) return
     if (okrNode.okr.parent) {
