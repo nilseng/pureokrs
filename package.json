@@ -6,11 +6,11 @@
     "start": "node server.js",
     "start:dev": "nodemon server.js",
     "start:client": "ng serve -o",
-    "build": "ng build --prod --output-path dist",
+    "build": "ng build --configuration production --output-path dist",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "postinstall": "ng build --prod --output-path dist"
+    "postinstall": "ng build --configuration production --output-path dist"
   },
   "private": true,
   "dependencies": {
@@ -55,7 +55,7 @@
     "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular/cli": "~13.0.0",
+    "@angular/cli": "^13.0.1",
     "@angular/compiler-cli": "~13.0.0",
     "@angular/language-service": "~13.0.0",
     "@types/d3": "^5.7.2",
