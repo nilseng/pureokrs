@@ -1,46 +1,50 @@
-import { Injectable } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { catchError, tap } from 'rxjs/operators';
-import { Observable, of } from 'rxjs';
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { catchError, tap } from "rxjs/operators";
+import { BehaviorSubject, Observable, of } from "rxjs";
 
-import { UserDetails, AuthenticationService } from './authentication.service';
+import { UserDetails, AuthenticationService } from "./authentication.service";
+import { IUser } from "./models/user";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class UserService {
+  private userUrl = "/api/user";
 
-  private userUrl = '/api/user';
+  private usersSubject = new BehaviorSubject<IUser[]>(undefined);
+  users$ = this.usersSubject.asObservable();
 
-  constructor(
-    private http: HttpClient,
-    private auth: AuthenticationService
-  ) { }
+  constructor(private http: HttpClient, private auth: AuthenticationService) {
+    this.loadUsers();
+  }
+
+  loadUsers() {
+    this.getUsers().subscribe((users) => this.usersSubject.next(users));
+  }
 
   /**GET Okr by id. Will return 404 when not found */
   getUser(id: string): Observable<UserDetails> {
     const url = `${this.userUrl}/${id}`;
-    return this.http.get<UserDetails>(url,
-      {
+    return this.http
+      .get<UserDetails>(url, {
         headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }).pipe(
-        catchError(this.handleError<UserDetails>(`getUser id=${id}`))
-      );
+          Authorization: `Bearer ${this.auth.getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError<UserDetails>(`getUser id=${id}`)));
   }
 
   /**GET users by company. Will return 404 when not found */
-  getUsers(): Observable<{ User }> {
+  getUsers(): Observable<IUser[]> {
     const url = `${this.userUrl}/company/users`;
-    return this.http.get<{ User }>(url,
-      {
+    return this.http
+      .get<IUser[]>(url, {
         headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }).pipe(
-        catchError(this.handleError<{ User }>(`getUsers`))
-      );
+          Authorization: `Bearer ${this.auth.getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError<IUser[]>(`getUsers`)));
   }
 
   searchUsers(term: string): Observable<UserDetails[]> {
@@ -48,27 +52,23 @@ export class UserService {
       //if not search term, return empty user array
       return of([]);
     }
-    return this.http.get<UserDetails[]>(`${this.userUrl}/search/${term}`,
-      {
+    return this.http
+      .get<UserDetails[]>(`${this.userUrl}/search/${term}`, {
         headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }
-    ).pipe(
-      catchError(this.handleError<UserDetails[]>('searchUsers', []))
-    );
+          Authorization: `Bearer ${this.auth.getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError<UserDetails[]>("searchUsers", [])));
   }
 
   deleteUser(user: UserDetails): Observable<{}> {
-    return this.http.delete<{}>(`${this.userUrl}/delete/${user._id}`,
-      {
+    return this.http
+      .delete<{}>(`${this.userUrl}/delete/${user._id}`, {
         headers: {
-          Authorization: `Bearer ${this.auth.getToken()}`
-        }
-      }
-    ).pipe(
-      catchError(this.handleError<{}>('deleteUser', {}))
-    );
+          Authorization: `Bearer ${this.auth.getToken()}`,
+        },
+      })
+      .pipe(catchError(this.handleError<{}>("deleteUser", {})));
   }
 
   /**
@@ -77,9 +77,8 @@ export class UserService {
    * @param operation - name of the operation that failed
    * @param result - optional value to return as the observable result
    */
-  private handleError<T>(operation = 'operation', result?: T) {
+  private handleError<T>(operation = "operation", result?: T) {
     return (error: any): Observable<T> => {
-
       //TODO: Send the error to remote logging infrastructure
       console.error(error);
 

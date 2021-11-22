@@ -38,12 +38,14 @@ module.exports.getUsers = (req, res) => {
         User.find({
           name: { $regex: decodeURIComponent(req.params.name), $options: "i" },
           company: decodeURIComponent(req.payload.company),
-        }).exec((err, users) => {
-          if (err) {
-          } else {
-            res.status(200).json(users);
-          }
-        });
+        })
+          .select({ company: true, email: true, name: true })
+          .exec((err, users) => {
+            if (err) {
+            } else {
+              res.status(200).json(users);
+            }
+          });
       }
     });
   }
@@ -63,12 +65,14 @@ module.exports.getCompanyUsers = (req, res) => {
       } else {
         User.find({
           company: decodeURIComponent(req.payload.company),
-        }).exec((err, users) => {
-          if (err) {
-          } else {
-            res.status(200).json(users);
-          }
-        });
+        })
+          .select({ company: true, email: true, name: true })
+          .exec((err, users) => {
+            if (err) {
+            } else {
+              res.status(200).json(users);
+            }
+          });
       }
     });
   }
@@ -78,11 +82,9 @@ module.exports.deleteUser = (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: "no user id received by api" });
   } else if (!req.payload._id) {
-    res
-      .status(401)
-      .json({
-        message: "UnauthorizedError: user does not seem to be logged in",
-      });
+    res.status(401).json({
+      message: "UnauthorizedError: user does not seem to be logged in",
+    });
   } else {
     User.findByIdAndRemove(req.params.id, (err, doc) => {
       if (err) {

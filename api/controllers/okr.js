@@ -156,33 +156,28 @@ module.exports.getById = (req, res) => {
   }
 };
 
-module.exports.getOkrs = (req, res) => {
+module.exports.getOkrs = async (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
     });
   } else {
-    User.findById(req.payload._id).exec((err, user) => {
-      if (err) {
-        res.status(401).json("User not found");
-      } else {
-        Okr.find(
-          {
-            company: user.company,
-          },
-          (err, okrs) => {
-            if (err) {
-              res.status(400).json({ "Could not get okrs": err });
-            } else {
-              res.status(200).json(okrs);
-            }
-          }
-        );
-      }
+    const user = await User.findById(req.payload._id)
+      .exec()
+      .catch((error) => {
+        error;
+      });
+    if (user.error) return res.status(401).json("User not found");
+    const okrs = await Okr.find({ company: user.company }).catch((error) => {
+      error;
     });
+    return okrs.error
+      ? res.status(500).json({ msg: "Something went wrong when getting OKRs." })
+      : res.status(200).json(okrs);
   }
 };
 
+// Returning the top level OKRs for the company
 module.exports.getCompanyOkrs = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({

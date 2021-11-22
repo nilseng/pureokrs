@@ -1,44 +1,50 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
-import { AuthenticationService, UserDetails } from '../authentication.service';
-import { UserService } from '../user.service';
-import { faTrashAlt, faPlusCircle, faUserNinja, faEnvelope } from '@fortawesome/free-solid-svg-icons';
-import { ActivatedRoute } from '@angular/router';
+import { AuthenticationService, UserDetails } from "../authentication.service";
+import { UserService } from "../user.service";
+import {
+  faTrashAlt,
+  faPlusCircle,
+  faUserNinja,
+  faEnvelope,
+} from "@fortawesome/free-solid-svg-icons";
+import { ActivatedRoute } from "@angular/router";
+import { IUser } from "../models/user";
 
 @Component({
-  selector: 'app-users',
-  templateUrl: './users.component.html',
-  styleUrls: ['./users.component.css']
+  selector: "app-users",
+  templateUrl: "./users.component.html",
+  styleUrls: ["./users.component.css"],
 })
 export class UsersComponent implements OnInit {
-
   faTrashAlt = faTrashAlt;
   faPlusCircle = faPlusCircle;
   faUserNinja = faUserNinja;
   faEnvelope = faEnvelope;
 
-  users: { User };
+  users: IUser[];
   userForm: boolean;
   initDeleteUser: UserDetails;
 
   user$ = this.auth.getUserDetails();
 
-  constructor(private auth: AuthenticationService,
-    private userService: UserService, private route: ActivatedRoute) { }
+  constructor(
+    private auth: AuthenticationService,
+    private userService: UserService,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
-    this.users = this.route.snapshot.data['users'];
+    this.users = this.route.snapshot.data["users"];
     this.userForm = false;
   }
 
   getUsers(): void {
-    this.user$.subscribe(u => {
+    this.user$.subscribe((u) => {
       if (u.company) {
-        this.userService.getUsers()
-          .subscribe(users => this.users = users);
+        this.userService.getUsers().subscribe((users) => (this.users = users));
       }
     });
-
   }
 
   showUserForm(): void {
@@ -55,17 +61,16 @@ export class UsersComponent implements OnInit {
   }
 
   confirmDelete(): void {
-    this.userService.deleteUser(this.initDeleteUser)
-      .subscribe(() => {
-        this.getUsers();
-        this.user$.subscribe(u => {
-          if (u.email === this.initDeleteUser.email) {
-            this.initDeleteUser = null;
-            this.auth.logout();
-          } else {
-            this.initDeleteUser = null;
-          }
-        })
+    this.userService.deleteUser(this.initDeleteUser).subscribe(() => {
+      this.getUsers();
+      this.user$.subscribe((u) => {
+        if (u.email === this.initDeleteUser.email) {
+          this.initDeleteUser = null;
+          this.auth.logout();
+        } else {
+          this.initDeleteUser = null;
+        }
       });
+    });
   }
 }
