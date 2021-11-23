@@ -30,6 +30,7 @@
     </svg:foreignObject>
     <svg:rect
       *ngIf="progress"
+      class="progress-bar"
       [attr.x]="
         okrTreeNode.x + okrTreeNode.data.offsetX + okrTreeNode.data.width - 8
       "
@@ -41,7 +42,6 @@
         okrTreeNode.data.height * progress
       "
       [attr.height]="okrTreeNode.data.height * progress"
-      fill="#28a745"
     ></svg:rect>
   </svg:g>
 </svg:g>

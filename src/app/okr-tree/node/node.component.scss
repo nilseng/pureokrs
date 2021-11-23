@@ -3,7 +3,12 @@
 }
 
 .OKRRect {
-  fill: #e4effc;
+  fill: #ffffff;
+  stroke: var(--info);
+}
+
+.progress-bar {
+  fill: var(--info);
 }
 
 .objective {
