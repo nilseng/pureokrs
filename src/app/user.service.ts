@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { catchError, tap } from "rxjs/operators";
+import { catchError, map, tap } from "rxjs/operators";
 import { BehaviorSubject, Observable, of } from "rxjs";
 
 import { UserDetails, AuthenticationService } from "./authentication.service";
@@ -21,6 +21,10 @@ export class UserService {
 
   loadUsers() {
     this.getUsers().subscribe((users) => this.usersSubject.next(users));
+  }
+
+  getUserById(id: string): Observable<IUser> {
+    return this.users$.pipe(map(users => users.find(u => u._id === id)));
   }
 
   /**GET Okr by id. Will return 404 when not found */

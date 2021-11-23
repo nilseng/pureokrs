@@ -11,6 +11,7 @@ import { AuthenticationService, UserDetails } from '../../authentication.service
 import { UserService } from '../../user.service'
 import { OkrNode } from '../../okr/okr-node'
 import { HierarchyNode } from 'd3'
+import { IUser } from 'src/app/models/user'
 
 @Component({
   selector: 'app-okr-node',
@@ -37,7 +38,7 @@ export class OkrNodeComponent implements OnChanges {
   @Output() okrNodeToEdit = new EventEmitter<HierarchyNode<OkrNode>>()
 
   keyResults: {}
-  owner: UserDetails
+  owner: IUser;
   parent: OkrNode
   children: {}
   childrenCount: number
@@ -85,7 +86,7 @@ export class OkrNodeComponent implements OnChanges {
 
   getOwner() {
     if (this.okrHierarchyNode.data.okr.userId) {
-      this.userService.getUser(this.okrHierarchyNode.data.okr.userId)
+      this.userService.getUserById(this.okrHierarchyNode.data.okr.userId)
         .subscribe(owner => {
           this.owner = owner
         })
