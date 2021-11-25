@@ -2,6 +2,28 @@ $primary: #1c2e3f;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+body,
+html {
+  background-color: #faf8f9;
+}
+
 $theme-colors: (
   "primary": #1c2e3f,
 );
+
+.elevated-button {
+  box-shadow: inset -2px -2px 4px 0px rgba(209, 205, 199, 0.5),
+    inset 2px 2px 4px 0px rgba(255, 255, 255, 1);
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.lowering {
+  box-shadow: inset -3px -3px 8px 0px rgba(255, 255, 255, 1),
+    inset 3px 3px 8px 0px rgba(209, 205, 199, 0.5);
+  border-radius: 1rem;
+}
+
+.bg-color {
+  background-color: #efeeee;
+}
