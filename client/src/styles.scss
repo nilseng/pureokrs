@@ -1,16 +1,20 @@
-@import "tailwindcss/base";
-@import "tailwindcss/components";
-@import "tailwindcss/utilities";
-
 $primary: #13b9e1;
 $secondary: #1c2e3f;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
 body,
 html {
   background-color: #faf8f9;
   min-height: 100%;
+}
+
+.glass {
+  @apply bg-white bg-opacity-40 bg-clip-padding backdrop-filter backdrop-blur-lg border-r border-b border-white border-opacity-60;
 }
 
 .elevated-button {
@@ -24,6 +28,17 @@ html {
   box-shadow: inset -3px -3px 8px 0px rgba(255, 255, 255, 1),
     inset 3px 3px 8px 0px rgba(209, 205, 199, 0.5);
   border-radius: 1rem;
+}
+
+.elevation {
+  box-shadow: -6px -6px 8px 0px rgba(255, 255, 255, 1),
+    6px 6px 16px 0px rgba(209, 205, 199, 0.5);
+  border-radius: 0.5rem;
+}
+
+.elevation-primary {
+  box-shadow: 2px 2px 4px 0px rgba(19, 185, 225, 0.5);
+  border-radius: 0.5rem;
 }
 
 .bg-color {

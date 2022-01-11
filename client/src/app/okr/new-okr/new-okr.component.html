@@ -1,17 +1,17 @@
 <div *ngIf="okr">
   <button
     id="openModal"
-    class="btn btn-sm btn-primary my-2"
+    class="elevation-primary btn btn-sm btn-primary my-2"
     data-toggle="modal"
     data-target="#newOkrModal"
-    (click)="clearForm()"
+    (click)="initForm()"
   >
     <fa-icon class="mr-1" [icon]="faPlusCircle"></fa-icon>
     New OKR
   </button>
   <!-- Modal -->
   <div
-    class="modal form fade"
+    class="modal form"
     id="newOkrModal"
     tabindex="-1"
     role="dialog"
@@ -20,8 +20,8 @@
     #newOkrModal
   >
     <div class="modal-dialog" role="document">
-      <div class="modal-content">
-        <div class="modal-header">
+      <div class="glass modal-content rounded-xl">
+        <div class="modal-header border-0">
           <h5 class="modal-title" id="modalLabel">New OKR</h5>
           <button
             type="button"
@@ -34,7 +34,8 @@
         </div>
         <div class="modal-body">
           <input
-            class="form-control input-lg p-1 mb-2"
+            #objectiveInput
+            class="glass form-control form-control-sm p-1 mb-2"
             [(ngModel)]="okr.objective"
             placeholder="Objective"
           />
@@ -42,13 +43,13 @@
             An objective is required to save an OKR
           </p>
           <div
-            class="form-row bg-light rounded p-0 mx-0 my-1"
+            class="form-row glass rounded p-0 mx-0 my-1"
             *ngFor="let kr of okr.keyResults; index as i"
           >
             <div *ngIf="kr" class="form-group col-auto">
               <label class="badge m-0" for="keyResult">Key Result</label>
               <input
-                class="form-control input-sm m-1"
+                class="glass form-control form-control-sm m-1"
                 [(ngModel)]="kr.keyResult"
                 placeholder="Key Result"
                 id="keyResult"
@@ -58,7 +59,7 @@
               <label class="badge m-0" for="progress">Progress [%]</label>
               <input
                 type="number"
-                class="form-control input-sm m-1"
+                class="glass form-control form-control-sm m-1"
                 [(ngModel)]="kr.progress"
                 placeholder="0"
                 min="0"
@@ -69,7 +70,7 @@
             <div *ngIf="kr" class="form-group col-auto pt-4">
               <label class="sr-only" for="remove">Remove</label>
               <button
-                class="btn btn-sm btn-secondary mt-2 ml-1 mb-0 py-1"
+                class="btn btn-sm btn-secondary mt-1 ml-1 mb-0 py-1"
                 title="Delete Key Result"
                 (click)="removeKeyResult(i)"
                 id="remove"
@@ -93,7 +94,7 @@
               }}</span></label
             >
             <input
-              class="form-control input-sm p-1"
+              class="glass form-control form-control-sm p-1"
               #ownerSearchBox
               (keyup)="ownerSearch(ownerSearchBox.value)"
               placeholder="Search for user"
@@ -123,7 +124,7 @@
               }}</span></label
             >
             <input
-              class="form-control input-sm p-1"
+              class="glass form-control form-control-sm p-1"
               #parentSearchBox
               (keyup)="parentSearch(parentSearchBox.value)"
               placeholder="Search for parent OKR"
@@ -146,7 +147,7 @@
             </ul>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer border-0">
           <button
             class="btn btn-success mr-1"
             [disabled]="!okr.objective"

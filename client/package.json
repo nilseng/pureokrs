@@ -6,7 +6,7 @@
   },
   "scripts": {
     "ng": "ng",
-    "start": "ng serve -o --configuration=development",
+    "start": "ng serve --configuration=development",
     "build": "ng build --configuration production --output-path dist",
     "test": "ng test",
     "lint": "ng lint",
