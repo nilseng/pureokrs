@@ -11,13 +11,12 @@ export const initDb = () => {
 
   mongoose.connect(dbURI, {
     useNewUrlParser: true,
-    useFindAndModify: false,
     useUnifiedTopology: true,
   });
 
   //Connection events
   mongoose.connection.on("connected", () => {
-    console.log("Mongoose connected to " + dbURI);
+    console.log("Mongoose connected");
   });
   mongoose.connection.on("error", (err) => {
     console.log("Mongoose connection error: " + err);
