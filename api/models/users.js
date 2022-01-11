@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const crypto = require("crypto");
-const jwt = require("jsonwebtoken");
+import mongoose from "mongoose";
+import crypto from "crypto";
+import jwt from "jsonwebtoken";
 
 const userSchema = new mongoose.Schema({
   company: {
@@ -77,3 +77,5 @@ userSchema.pre("save", function (next) {
 });
 
 mongoose.model("User", userSchema);
+
+export default {};

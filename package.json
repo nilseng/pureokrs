@@ -1,6 +1,7 @@
 {
   "name": "client",
   "version": "0.0.0",
+  "type": "module",
   "scripts": {
     "ng": "ng",
     "start": "node server.js",
@@ -26,7 +27,7 @@
     "@fortawesome/angular-fontawesome": "^0.10.0",
     "@fortawesome/fontawesome-svg-core": "^1.2.25",
     "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@sendgrid/mail": "^6.4.0",
+    "@sendgrid/mail": "^6.5.5",
     "@types/d3-hierarchy": "^1.1.6",
     "body-parser": "^1.19.0",
     "bootstrap": "^4.5.0",
@@ -49,7 +50,6 @@
     "passport-local": "^1.0.0",
     "popper.js": "^1.16.1",
     "rxjs": "~6.5.4",
-    "sendgrid": "^4.2.0",
     "serialize-javascript": ">=3.1.0",
     "tslib": "^2.0.0",
     "zone.js": "~0.11.4"

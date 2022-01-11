@@ -1,7 +1,7 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const User = mongoose.model("User");
 
-module.exports.companyRead = (req, res) => {
+const companyRead = (req, res) => {
   //If no user ID exists in the JWT, return a 401
   if (!req.payload._id) {
     res.status(401).json({ message: "UnauthorizedError: private company" });
@@ -16,3 +16,5 @@ module.exports.companyRead = (req, res) => {
     });
   }
 };
+
+export default { companyRead };

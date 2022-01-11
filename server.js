@@ -1,17 +1,27 @@
-const express = require("express");
-const bodyParser = require("body-parser");
-const passport = require("passport");
-const dotenv = require("dotenv");
-const debug = require("debug")("server");
-const chalk = require("chalk");
-const sslRedirect = require("heroku-ssl-redirect").default;
+import express, { static as expressStatic } from "express";
+import bodyParser from "body-parser";
+import passport from "passport";
+import { config } from "dotenv";
+import _debug from "debug";
+const debug = _debug("server");
+import chalk from "chalk";
+import _sslRedirect from "heroku-ssl-redirect";
+const sslRedirect = _sslRedirect.default;
+import { fileURLToPath } from "url";
+import { dirname } from "path";
 
-require("./api/models/db");
-require("./api/config/passport");
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
-dotenv.config();
+config();
 
-const routesApi = require("./api/routes/index");
+import { initDb } from "./api/models/db.js";
+import { initPassport } from "./api/config/passport.js";
+
+import routesApi from "./api/routes/index.js";
+
+initDb();
+initPassport();
 
 const app = express();
 
@@ -31,15 +41,15 @@ app.use("/api", routesApi);
 //Create link to Angular build directory
 const distDir = __dirname + "/dist/";
 
-app.use(express.static(distDir));
+app.use(expressStatic(distDir));
 
 const server = app.listen(process.env.PORT || 5000, () => {
   var port = server.address().port;
   debug(`server now running on port ${chalk.green(port)}`);
 });
 
-app.use("/*", express.static(distDir));
-app.use("*", express.static(distDir));
+app.use("/*", expressStatic(distDir));
+app.use("*", expressStatic(distDir));
 
 //Error handlers
 app.use((err, req, res, next) => {

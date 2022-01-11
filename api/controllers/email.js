@@ -1,22 +1,20 @@
-const sgMail = require("@sendgrid/mail");
+import sendgrid from "@sendgrid/mail";
 
 const msg = {
   from: "contact@pureokrs.com",
-  text:
-    "Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.",
-  html:
-    "<strong>Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.</strong>",
+  text: "Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.",
+  html: "<strong>Welcome to www.pureokrs.com - the simplest OKR tool on the web. Add your first Objective and Key Results to get started.</strong>",
 };
 
-module.exports.sendEmail = (email, companyName) => {
+export function sendEmail(email, companyName) {
   msg.subject = companyName + " is registered. Welcome!";
   msg.to = email;
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => {});
+  sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+  sendgrid.send(msg, (err, doc) => {});
   return;
-};
+}
 
-module.exports.sendNewUserEmail = (email, companyName, token) => {
+export function sendNewUserEmail(email, companyName, token) {
   let msg = {
     from: "contact@pureokrs.com",
     text: `
@@ -63,11 +61,11 @@ module.exports.sendNewUserEmail = (email, companyName, token) => {
   };
   msg.subject = "You now have a user at PureOKRs. Welcome!";
   msg.to = email;
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => {});
-};
+  sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+  sendgrid.send(msg, (err, doc) => {});
+}
 
-module.exports.sendResetEmail = (email, token) => {
+export function sendResetEmail(email, token) {
   let msg = {
     from: "contact@pureokrs.com",
     text:
@@ -115,6 +113,8 @@ module.exports.sendResetEmail = (email, token) => {
   };
   msg.subject = "You can now reset your password at pureOKRs.";
   msg.to = email;
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-  sgMail.send(msg, (err, doc) => {});
-};
+  sendgrid.setApiKey(process.env.SENDGRID_API_KEY);
+  sendgrid.send(msg, (err, doc) => {});
+}
+
+export default { sendEmail, sendNewUserEmail, sendResetEmail };

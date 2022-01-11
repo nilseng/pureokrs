@@ -1,7 +1,7 @@
-const express = require("express");
+import express from "express";
 const router = express.Router();
-const jwt = require("express-jwt");
-const dotenv = require("dotenv");
+import jwt from "express-jwt";
+import dotenv from "dotenv";
 dotenv.config();
 
 const auth = jwt({
@@ -10,10 +10,10 @@ const auth = jwt({
   algorithms: ["HS256"],
 });
 
-const ctrlCompany = require("../controllers/company");
-const ctrlAuth = require("../controllers/authentication");
-const ctrlOkr = require("../controllers/okr");
-const ctrlUser = require("../controllers/user");
+import ctrlCompany from "../controllers/company.js";
+import ctrlAuth from "../controllers/authentication.js";
+import ctrlOkr from "../controllers/okr.js";
+import ctrlUser from "../controllers/user.js";
 
 //Company
 router.get("/company", auth, ctrlCompany.companyRead);
@@ -43,4 +43,4 @@ router.post("/login", ctrlAuth.login);
 router.post("/sendresetemail", ctrlAuth.sendResetEmail);
 router.post("/newpassword", ctrlAuth.setNewPassword);
 
-module.exports = router;
+export default router;

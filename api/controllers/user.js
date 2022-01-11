@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const User = mongoose.model("User");
 const Okr = mongoose.model("Okr");
 
-module.exports.getUser = (req, res) => {
+const getUser = (req, res) => {
   //If no user ID exists in the JWT, return a 401
   if (!req.payload._id) {
     res
@@ -23,7 +23,7 @@ module.exports.getUser = (req, res) => {
   }
 };
 
-module.exports.getUsers = (req, res) => {
+const getUsers = (req, res) => {
   //If no user ID exists in the JWT, return a 401
   if (!req.payload._id) {
     res
@@ -51,7 +51,7 @@ module.exports.getUsers = (req, res) => {
   }
 };
 
-module.exports.getCompanyUsers = (req, res) => {
+const getCompanyUsers = (req, res) => {
   //If no user ID exists in the JWT, return a 401
   if (!req.payload._id) {
     res
@@ -78,7 +78,7 @@ module.exports.getCompanyUsers = (req, res) => {
   }
 };
 
-module.exports.deleteUser = (req, res) => {
+const deleteUser = (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: "no user id received by api" });
   } else if (!req.payload._id) {
@@ -111,3 +111,5 @@ module.exports.deleteUser = (req, res) => {
     });
   }
 };
+
+export default { getUser, getUsers, getCompanyUsers, deleteUser };

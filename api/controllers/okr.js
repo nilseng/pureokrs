@@ -1,8 +1,8 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const User = mongoose.model("User");
 const Okr = mongoose.model("Okr");
 
-module.exports.create = (req, res) => {
+const create = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -32,7 +32,7 @@ module.exports.create = (req, res) => {
   }
 };
 
-module.exports.updateOkr = (req, res) => {
+const updateOkr = (req, res) => {
   const updatedOkr = req.body;
   if (!req.payload._id) {
     res.status(401).json({
@@ -73,7 +73,7 @@ module.exports.updateOkr = (req, res) => {
   }
 };
 
-module.exports.addChild = (req, res) => {
+const addChild = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -104,7 +104,7 @@ module.exports.addChild = (req, res) => {
   }
 };
 
-module.exports.removeChild = (req, res) => {
+const removeChild = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -132,7 +132,7 @@ module.exports.removeChild = (req, res) => {
   }
 };
 
-module.exports.getById = (req, res) => {
+const getById = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -156,7 +156,7 @@ module.exports.getById = (req, res) => {
   }
 };
 
-module.exports.getOkrs = async (req, res) => {
+const getOkrs = async (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -178,7 +178,7 @@ module.exports.getOkrs = async (req, res) => {
 };
 
 // Returning the top level OKRs for the company
-module.exports.getCompanyOkrs = (req, res) => {
+const getCompanyOkrs = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -206,7 +206,7 @@ module.exports.getCompanyOkrs = (req, res) => {
   }
 };
 
-module.exports.getOkrsByObjective = (req, res) => {
+const getOkrsByObjective = (req, res) => {
   if (!req.payload._id) {
     res.status(401).json({
       message: "UnauthorizedError: User does not seem to be logged in.",
@@ -236,7 +236,7 @@ module.exports.getOkrsByObjective = (req, res) => {
   }
 };
 
-module.exports.getChildren = (req, res) => {
+const getChildren = (req, res) => {
   if (!req.params.id) {
     res
       .status(400)
@@ -268,7 +268,7 @@ module.exports.getChildren = (req, res) => {
   }
 };
 
-module.exports.deleteOkr = (req, res) => {
+const deleteOkr = (req, res) => {
   if (!req.params.id) {
     res.status(400).json({ message: "No OKR id received by api" });
   } else if (!req.payload._id) {
@@ -306,4 +306,17 @@ module.exports.deleteOkr = (req, res) => {
       }
     });
   }
+};
+
+export default {
+  create,
+  updateOkr,
+  addChild,
+  removeChild,
+  getById,
+  getOkrs,
+  getCompanyOkrs,
+  getOkrsByObjective,
+  getChildren,
+  deleteOkr,
 };

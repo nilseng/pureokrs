@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+import mongoose from "mongoose";
 const User = mongoose.model("User");
 
 const okrSchema = new mongoose.Schema({
@@ -14,3 +14,5 @@ const okrSchema = new mongoose.Schema({
 });
 
 mongoose.model("Okr", okrSchema);
+
+export default {};

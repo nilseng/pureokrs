@@ -1,11 +1,11 @@
-const passport = require("passport");
-const mongoose = require("mongoose");
+import passport from "passport";
+import mongoose from "mongoose";
 const User = mongoose.model("User");
-const crypto = require("crypto");
-const email = require("./email.js");
+import crypto from "crypto";
+import email from "./email.js";
 const Okr = mongoose.model("Okr");
 
-module.exports.register = (req, res) => {
+const register = (req, res) => {
   if (
     !req.body.name ||
     !req.body.email ||
@@ -42,7 +42,7 @@ module.exports.register = (req, res) => {
   }
 };
 
-module.exports.login = (req, res) => {
+const login = (req, res) => {
   passport.authenticate("local", (err, user, info) => {
     //If Passport throws/catches an error
     if (err) {
@@ -60,7 +60,7 @@ module.exports.login = (req, res) => {
   })(req, res);
 };
 
-module.exports.addUser = (req, res) => {
+const addUser = (req, res) => {
   if (!req.body.name || !req.body.email || !req.body.password) {
     res.status(400).json({ message: "all fields required" });
   } else {
@@ -98,7 +98,7 @@ module.exports.addUser = (req, res) => {
   }
 };
 
-module.exports.sendResetEmail = (req, res) => {
+const sendResetEmail = (req, res) => {
   if (!req.body.email) {
     res.status(400).json({ message: "no email received by server" });
   } else {
@@ -134,7 +134,7 @@ module.exports.sendResetEmail = (req, res) => {
   }
 };
 
-module.exports.setNewPassword = (req, res) => {
+const setNewPassword = (req, res) => {
   if (!req.body.email || !req.body.token || !req.body.password) {
     res.status(400).json({
       message: "email, token or password missing not received by server",
@@ -184,7 +184,7 @@ module.exports.setNewPassword = (req, res) => {
   }
 };
 
-checkIfCompanyExists = (company, cb) => {
+const checkIfCompanyExists = (company, cb) => {
   let registered = null;
   User.find({
     company: company,
@@ -207,4 +207,13 @@ checkIfCompanyExists = (company, cb) => {
       });
     }
   });
+};
+
+export default {
+  register,
+  login,
+  addUser,
+  sendResetEmail,
+  setNewPassword,
+  checkIfCompanyExists,
 };
