@@ -5,7 +5,7 @@
     "node": "16.x"
   },
   "scripts": {
-    "heroku-prebuild": "cd server && npm i && cd .. && cd client && npm i && npm i --save-dev && cd .."
+    "heroku-prebuild": "cd server && npm i && cd .. && cd client && npm i && npm i --save-dev"
   },
   "private": true,
   "dependencies": {
