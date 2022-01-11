@@ -5,12 +5,14 @@
     "node": "16.x"
   },
   "scripts": {
-    "heroku-prebuild": "cd server && npm i && cd .. && cd client && npm i",
+    "heroku-prebuild": "npm i && cd server && npm i && cd .. && cd client && npm i",
     "heroku-postbuild": "cd client && ng build --configuration production --output-path dist"
   },
   "private": true,
   "dependencies": {
   },
   "devDependencies": {
+    "@angular/cli": "^13.0.1",
+    "@angular/compiler-cli": "~13.0.0"
   }
 }
