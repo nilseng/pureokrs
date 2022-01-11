@@ -1,39 +1,41 @@
 <!--Footer-->
-<footer class="lowering bg-light page-footer font-small text-muted pt-4 m-4">
-  <div class="container-fluid text-center text-md-left">
-    <div class="row">
-      <div class="col-md-6 mt-md-0 mt-3">
-        <h5 class="text-uppercase">Resources</h5>
-        <ul class="list-group">
-          <li class="list-group-item bg-light border-0">
-            <a class="text-muted" [routerLink]="['about']">
-              <fa-icon [icon]="faQuestionCircle"></fa-icon>
-              About
-            </a>
-          </li>
-          <li class="list-group-item bg-light border-0">
-            <a class="text-muted" [routerLink]="['privacy']">
-              <fa-icon [icon]="faShieldAlt"></fa-icon>
-              Privacy
-            </a>
-          </li>
-        </ul>
-      </div>
-      <hr class="clearfix w-100 d-md-none pb-3" />
-      <div class="col-md-6 mb-md-0 mb-3">
-        <h5 class="text-uppercase">Get in touch</h5>
-        <ul class="list-group">
-          <li class="list-group-item bg-light border-0">
-            <a class="text-muted" href="mailto:contact@pureokrs.com">
-              <fa-icon [icon]="faEnvelope"></fa-icon>
-              contact@pureokrs.com
-            </a>
-          </li>
-        </ul>
+<footer class="pb-4 px-4">
+  <div class="lowering bg-light font-small text-muted pt-2">
+    <div class="container-fluid text-center text-md-left">
+      <div class="row">
+        <div class="col-md-6 mt-md-0 mt-1">
+          <p class="text-uppercase small font-weight-bold mb-1">Resources</p>
+          <ul class="list-group">
+            <li class="list-group-item bg-light border-0 py-1">
+              <a class="text-muted small" [routerLink]="['about']">
+                <fa-icon [icon]="faQuestionCircle"></fa-icon>
+                About
+              </a>
+            </li>
+            <li class="list-group-item bg-light border-0 py-1">
+              <a class="text-muted small" [routerLink]="['privacy']">
+                <fa-icon [icon]="faShieldAlt"></fa-icon>
+                Privacy
+              </a>
+            </li>
+          </ul>
+        </div>
+        <hr class="clearfix w-100 d-md-none pb-1" />
+        <div class="col-md-6 mb-md-0 mb-1">
+          <p class="text-uppercase small font-weight-bold mb-1">Get in touch</p>
+          <ul class="list-group">
+            <li class="list-group-item bg-light border-0 py-1">
+              <a class="text-muted small" href="mailto:contact@pureokrs.com">
+                <fa-icon [icon]="faEnvelope"></fa-icon>
+                contact@pureokrs.com
+              </a>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
-  </div>
-  <div class="footer-copyright text-center py-3">
-    © 2021 Copyright: PureOKRs AS
+    <div class="footer-copyright small text-center py-1">
+      © 2021 Copyright: PureOKRs AS
+    </div>
   </div>
 </footer>

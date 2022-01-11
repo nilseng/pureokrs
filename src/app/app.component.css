@@ -1,6 +1,11 @@
+main {
+  padding: 0 0.25rem;
+  min-height: calc(100vh - 247.38px);
+}
+
 @media screen and (min-width: 768px) {
   main {
     padding: 0 80px;
-    min-height: calc(100vh - 320px);
+    min-height: calc(100vh - 210.38px);
   }
 }

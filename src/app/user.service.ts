@@ -24,7 +24,7 @@ export class UserService {
   }
 
   getUserById(id: string): Observable<IUser> {
-    return this.users$.pipe(map(users => users.find(u => u._id === id)));
+    return this.users$.pipe(map((users) => users?.find((u) => u._id === id)));
   }
 
   /**GET Okr by id. Will return 404 when not found */
