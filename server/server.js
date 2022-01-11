@@ -39,7 +39,7 @@ app.use(passport.initialize());
 app.use("/api", routesApi);
 
 //Create link to Angular build directory
-const distDir = __dirname + "/dist/";
+const distDir = __dirname + "/../client/dist/";
 
 app.use(expressStatic(distDir));
 

@@ -1,0 +1,46 @@
+<svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 60 60"
+      height="32px"
+      width="auto"
+    >
+      <circle cx="30" cy="10" r="3" fill="#1c2e3f" />
+      <line x1="30" x2="15" y1="10" y2="30" stroke="#1c2e3f" />
+      <circle cx="15" cy="30" r="3" fill="#1c2e3f" />
+      <line x1="30" x2="45" y1="10" y2="30" stroke="#1c2e3f" />
+      <circle cx="45" cy="30" r="3" fill="#1c2e3f" />
+      <line x1="15" x2="5" y1="30" y2="50" stroke="#1c2e3f" />
+      <circle cx="5" cy="50" r="3" fill="#1c2e3f" />
+      <line x1="15" x2="25" y1="30" y2="50" stroke="#1c2e3f" />
+      <circle cx="25" cy="50" r="3" fill="#1c2e3f" />
+      <line x1="45" x2="35" y1="30" y2="50" stroke="#1c2e3f" />
+      <circle cx="35" cy="50" r="3" fill="#1c2e3f" />
+      <line x1="45" x2="55" y1="30" y2="50" stroke="#1c2e3f">
+        <animate
+          attributeName="x2"
+          values="45;55;45"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="y2"
+          values="30;50;30"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </line>
+      <circle cx="75" cy="50" r="3" fill="#1c2e3f">
+        <animate
+          attributeName="cx"
+          values="45;55;45"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+        <animate
+          attributeName="cy"
+          values="30;50;30"
+          dur="2s"
+          repeatCount="indefinite"
+        />
+      </circle>
+    </svg>

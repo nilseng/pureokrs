@@ -1,4 +1,9 @@
-$primary: #1c2e3f;
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+$primary: #13b9e1;
+$secondary: #1c2e3f;
 
 @import "../node_modules/bootstrap/scss/bootstrap";
 
@@ -7,10 +12,6 @@ html {
   background-color: #faf8f9;
   min-height: 100%;
 }
-
-$theme-colors: (
-  "primary": #1c2e3f,
-);
 
 .elevated-button {
   box-shadow: inset -2px -2px 4px 0px rgba(209, 205, 199, 0.5),

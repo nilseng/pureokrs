@@ -1,91 +1,15 @@
 {
-  "name": "client",
+  "name": "pureokrs",
   "version": "0.0.0",
   "engines": {
     "node": "16.x"
   },
-  "type": "module",
   "scripts": {
-    "ng": "ng",
-    "start": "node server.js",
-    "start:dev": "nodemon server.js",
-    "start:client": "ng serve -o --configuration=development",
-    "build": "ng build --configuration production --output-path dist",
-    "test": "ng test",
-    "lint": "ng lint",
-    "e2e": "ng e2e",
-    "postinstall": "ng build --configuration production --output-path dist"
+    "heroku-prebuild": "cd client && npm i && npm i --save-dev && cd .."
   },
   "private": true,
   "dependencies": {
-    "@angular-devkit/build-angular": "^13.0.1",
-    "@angular/animations": "~13.0.0",
-    "@angular/common": "~13.0.0",
-    "@angular/compiler": "~13.0.0",
-    "@angular/core": "~13.0.0",
-    "@angular/forms": "~13.0.0",
-    "@angular/platform-browser": "~13.0.0",
-    "@angular/platform-browser-dynamic": "~13.0.0",
-    "@angular/router": "~13.0.0",
-    "@fortawesome/angular-fontawesome": "^0.10.0",
-    "@fortawesome/fontawesome-svg-core": "^1.2.25",
-    "@fortawesome/free-solid-svg-icons": "^5.11.2",
-    "@sendgrid/mail": "^6.5.5",
-    "@types/d3-hierarchy": "^1.1.6",
-    "body-parser": "^1.19.0",
-    "bootstrap": "^4.5.0",
-    "chalk": "^4.1.0",
-    "core-js": "^2.6.10",
-    "d3": "^5.12.0",
-    "d3-hierarchy": "^1.1.9",
-    "debug": "^4.1.1",
-    "dotenv": "^8.2.0",
-    "express": "^4.17.1",
-    "express-jwt": "^6.0.0",
-    "font-awesome": "^4.7.0",
-    "heroku-ssl-redirect": "^0.1.1",
-    "jquery": "^3.5.1",
-    "jsonwebtoken": "^8.5.1",
-    "mongoose": "^6.1.6",
-    "nodemon": "^2.0.4",
-    "passport": "^0.4.0",
-    "passport-local": "^1.0.0",
-    "popper.js": "^1.16.1",
-    "rxjs": "~6.5.4",
-    "serialize-javascript": ">=3.1.0",
-    "tslib": "^2.0.0",
-    "zone.js": "~0.11.4"
   },
   "devDependencies": {
-    "@angular/cli": "^13.0.1",
-    "@angular/compiler-cli": "~13.0.0",
-    "@angular/language-service": "~13.0.0",
-    "@types/d3": "^5.7.2",
-    "@types/jasmine": "~2.8.8",
-    "@types/jasminewd2": "^2.0.8",
-    "@types/node": "~8.9.4",
-    "jasmine-core": "~3.8.0",
-    "jasmine-spec-reporter": "~5.0.0",
-    "karma": "~6.3.8",
-    "karma-chrome-launcher": "~3.1.0",
-    "karma-coverage-istanbul-reporter": "~3.0.2",
-    "karma-jasmine": "~3.3.0",
-    "karma-jasmine-html-reporter": "^1.6.0",
-    "protractor": "~7.0.0",
-    "ts-node": "~7.0.0",
-    "tslint": "~6.1.0",
-    "typescript": "^4.3.5"
-  },
-  "nodemonConfig": {
-    "restartable": "rs",
-    "ignore": [
-      "node_modules/**/node_modules"
-    ],
-    "delay": "1000",
-    "env": {
-      "NODE_ENV": "development",
-      "PORT": 4000,
-      "DEBUG": "server"
-    }
   }
 }
