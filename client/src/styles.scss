@@ -14,7 +14,9 @@ html {
 }
 
 .glass {
-  @apply bg-white bg-opacity-40 bg-clip-padding backdrop-filter backdrop-blur-lg border-r border-b border-t-0 border-l-0 border-white border-opacity-60;
+  @apply bg-white bg-opacity-40 bg-clip-padding backdrop-filter 
+  backdrop-blur-lg border-r border-b border-t-0 border-l-0 
+  border-white border-opacity-60;
 }
 
 .elevated-button {
