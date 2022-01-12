@@ -63,7 +63,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.okr = new Okr("");
-    this.okr.keyResults.push(new KeyResult(""));
     this.auth.getUserDetails().subscribe((u) => {
       this.owner = u;
       this.okr.userId = u._id;
@@ -90,7 +89,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.okr = new Okr("");
     this.okr.objective = "";
     this.okr.keyResults = [];
-    this.okr.keyResults.push(new KeyResult(""));
     this.auth.getUserDetails().subscribe((u) => {
       this.owner = u;
       this.okr.userId = u._id;
@@ -164,7 +162,6 @@ export class NewOkrComponent implements OnInit, OnChanges {
     this.okr = new Okr("");
     this.okr.objective = "";
     this.okr.keyResults = [];
-    this.okr.keyResults.push(new KeyResult(""));
     this.auth.getUserDetails().subscribe((u) => {
       this.owner = u;
       this.okr.userId = u._id;
