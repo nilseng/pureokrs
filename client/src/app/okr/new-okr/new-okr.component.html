@@ -35,7 +35,7 @@
         <div class="modal-body">
           <input
             #objectiveInput
-            class="glass form-control form-control-sm p-1 mb-2"
+            class="glass form-control form-control-sm min-h-6 p-1 mb-2"
             [(ngModel)]="okr.objective"
             placeholder="Objective"
           />
@@ -49,7 +49,7 @@
             <div *ngIf="kr" class="form-group col-auto">
               <label class="badge m-0" for="keyResult">Key Result</label>
               <input
-                class="glass form-control form-control-sm m-1"
+                class="glass form-control form-control-sm min-h-6 m-1"
                 [(ngModel)]="kr.keyResult"
                 placeholder="Key Result"
                 id="keyResult"
@@ -59,7 +59,7 @@
               <label class="badge m-0" for="progress">Progress [%]</label>
               <input
                 type="number"
-                class="glass form-control form-control-sm m-1"
+                class="glass form-control form-control-sm min-h-6 m-1"
                 [(ngModel)]="kr.progress"
                 placeholder="0"
                 min="0"
@@ -94,7 +94,7 @@
               }}</span></label
             >
             <input
-              class="glass form-control form-control-sm p-1"
+              class="glass form-control form-control-sm min-h-6 p-1"
               #ownerSearchBox
               (keyup)="ownerSearch(ownerSearchBox.value)"
               placeholder="Search for user"

@@ -3,7 +3,11 @@ module.exports = {
   purge: { enabled: true, content: ["./src/**/*.{html,ts}"] },
   darkMode: false, // or 'media' or 'class'
   theme: {
-    extend: {},
+    extend: {
+      minHeight: {
+        6: "1.5rem",
+      },
+    },
   },
   variants: {
     extend: {},
