@@ -43,10 +43,10 @@
             An objective is required to save an OKR
           </p>
           <div
-            class="form-row glass rounded p-0 mx-0 my-1"
+            class="grid grid-cols-7 gap-1 glass rounded p-0 mx-0 my-1"
             *ngFor="let kr of okr.keyResults; index as i"
           >
-            <div *ngIf="kr" class="form-group col-auto">
+            <div *ngIf="kr" class="form-group col-span-4">
               <label class="badge m-0" for="keyResult">Key Result</label>
               <input
                 class="glass form-control form-control-sm text-base m-1"
@@ -55,7 +55,7 @@
                 id="keyResult"
               />
             </div>
-            <div *ngIf="kr" class="form-group col-auto">
+            <div *ngIf="kr" class="form-group col-span-2">
               <label class="badge m-0" for="progress">Progress [%]</label>
               <input
                 type="number"
@@ -67,10 +67,10 @@
                 id="progress"
               />
             </div>
-            <div *ngIf="kr" class="form-group col-auto pt-4">
+            <div *ngIf="kr" class="form-group pt-4">
               <label class="sr-only" for="remove">Remove</label>
               <button
-                class="btn btn-sm btn-secondary mt-1 ml-1 mb-0 py-1"
+                class="btn btn-sm mt-1 ml-1 mb-0"
                 title="Delete Key Result"
                 (click)="removeKeyResult(i)"
                 id="remove"
